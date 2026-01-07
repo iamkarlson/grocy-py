@@ -1,9 +1,0 @@
-responses~=0.21.0
-pre-commit
-isort
-pytest
-pytest-cov
-vcrpy
-pytest-recording
-pytest-mock
-urllib3==2.2.3

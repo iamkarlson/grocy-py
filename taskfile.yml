@@ -7,32 +7,31 @@ tasks:
   install:
     desc: Install project with development tooling
     cmds:
-      - python -m pip install -r requirements.txt
-      - python -m pip install -r requirements-dev.txt
-      - python -m pip install -e .
-      - python -m pip install build twine ruff
-      - pre-commit install
+      - uv sync --dev --frozen
+      - uv pip install -e .
+      - uv pip install build twine ruff
+      - uv run pre-commit install
 
   deps:
     desc: Install runtime dependencies
     cmds:
-      - python -m pip install -r requirements.txt
+      - uv pip install -r requirements.txt
 
   test:
     desc: Run the full test suite
     cmds:
-      - pytest
+      - uv run pytest
 
   lint:
     desc: Lint with Ruff
     cmds:
-      - ruff check .
+      - uv run ruff check .
 
   format:
     desc: Format code with Ruff and apply fixes
     cmds:
-      - ruff check . --fix
-      - ruff format .
+      - uv run ruff check . --fix
+      - uv run ruff format .
 
   publish:
     desc: Build and publish the package to PyPI
@@ -41,5 +40,5 @@ tasks:
       TWINE_PASSWORD: "{{.PYPI_TOKEN}}"
     cmds:
       - rm -rf dist build
-      - python -m build
-      - twine upload dist/*
+      - uv run python -m build
+      - uv run twine upload dist/*
