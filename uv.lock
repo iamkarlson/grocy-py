@@ -385,7 +385,7 @@ wheels = [
 [[package]]
 name = "pygrocy2"
 version = "2.5.0"
-source = { virtual = "." }
+source = { editable = "." }
 dependencies = [
     { name = "deprecation" },
     { name = "pydantic" },

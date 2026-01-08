@@ -21,6 +21,8 @@ class TestChores:
             assert isinstance(chore.next_estimated_execution_time, datetime)
             assert isinstance(chore.name, str)
             assert isinstance(chore.last_done_by, User)
+            assert chore.userfields is not None
+            assert isinstance(chore.userfields, (list, dict))
 
         chore = next(chore for chore in chores if chore.id == 6)
         assert chore.name == "Change the bed sheets"
