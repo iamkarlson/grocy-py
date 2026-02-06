@@ -1,0 +1,12 @@
+services:
+  grocy:
+    image: linuxserver/grocy:latest
+    container_name: grocy-dev
+    restart: unless-stopped
+    ports:
+      - "9192:80"
+    environment:
+      - TZ=UTC
+      - PUID=1000
+      - PGID=1000
+      - GROCY_MODE=demo
