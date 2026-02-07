@@ -151,6 +151,18 @@ class CurrentChoreResponse(BaseModel):
     next_estimated_execution_time: datetime | None = None
 
 
+class ChoreLogResponse(BaseModel): # TODO: needs checking
+    id: int
+    chore_id: int
+    tracked_time: datetime
+    done_by_user_id: int 
+    row_created_timestamp: datetime
+    undone: bool
+    undone_timestamp: datetime | None = None
+    skipped: bool
+    scheduled_execution_time: datetime | None = None
+    userfields: dict | None = None
+
 class CurrentStockResponse(BaseModel):
     """API response model for a product's current stock."""
 
@@ -214,7 +226,6 @@ class ChoreDetailsResponse(BaseModel):
     track_count: int = 0
     next_execution_assigned_user: UserDto | None = None
     last_done_by: UserDto | None = None
-
 
 class TransactionType(Enum):
     """Stock transaction types."""
@@ -581,6 +592,21 @@ class GrocyApiClient(object):
             return ProductDetailsResponse(**parsed_json)
         return None
 
+    def get_chores_log(
+        self, query_filters: list[str] | None = None
+    ) -> list[ChoreLogResponse]:
+        parsed_json = self._do_get_request("objects/chores_log", query_filters)
+        if parsed_json:
+            return [ChoreLogResponse(**chore_log) for chore_log in parsed_json]
+        return []
+
+    def get_chore_log(self, chore_log_id: int) -> ChoreLogResponse | None:
+        url = f"objects/chores_log/{chore_log_id}"
+        parsed_json = self._do_get_request(url)
+        if parsed_json:
+            return ChoreLogResponse(**parsed_json)
+        return None
+
     def add_product(
         self,
         product_id,
@@ -872,7 +898,7 @@ class GrocyApiClient(object):
             return [CurrentChoreResponse(**chore) for chore in parsed_json]
         return []
 
-    def get_chore(self, chore_id: int) -> ChoreDetailsResponse:
+    def get_chore(self, chore_id: int) -> ChoreDetailsResponse | None:
         """Get a single chore by ID."""
         url = f"chores/{chore_id}"
         parsed_json = self._do_get_request(url)
@@ -906,6 +932,10 @@ class GrocyApiClient(object):
     def undo_chore_execution(self, execution_id: int):
         """Undo a chore execution."""
         return self._do_post_request(f"chores/executions/{execution_id}/undo", {})
+
+    # def undo_chore_log_execution(self, execution_id: int):
+    #     """Undo a chore log execution."""
+    #     return self._do_post_request(f"chores/executions/{execution_id}/undo", {})
 
     def calculate_chore_assignments(self):
         """Recalculate chore assignments."""
@@ -1236,7 +1266,7 @@ class GrocyApiClient(object):
             return [UserDto(**user) for user in parsed_json]
         return []
 
-    def get_user(self, user_id: int) -> UserDto:
+    def get_user(self, user_id: int) -> UserDto | None:
         """Get a single user by ID."""
         query_params = []
         if user_id:
