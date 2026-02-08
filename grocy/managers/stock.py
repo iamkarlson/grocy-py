@@ -380,5 +380,11 @@ class StockManager:
         ]
 
     def upload_product_picture(self, product_id: int, pic_path: str):
+        """Upload a picture for a product.
+
+        Args:
+            product_id: The Grocy product ID.
+            pic_path: Local filesystem path to the image file.
+        """
         self._api.upload_product_picture(product_id, pic_path)
         return self._api.update_product_pic(product_id)
