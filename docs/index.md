@@ -27,16 +27,19 @@ for item in shopping_list:
 
 ## Features
 
-- **Stock management** — query, add, consume, open, and inventory products
-- **Shopping lists** — view, add/remove products, clear lists
-- **Chores** — list, track, and execute chores
-- **Tasks** — manage and complete tasks
-- **Batteries** — track battery charge cycles
-- **Equipment** — manage household equipment
-- **Meal plans** — view and manage meal plans and recipes
-- **Users** — query user accounts
-- **System** — get server info, time, and configuration
-- **Generic CRUD** — create, read, update, delete any Grocy entity type
+- **[Stock](reference/managers/stock.md)** — query, add, consume, open, transfer, and inventory products
+- **[Shopping lists](reference/managers/shopping_list.md)** — view, add/remove products, bulk operations
+- **[Chores](reference/managers/chores.md)** — list, execute, undo, and assign chores
+- **[Tasks](reference/managers/tasks.md)** — manage and complete tasks
+- **[Batteries](reference/managers/batteries.md)** — track battery charge cycles
+- **[Equipment](reference/managers/equipment.md)** — manage household equipment
+- **[Recipes](reference/managers/recipes.md)** — get details, check fulfillment, consume
+- **[Meal plans](reference/managers/meal_plan.md)** — view meal plans and sections
+- **[Users](reference/managers/users.md)** — manage user accounts and settings
+- **[System](reference/managers/system.md)** — server info, time, and configuration
+- **[Calendar](reference/managers/calendar.md)** — iCalendar export and sharing
+- **[Files](reference/managers/files.md)** — upload, download, and delete files
+- **[Generic CRUD](reference/managers/generic.md)** — create, read, update, delete any entity type
 
 ## Architecture Overview
 

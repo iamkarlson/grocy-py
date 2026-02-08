@@ -8,11 +8,21 @@ You typically don't construct these directly, but they document the shape of the
 
 ::: grocy.grocy_api_client.CurrentStockResponse
 
+::: grocy.grocy_api_client.CurrentVolatileStockResponse
+
 ::: grocy.grocy_api_client.ProductDetailsResponse
 
 ::: grocy.grocy_api_client.MissingProductResponse
 
 ::: grocy.grocy_api_client.StockLogResponse
+
+::: grocy.grocy_api_client.StockEntryResponse
+
+::: grocy.grocy_api_client.StockLocationResponse
+
+::: grocy.grocy_api_client.StockBookingResponse
+
+::: grocy.grocy_api_client.PriceHistoryResponse
 
 ## Product Data
 
@@ -52,13 +62,17 @@ You typically don't construct these directly, but they document the shape of the
 
 ::: grocy.grocy_api_client.EquipmentData
 
+## Recipe Responses
+
+::: grocy.grocy_api_client.RecipeDetailsResponse
+
+::: grocy.grocy_api_client.RecipeFulfillmentResponse
+
 ## Meal Plan Responses
 
 ::: grocy.grocy_api_client.MealPlanResponse
 
 ::: grocy.grocy_api_client.MealPlanSectionResponse
-
-::: grocy.grocy_api_client.RecipeDetailsResponse
 
 ## Shopping List
 

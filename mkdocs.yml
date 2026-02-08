@@ -65,6 +65,20 @@ nav:
   - Example Notebook: example.ipynb
   - API Reference:
       - Grocy Client: reference/grocy.md
+      - Managers:
+          - Stock: reference/managers/stock.md
+          - Shopping List: reference/managers/shopping_list.md
+          - Chores: reference/managers/chores.md
+          - Tasks: reference/managers/tasks.md
+          - Batteries: reference/managers/batteries.md
+          - Equipment: reference/managers/equipment.md
+          - Meal Plan: reference/managers/meal_plan.md
+          - Recipes: reference/managers/recipes.md
+          - Users: reference/managers/users.md
+          - System: reference/managers/system.md
+          - Calendar: reference/managers/calendar.md
+          - Files: reference/managers/files.md
+          - Generic CRUD: reference/managers/generic.md
       - Data Models:
           - Product: reference/models/product.md
           - Chore: reference/models/chore.md

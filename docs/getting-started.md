@@ -77,7 +77,13 @@ grocy.stock.consume(product_id=1, amount=1)
 # Open a product
 grocy.stock.open(product_id=1)
 
-# Products that are due, overdue, or expired
+# Transfer between locations
+grocy.stock.transfer(product_id=1, amount=1, location_from=1, location_to=2)
+
+# Set exact inventory amount
+grocy.stock.inventory(product_id=1, new_amount=10)
+
+# Products that are due, overdue, expired, or missing
 due = grocy.stock.due_products(get_details=True)
 overdue = grocy.stock.overdue_products(get_details=True)
 expired = grocy.stock.expired_products(get_details=True)
@@ -85,6 +91,14 @@ missing = grocy.stock.missing_products(get_details=True)
 
 # Lookup by barcode
 product = grocy.stock.product_by_barcode("4006381333931")
+
+# Stock entries, locations, and price history for a product
+entries = grocy.stock.product_entries(product_id=1)
+locations = grocy.stock.product_locations(product_id=1)
+prices = grocy.stock.product_price_history(product_id=1)
+
+# Product groups
+groups = grocy.stock.product_groups()
 ```
 
 ## Shopping Lists
@@ -95,11 +109,14 @@ items = grocy.shopping_list.items(get_details=True)
 for item in items:
     print(f"{item.product.name}: {item.amount} (done: {item.done})")
 
-# Add a product to the shopping list
+# Add / remove products
 grocy.shopping_list.add_product(product_id=1, amount=3)
+grocy.shopping_list.remove_product(product_id=1, amount=1)
 
-# Add all missing products
+# Bulk operations
 grocy.shopping_list.add_missing_products()
+grocy.shopping_list.add_overdue_products()
+grocy.shopping_list.add_expired_products()
 
 # Clear the shopping list
 grocy.shopping_list.clear()
@@ -108,15 +125,22 @@ grocy.shopping_list.clear()
 ## Chores
 
 ```python
-from datetime import datetime
-
 # List all chores
 chores = grocy.chores.list(get_details=True)
 for chore in chores:
     print(f"{chore.name} - next: {chore.next_estimated_execution_time}")
 
+# Get specific chore details
+chore = grocy.chores.get(chore_id=1)
+
 # Execute a chore
 grocy.chores.execute(chore_id=1, done_by=1)
+
+# Undo an execution
+grocy.chores.undo(execution_id=1)
+
+# Calculate next assignments
+grocy.chores.calculate_next_assignments()
 ```
 
 ## Tasks
@@ -127,8 +151,12 @@ tasks = grocy.tasks.list()
 for task in tasks:
     print(f"{task.name} - due: {task.due_date}")
 
-# Complete a task
+# Get a specific task
+task = grocy.tasks.get(task_id=1)
+
+# Complete / undo
 grocy.tasks.complete(task_id=1)
+grocy.tasks.undo(task_id=1)
 ```
 
 ## Batteries
@@ -139,8 +167,49 @@ batteries = grocy.batteries.list(get_details=True)
 for battery in batteries:
     print(f"{battery.name}: last charged {battery.last_charged}")
 
-# Charge a battery
+# Get a specific battery
+battery = grocy.batteries.get(battery_id=1)
+
+# Charge / undo
 grocy.batteries.charge(battery_id=1)
+grocy.batteries.undo(charge_cycle_id=1)
+```
+
+## Equipment
+
+```python
+# List all equipment
+for e in grocy.equipment.list(get_details=True):
+    print(f"{e.name}: {e.description}")
+
+# Get by ID or name
+e = grocy.equipment.get(equipment_id=1)
+e = grocy.equipment.get_by_name("Coffee machine")
+```
+
+## Recipes
+
+```python
+# Get a recipe
+recipe = grocy.recipes.get(recipe_id=1)
+print(f"{recipe.name} ({recipe.base_servings} servings)")
+
+# Check fulfillment
+fulfillment = grocy.recipes.fulfillment(recipe_id=1)
+print(f"Fulfilled: {fulfillment.need_fulfilled}, missing: {fulfillment.missing_products_count}")
+
+# Get all recipes' fulfillment status
+for f in grocy.recipes.all_fulfillment():
+    print(f"Recipe {f.recipe_id}: fulfilled={f.need_fulfilled}")
+
+# Add missing ingredients to shopping list
+grocy.recipes.add_not_fulfilled_to_shopping_list(recipe_id=1)
+
+# Consume recipe ingredients from stock
+grocy.recipes.consume(recipe_id=1)
+
+# Copy a recipe
+grocy.recipes.copy(recipe_id=1)
 ```
 
 ## Meal Plans
@@ -151,9 +220,81 @@ meals = grocy.meal_plan.items(get_details=True)
 for meal in meals:
     print(f"{meal.day}: {meal.recipe.name if meal.recipe else meal.note}")
 
-# Get a recipe
-recipe = grocy.recipes.get(recipe_id=1)
-print(f"{recipe.name} ({recipe.base_servings} servings)")
+# Get meal plan sections
+sections = grocy.meal_plan.sections()
+section = grocy.meal_plan.section(section_id=1)
+```
+
+## Users
+
+```python
+# Current user
+me = grocy.users.current()
+print(f"Logged in as: {me.username}")
+
+# List all users
+for user in grocy.users.list():
+    print(f"{user.id}: {user.username}")
+
+# Get a specific user
+user = grocy.users.get(user_id=1)
+
+# Create / edit / delete
+grocy.users.create({"username": "newuser", "password": "secret"})
+grocy.users.edit(user_id=2, data={"first_name": "Updated"})
+grocy.users.delete(user_id=2)
+
+# User settings
+settings = grocy.users.settings()
+grocy.users.set_setting("my_key", "my_value")
+value = grocy.users.get_setting("my_key")
+grocy.users.delete_setting("my_key")
+```
+
+## System
+
+```python
+# System information
+info = grocy.system.info()
+print(f"Grocy {info.grocy_version} on {info.os}")
+
+# Server time
+time = grocy.system.time()
+print(f"UTC: {time.time_utc}, Timezone: {time.timezone}")
+
+# Configuration
+config = grocy.system.config()
+print(f"Currency: {config.currency}, Features: {config.enabled_features}")
+
+# Last database change
+db_time = grocy.system.db_changed_time()
+```
+
+## Calendar
+
+```python
+# Get calendar in iCalendar format
+ical = grocy.calendar.ical()
+
+# Get a sharing link
+link = grocy.calendar.sharing_link()
+```
+
+## Files
+
+```python
+# Upload a file
+with open("photo.jpg", "rb") as f:
+    grocy.files.upload(group="productpictures", file_name="photo.jpg", data=f)
+
+# Download a file
+data = grocy.files.download(group="productpictures", file_name="photo.jpg")
+
+# Delete a file
+grocy.files.delete(group="productpictures", file_name="photo.jpg")
+
+# Convenience: upload a product picture
+grocy.stock.upload_product_picture(product_id=1, pic_path="/path/to/photo.jpg")
 ```
 
 ## Generic CRUD Operations
@@ -161,25 +302,26 @@ print(f"{recipe.name} ({recipe.base_servings} servings)")
 For any Grocy entity type, you can use the generic CRUD methods:
 
 ```python
-from grocy import Grocy
 from grocy.data_models.generic import EntityType
-
-grocy = Grocy("https://example.com", "API_KEY")
 
 # List all objects of a type
 locations = grocy.generic.list(EntityType.LOCATIONS)
 
 # Get a single object
-location = grocy.generic.get(EntityType.LOCATIONS, object_id=1)
+location = grocy.generic.get(EntityType.LOCATIONS, object_id=2)
 
 # Create
 grocy.generic.create(EntityType.LOCATIONS, {"name": "Pantry"})
 
 # Update
-grocy.generic.update(EntityType.LOCATIONS, object_id=1, data={"name": "Kitchen Pantry"})
+grocy.generic.update(EntityType.LOCATIONS, object_id=2, data={"name": "Kitchen Pantry"})
 
 # Delete
-grocy.generic.delete(EntityType.LOCATIONS, object_id=1)
+grocy.generic.delete(EntityType.LOCATIONS, object_id=2)
+
+# Custom user fields
+fields = grocy.generic.get_userfields("products", object_id=1)
+grocy.generic.set_userfields("products", object_id=1, key="my_field", value="value")
 ```
 
 ## The `get_details` Pattern
