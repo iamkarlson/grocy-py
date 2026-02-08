@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "grocy-py"
-version = "0.0.1"
+version = "0.0.2"
 readme = "README.md"
 authors = [
     { name = "George Green", email = "iamkarlson@gmail.com" }]
