@@ -1275,7 +1275,7 @@ class GrocyApiClient(object):
         query_params = []
         if user_id:
             query_params.append(f"id={user_id}")
-        parsed_json = self._do_get_request("users")
+        parsed_json = self._do_get_request("users", query_filters=query_params)
         if parsed_json:
             return UserDto(**parsed_json[0])
         return None
