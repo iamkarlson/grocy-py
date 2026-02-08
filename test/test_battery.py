@@ -2,8 +2,8 @@ from datetime import datetime
 
 import pytest
 
-from pygrocy.errors import GrocyError
-from pygrocy.grocy import Grocy
+from grocy.errors import GrocyError
+from grocy.grocy import Grocy
 
 
 class TestBattery:

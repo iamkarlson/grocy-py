@@ -1,7 +1,7 @@
 from datetime import datetime
 
-from pygrocy.base import DataModel
-from pygrocy.grocy_api_client import (
+from grocy.base import DataModel
+from grocy.grocy_api_client import (
     EquipmentDetailsResponse,
     EquipmentData,
     GrocyApiClient,

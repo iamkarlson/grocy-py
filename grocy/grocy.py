@@ -106,7 +106,7 @@ class Grocy(object):
 
     def all_products(self) -> list[Product]:
         raw_products = self.get_generic_objects_for_type(EntityType.PRODUCTS)
-        from pygrocy.grocy_api_client import ProductData
+        from grocy.grocy_api_client import ProductData
 
         product_datas = [ProductData(**product) for product in raw_products]
         return [Product(product) for product in product_datas]

@@ -1,9 +1,9 @@
 from datetime import datetime
 from enum import Enum
 
-from pygrocy.base import DataModel
-from pygrocy.data_models.user import User
-from pygrocy.grocy_api_client import (
+from grocy.base import DataModel
+from grocy.data_models.user import User
+from grocy.grocy_api_client import (
     ChoreDetailsResponse,
     CurrentChoreResponse,
     GrocyApiClient,

@@ -1,5 +1,5 @@
-from pygrocy.data_models.product import ProductBarcode
-from pygrocy.grocy_api_client import ProductBarcodeData
+from grocy.data_models.product import ProductBarcode
+from grocy.grocy_api_client import ProductBarcodeData
 
 
 class TestMisc:

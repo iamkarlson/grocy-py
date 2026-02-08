@@ -2,7 +2,7 @@ from datetime import datetime
 
 import zoneinfo
 
-import pygrocy.utils as utils
+import grocy.utils as utils
 
 
 class TestUtils:

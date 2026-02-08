@@ -1,7 +1,7 @@
 import pytest
 
-from pygrocy.data_models.generic import EntityType
-from pygrocy.errors import GrocyError
+from grocy.data_models.generic import EntityType
+from grocy.errors import GrocyError
 
 
 class TestGeneric:

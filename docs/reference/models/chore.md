@@ -4,7 +4,7 @@ Classes for representing chores and their scheduling configuration.
 
 ## Chore
 
-::: pygrocy.data_models.chore.Chore
+::: grocy.data_models.chore.Chore
     options:
       members_order: source
 
@@ -12,7 +12,7 @@ Classes for representing chores and their scheduling configuration.
 
 Scheduling period types for chores.
 
-::: pygrocy.data_models.chore.PeriodType
+::: grocy.data_models.chore.PeriodType
     options:
       members_order: source
 
@@ -20,6 +20,6 @@ Scheduling period types for chores.
 
 How chores are assigned to users.
 
-::: pygrocy.data_models.chore.AssignmentType
+::: grocy.data_models.chore.AssignmentType
     options:
       members_order: source

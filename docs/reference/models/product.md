@@ -6,19 +6,19 @@ Classes for representing products, product groups, shopping list items, and rela
 
 The main product class, initialized from various API response types.
 
-::: pygrocy.data_models.product.Product
+::: grocy.data_models.product.Product
     options:
       members_order: source
 
 ## ProductBarcode
 
-::: pygrocy.data_models.product.ProductBarcode
+::: grocy.data_models.product.ProductBarcode
     options:
       members_order: source
 
 ## QuantityUnit
 
-::: pygrocy.data_models.product.QuantityUnit
+::: grocy.data_models.product.QuantityUnit
     options:
       members_order: source
 
@@ -26,7 +26,7 @@ The main product class, initialized from various API response types.
 
 Represents a product group.
 
-::: pygrocy.data_models.product.Group
+::: grocy.data_models.product.Group
     options:
       members_order: source
 
@@ -34,6 +34,6 @@ Represents a product group.
 
 A product entry on a shopping list.
 
-::: pygrocy.data_models.product.ShoppingListProduct
+::: grocy.data_models.product.ShoppingListProduct
     options:
       members_order: source

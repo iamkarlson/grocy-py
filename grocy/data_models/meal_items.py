@@ -2,8 +2,8 @@ import base64
 from datetime import date, datetime
 from enum import Enum
 
-from pygrocy.base import DataModel
-from pygrocy.grocy_api_client import (
+from grocy.base import DataModel
+from grocy.grocy_api_client import (
     GrocyApiClient,
     MealPlanResponse,
     MealPlanSectionResponse,

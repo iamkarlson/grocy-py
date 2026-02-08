@@ -4,6 +4,6 @@ Class for representing batteries and their charge tracking.
 
 ## Battery
 
-::: pygrocy.data_models.battery.Battery
+::: grocy.data_models.battery.Battery
     options:
       members_order: source

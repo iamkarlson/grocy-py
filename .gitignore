@@ -95,7 +95,6 @@ venv/
 __pycache__
 html/
 build/
-pygrocy.egg-info/
 grocy_py.egg-info/
 dist/
 

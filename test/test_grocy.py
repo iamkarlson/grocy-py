@@ -7,10 +7,10 @@ from unittest.mock import mock_open, patch
 import pytest
 import responses
 
-from pygrocy.grocy import Grocy
-from pygrocy.data_models.product import Product
-from pygrocy.errors import GrocyError
-from pygrocy.grocy_api_client import GrocyApiClient
+from grocy.grocy import Grocy
+from grocy.data_models.product import Product
+from grocy.errors import GrocyError
+from grocy.grocy_api_client import GrocyApiClient
 
 
 class TestGrocy(TestCase):

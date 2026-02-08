@@ -1,7 +1,7 @@
 import pytest
 
-from pygrocy.data_models.product import Product
-from pygrocy.errors import GrocyError
+from grocy.data_models.product import Product
+from grocy.errors import GrocyError
 
 
 class TestStock:

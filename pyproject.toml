@@ -39,7 +39,7 @@ docs = [
 ]
 
 [tool.setuptools.packages.find]
-include = ["pygrocy*"]
+include = ["grocy*"]
 
 [tool.uv]
 package = true

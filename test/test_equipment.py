@@ -2,10 +2,10 @@ from datetime import datetime
 
 import pytest
 
-from pygrocy.data_models.equipment import Equipment
-from pygrocy.errors import GrocyError
-from pygrocy.grocy import Grocy
-from pygrocy.grocy_api_client import (
+from grocy.data_models.equipment import Equipment
+from grocy.errors import GrocyError
+from grocy.grocy import Grocy
+from grocy.grocy_api_client import (
     EquipmentDetailsResponse,
     EquipmentData,
 )

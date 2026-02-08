@@ -6,74 +6,74 @@ You typically don't construct these directly, but they document the shape of the
 
 ## Stock Responses
 
-::: pygrocy.grocy_api_client.CurrentStockResponse
+::: grocy.grocy_api_client.CurrentStockResponse
 
-::: pygrocy.grocy_api_client.ProductDetailsResponse
+::: grocy.grocy_api_client.ProductDetailsResponse
 
-::: pygrocy.grocy_api_client.MissingProductResponse
+::: grocy.grocy_api_client.MissingProductResponse
 
-::: pygrocy.grocy_api_client.StockLogResponse
+::: grocy.grocy_api_client.StockLogResponse
 
 ## Product Data
 
-::: pygrocy.grocy_api_client.ProductData
+::: grocy.grocy_api_client.ProductData
 
-::: pygrocy.grocy_api_client.ProductBarcodeData
+::: grocy.grocy_api_client.ProductBarcodeData
 
-::: pygrocy.grocy_api_client.QuantityUnitData
+::: grocy.grocy_api_client.QuantityUnitData
 
-::: pygrocy.grocy_api_client.LocationData
+::: grocy.grocy_api_client.LocationData
 
 ## Chore Responses
 
-::: pygrocy.grocy_api_client.CurrentChoreResponse
+::: grocy.grocy_api_client.CurrentChoreResponse
 
-::: pygrocy.grocy_api_client.ChoreDetailsResponse
+::: grocy.grocy_api_client.ChoreDetailsResponse
 
-::: pygrocy.grocy_api_client.ChoreData
+::: grocy.grocy_api_client.ChoreData
 
 ## Task Responses
 
-::: pygrocy.grocy_api_client.TaskResponse
+::: grocy.grocy_api_client.TaskResponse
 
-::: pygrocy.grocy_api_client.TaskCategoryDto
+::: grocy.grocy_api_client.TaskCategoryDto
 
 ## Battery Responses
 
-::: pygrocy.grocy_api_client.CurrentBatteryResponse
+::: grocy.grocy_api_client.CurrentBatteryResponse
 
-::: pygrocy.grocy_api_client.BatteryDetailsResponse
+::: grocy.grocy_api_client.BatteryDetailsResponse
 
-::: pygrocy.grocy_api_client.BatteryData
+::: grocy.grocy_api_client.BatteryData
 
 ## Equipment Responses
 
-::: pygrocy.grocy_api_client.EquipmentDetailsResponse
+::: grocy.grocy_api_client.EquipmentDetailsResponse
 
-::: pygrocy.grocy_api_client.EquipmentData
+::: grocy.grocy_api_client.EquipmentData
 
 ## Meal Plan Responses
 
-::: pygrocy.grocy_api_client.MealPlanResponse
+::: grocy.grocy_api_client.MealPlanResponse
 
-::: pygrocy.grocy_api_client.MealPlanSectionResponse
+::: grocy.grocy_api_client.MealPlanSectionResponse
 
-::: pygrocy.grocy_api_client.RecipeDetailsResponse
+::: grocy.grocy_api_client.RecipeDetailsResponse
 
 ## Shopping List
 
-::: pygrocy.grocy_api_client.ShoppingListItem
+::: grocy.grocy_api_client.ShoppingListItem
 
 ## User
 
-::: pygrocy.grocy_api_client.UserDto
+::: grocy.grocy_api_client.UserDto
 
 ## System
 
-::: pygrocy.grocy_api_client.SystemInfoDto
+::: grocy.grocy_api_client.SystemInfoDto
 
-::: pygrocy.grocy_api_client.SystemTimeDto
+::: grocy.grocy_api_client.SystemTimeDto
 
-::: pygrocy.grocy_api_client.SystemConfigDto
+::: grocy.grocy_api_client.SystemConfigDto
 
-::: pygrocy.grocy_api_client.GrocyVersionDto
+::: grocy.grocy_api_client.GrocyVersionDto
