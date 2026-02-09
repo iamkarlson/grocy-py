@@ -113,6 +113,10 @@ for item in items:
 grocy.shopping_list.add_product(product_id=1, amount=3)
 grocy.shopping_list.remove_product(product_id=1, amount=1)
 
+# Mark an item as done / not done
+grocy.shopping_list.mark_item_done(shopping_list_item_id=1, done=True)
+grocy.shopping_list.mark_item_done(shopping_list_item_id=1, done=False)
+
 # Bulk operations
 grocy.shopping_list.add_missing_products()
 grocy.shopping_list.add_overdue_products()

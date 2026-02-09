@@ -81,3 +81,20 @@ class TestShoppingList:
 
         error = exc_info.value
         assert error.status_code == 500
+
+    @pytest.mark.vcr
+    def test_mark_item_done(self, grocy):
+        shopping_list = grocy.shopping_list.items()
+        item = next(item for item in shopping_list if item.id == 2)
+
+        # Mark as done
+        grocy.shopping_list.mark_item_done(item.id, True)
+        shopping_list = grocy.shopping_list.items()
+        item_done = next(item for item in shopping_list if item.id == 2)
+        assert item_done.done is True
+
+        # Mark as not done
+        grocy.shopping_list.mark_item_done(item.id, False)
+        shopping_list = grocy.shopping_list.items()
+        item_undone = next(item for item in shopping_list if item.id == 2)
+        assert item_undone.done is False

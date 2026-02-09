@@ -68,6 +68,15 @@ class ShoppingListManager:
             product_id, shopping_list_id, amount
         )
 
+    def mark_item_done(self, shopping_list_item_id: int, done: bool = True):
+        """Mark a shopping list item as done or not done.
+
+        Args:
+            shopping_list_item_id: The shopping list item ID.
+            done: Whether to mark as done (True) or not done (False).
+        """
+        return self._api.mark_shopping_list_item(shopping_list_item_id, done)
+
     def clear(self, shopping_list_id: int = 1):
         """Remove all items from a shopping list.
 

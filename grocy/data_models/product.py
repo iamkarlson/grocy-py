@@ -31,6 +31,7 @@ class Product(BaseModel):
     id: int
     name: str | None = None
     product_group_id: int | None = None
+    shopping_location_id: int | None = None
     available_amount: float | None = None
     amount_aggregated: float | None = None
     amount_opened: float | None = None
@@ -49,13 +50,16 @@ class Product(BaseModel):
         barcodes_list: list[ProductBarcode] = []
         name = None
         product_group_id = None
+        shopping_location_id = None
         if resp.product:
             name = resp.product.name
             product_group_id = resp.product.product_group_id
+            shopping_location_id = resp.product.shopping_location_id
         return cls(
             id=resp.product_id,
             name=name,
             product_group_id=product_group_id,
+            shopping_location_id=shopping_location_id,
             available_amount=resp.amount,
             amount_aggregated=resp.amount_aggregated,
             amount_opened=resp.amount_opened,
@@ -87,11 +91,13 @@ class Product(BaseModel):
         barcodes = [b.barcode for b in product_barcodes]
         name = None
         product_group_id = None
+        shopping_location_id = None
         product_id = 0
         if resp.product:
             product_id = resp.product.id
             name = resp.product.name
             product_group_id = resp.product.product_group_id
+            shopping_location_id = resp.product.shopping_location_id
         qu = None
         if resp.default_quantity_unit_purchase:
             qu = QuantityUnit(
@@ -104,6 +110,7 @@ class Product(BaseModel):
             id=product_id,
             name=name,
             product_group_id=product_group_id,
+            shopping_location_id=shopping_location_id,
             available_amount=resp.stock_amount,
             best_before_date=resp.next_best_before_date,
             product_barcodes=product_barcodes,
@@ -118,6 +125,7 @@ class Product(BaseModel):
             id=data.id,
             name=data.name,
             product_group_id=data.product_group_id,
+            shopping_location_id=data.shopping_location_id,
         )
 
     @classmethod

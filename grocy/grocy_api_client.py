@@ -98,6 +98,7 @@ class ProductData(BaseModel):
     name: str
     description: str | None = None
     location_id: int | None = None
+    shopping_location_id: int | None = None
     product_group_id: int | None = None
     qu_id_stock: int
     qu_id_purchase: int
@@ -1010,6 +1011,11 @@ class GrocyApiClient(object):
             "product_amount": amount,
         }
         self._do_post_request("stock/shoppinglist/remove-product", data)
+
+    def mark_shopping_list_item(self, shopping_list_item_id: int, done: bool):
+        """Mark a shopping list item as done or not done."""
+        data = {"done": 1 if done else 0}
+        self._do_put_request(f"objects/shopping_list/{shopping_list_item_id}", data)
 
     def add_overdue_products_to_shopping_list(self, shopping_list_id: int = 1):
         """Add overdue products to shopping list."""
