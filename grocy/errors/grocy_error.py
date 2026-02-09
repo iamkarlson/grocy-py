@@ -20,16 +20,20 @@ class GrocyError(Exception):
 
     @property
     def status_code(self) -> int:
+        """HTTP status code from the error response."""
         return self._status_code
 
     @property
     def message(self) -> str:
+        """Error message from the API."""
         return self._message
 
     @property
     def is_client_error(self) -> bool:
+        """True if this is a 4xx client error."""
         return 400 <= self.status_code < 500
 
     @property
     def is_server_error(self) -> bool:
+        """True if this is a 5xx server error."""
         return self.status_code >= 500

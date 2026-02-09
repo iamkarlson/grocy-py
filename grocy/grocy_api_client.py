@@ -553,16 +553,19 @@ class GrocyApiClient(object):
     # --- Stock ---
 
     def get_stock(self) -> list[CurrentStockResponse]:
+        """Get all products currently in stock."""
         parsed_json = self._do_get_request("stock")
         if parsed_json:
             return [CurrentStockResponse(**response) for response in parsed_json]
         return []
 
     def get_volatile_stock(self) -> CurrentVolatileStockResponse:
+        """Get stock warnings (due, overdue, expired, missing products)."""
         parsed_json = self._do_get_request("stock/volatile")
         return CurrentVolatileStockResponse(**parsed_json)
 
     def get_product(self, product_id) -> ProductDetailsResponse:
+        """Get detailed information for a single product."""
         url = f"stock/products/{product_id}"
         parsed_json = self._do_get_request(url)
         if parsed_json:
@@ -570,6 +573,7 @@ class GrocyApiClient(object):
         return None
 
     def get_product_by_barcode(self, barcode) -> ProductDetailsResponse:
+        """Get product information by barcode."""
         url = f"stock/products/by-barcode/{barcode}"
         parsed_json = self._do_get_request(url)
         if parsed_json:
@@ -584,6 +588,7 @@ class GrocyApiClient(object):
         best_before_date: datetime | None = None,
         transaction_type: TransactionType = TransactionType.PURCHASE,
     ):
+        """Add stock for a product."""
         data = {
             "amount": amount,
             "transaction_type": transaction_type.value,
@@ -603,6 +608,7 @@ class GrocyApiClient(object):
         transaction_type: TransactionType = TransactionType.CONSUME,
         allow_subproduct_substitution: bool = False,
     ):
+        """Consume stock for a product."""
         data = {
             "amount": amount,
             "spoiled": spoiled,
@@ -618,6 +624,7 @@ class GrocyApiClient(object):
         amount: float = 1,
         allow_subproduct_substitution: bool = False,
     ):
+        """Mark stock of a product as opened."""
         data = {
             "amount": amount,
             "allow_subproduct_substitution": allow_subproduct_substitution,
@@ -634,6 +641,7 @@ class GrocyApiClient(object):
         location_id: int = None,
         price: float = None,
     ):
+        """Perform stock inventory correction for a product."""
         data = {
             "new_amount": new_amount,
         }
@@ -667,6 +675,7 @@ class GrocyApiClient(object):
         price: float,
         best_before_date: datetime | None = None,
     ) -> StockLogResponse:
+        """Add stock for a product identified by barcode."""
         data = {
             "amount": amount,
             "transaction_type": TransactionType.PURCHASE.value,
@@ -690,6 +699,7 @@ class GrocyApiClient(object):
     def consume_product_by_barcode(
         self, barcode: str, amount: float = 1, spoiled: bool = False
     ):
+        """Consume stock for a product identified by barcode."""
         data = {
             "amount": amount,
             "spoiled": spoiled,
@@ -713,6 +723,7 @@ class GrocyApiClient(object):
         location_id: int | None = None,
         price: float | None = None,
     ):
+        """Perform stock inventory correction by barcode."""
         data = {
             "new_amount": new_amount,
         }
@@ -744,6 +755,7 @@ class GrocyApiClient(object):
         location_from: int,
         location_to: int,
     ):
+        """Transfer stock between locations."""
         data = {
             "amount": amount,
             "location_id_from": location_from,
@@ -752,6 +764,7 @@ class GrocyApiClient(object):
         return self._do_post_request(f"stock/products/{product_id}/transfer", data)
 
     def open_product_by_barcode(self, barcode: str, amount: float = 1):
+        """Mark stock as opened by barcode."""
         data = {"amount": amount}
         return self._do_post_request(f"stock/products/by-barcode/{barcode}/open", data)
 
@@ -762,6 +775,7 @@ class GrocyApiClient(object):
         location_from: int,
         location_to: int,
     ):
+        """Transfer stock between locations by barcode."""
         data = {
             "amount": amount,
             "location_id_from": location_from,
@@ -772,20 +786,24 @@ class GrocyApiClient(object):
         )
 
     def merge_products(self, product_id_keep: int, product_id_remove: int):
+        """Merge two products into one."""
         return self._do_post_request(
             f"stock/products/{product_id_keep}/merge/{product_id_remove}", {}
         )
 
     def get_stock_entry(self, entry_id: int) -> StockEntryResponse | None:
+        """Get a single stock entry by ID."""
         parsed_json = self._do_get_request(f"stock/entry/{entry_id}")
         if parsed_json:
             return StockEntryResponse(**parsed_json)
         return None
 
     def edit_stock_entry(self, entry_id: int, data: dict):
+        """Edit a stock entry."""
         return self._do_put_request(f"stock/entry/{entry_id}", data)
 
     def get_product_stock_entries(self, product_id: int) -> list[StockEntryResponse]:
+        """Get all stock entries for a product."""
         parsed_json = self._do_get_request(f"stock/products/{product_id}/entries")
         if parsed_json:
             return [StockEntryResponse(**e) for e in parsed_json]
@@ -794,12 +812,14 @@ class GrocyApiClient(object):
     def get_product_stock_locations(
         self, product_id: int
     ) -> list[StockLocationResponse]:
+        """Get all storage locations for a product."""
         parsed_json = self._do_get_request(f"stock/products/{product_id}/locations")
         if parsed_json:
             return [StockLocationResponse(**loc) for loc in parsed_json]
         return []
 
     def get_product_price_history(self, product_id: int) -> list[PriceHistoryResponse]:
+        """Get price history for a product."""
         parsed_json = self._do_get_request(f"stock/products/{product_id}/price-history")
         if parsed_json:
             return [PriceHistoryResponse(**p) for p in parsed_json]
@@ -808,30 +828,36 @@ class GrocyApiClient(object):
     def get_stock_entries_by_location(
         self, location_id: int
     ) -> list[StockEntryResponse]:
+        """Get all stock entries at a location."""
         parsed_json = self._do_get_request(f"stock/locations/{location_id}/entries")
         if parsed_json:
             return [StockEntryResponse(**e) for e in parsed_json]
         return []
 
     def get_stock_booking(self, booking_id: int) -> StockBookingResponse | None:
+        """Get a stock booking by ID."""
         parsed_json = self._do_get_request(f"stock/bookings/{booking_id}")
         if parsed_json:
             return StockBookingResponse(**parsed_json)
         return None
 
     def undo_stock_booking(self, booking_id: int):
+        """Undo a stock booking."""
         return self._do_post_request(f"stock/bookings/{booking_id}/undo", {})
 
     def get_stock_transactions(self, transaction_id: str) -> list[StockLogResponse]:
+        """Get all log entries for a transaction."""
         parsed_json = self._do_get_request(f"stock/transactions/{transaction_id}")
         if parsed_json:
             return [StockLogResponse(**t) for t in parsed_json]
         return []
 
     def undo_stock_transaction(self, transaction_id: str):
+        """Undo a stock transaction."""
         return self._do_post_request(f"stock/transactions/{transaction_id}/undo", {})
 
     def external_barcode_lookup(self, barcode: str):
+        """Look up barcode using external service."""
         return self._do_get_request(f"stock/barcodes/external-lookup/{barcode}")
 
     # --- Chores ---
@@ -839,12 +865,14 @@ class GrocyApiClient(object):
     def get_chores(
         self, query_filters: list[str] | None = None
     ) -> list[CurrentChoreResponse]:
+        """Get all chores."""
         parsed_json = self._do_get_request("chores", query_filters)
         if parsed_json:
             return [CurrentChoreResponse(**chore) for chore in parsed_json]
         return []
 
     def get_chore(self, chore_id: int) -> ChoreDetailsResponse:
+        """Get a single chore by ID."""
         url = f"chores/{chore_id}"
         parsed_json = self._do_get_request(url)
         if parsed_json:
@@ -858,6 +886,7 @@ class GrocyApiClient(object):
         tracked_time: datetime | None = None,
         skipped: bool = False,
     ):
+        """Mark a chore as executed."""
         if tracked_time is None:
             tracked_time = datetime.now()
 
@@ -874,12 +903,15 @@ class GrocyApiClient(object):
         return self._do_post_request(f"chores/{chore_id}/execute", data)
 
     def undo_chore_execution(self, execution_id: int):
+        """Undo a chore execution."""
         return self._do_post_request(f"chores/executions/{execution_id}/undo", {})
 
     def calculate_chore_assignments(self):
+        """Recalculate chore assignments."""
         return self._do_post_request("chores/executions/calculate-next-assignments", {})
 
     def merge_chores(self, chore_id_keep: int, chore_id_remove: int):
+        """Merge two chores into one."""
         return self._do_post_request(
             f"chores/{chore_id_keep}/merge/{chore_id_remove}", {}
         )
@@ -890,9 +922,11 @@ class GrocyApiClient(object):
         self,
         recipe_id: int,
     ):
+        """Consume all ingredients of a recipe."""
         self._do_post_request(f"recipes/{recipe_id}/consume", None)
 
     def get_recipe(self, object_id: int) -> RecipeDetailsResponse:
+        """Get a recipe by ID."""
         parsed_json = self._do_get_request(f"objects/recipes/{object_id}")
         if parsed_json:
             return RecipeDetailsResponse(**parsed_json)
@@ -901,23 +935,27 @@ class GrocyApiClient(object):
     def get_recipe_fulfillment(
         self, recipe_id: int
     ) -> RecipeFulfillmentResponse | None:
+        """Get fulfillment status for a recipe."""
         parsed_json = self._do_get_request(f"recipes/{recipe_id}/fulfillment")
         if parsed_json:
             return RecipeFulfillmentResponse(**parsed_json)
         return None
 
     def get_all_recipes_fulfillment(self) -> list[RecipeFulfillmentResponse]:
+        """Get fulfillment status for all recipes."""
         parsed_json = self._do_get_request("recipes/fulfillment")
         if parsed_json:
             return [RecipeFulfillmentResponse(**r) for r in parsed_json]
         return []
 
     def add_not_fulfilled_to_shopping_list(self, recipe_id: int):
+        """Add unfulfilled recipe ingredients to shopping list."""
         return self._do_post_request(
             f"recipes/{recipe_id}/add-not-fulfilled-products-to-shoppinglist", {}
         )
 
     def copy_recipe(self, recipe_id: int):
+        """Create a copy of a recipe."""
         return self._do_post_request(f"recipes/{recipe_id}/copy", {})
 
     # --- Shopping List ---
@@ -925,12 +963,14 @@ class GrocyApiClient(object):
     def get_shopping_list(
         self, query_filters: list[str] = None
     ) -> list[ShoppingListItem]:
+        """Get all shopping list items."""
         parsed_json = self._do_get_request("objects/shopping_list", query_filters)
         if parsed_json:
             return [ShoppingListItem(**response) for response in parsed_json]
         return []
 
     def add_missing_product_to_shopping_list(self, shopping_list_id: int = None):
+        """Add missing products to shopping list."""
         data = None
         if shopping_list_id:
             data = {"list_id": shopping_list_id}
@@ -944,6 +984,7 @@ class GrocyApiClient(object):
         amount: float = 1,
         quantity_unit_id: int = None,
     ):
+        """Add a product to the shopping list."""
         data = {
             "product_id": product_id,
             "list_id": shopping_list_id,
@@ -954,6 +995,7 @@ class GrocyApiClient(object):
         self._do_post_request("stock/shoppinglist/add-product", data)
 
     def clear_shopping_list(self, shopping_list_id: int = 1):
+        """Clear all items from shopping list."""
         data = {"list_id": shopping_list_id}
 
         self._do_post_request("stock/shoppinglist/clear", data)
@@ -961,6 +1003,7 @@ class GrocyApiClient(object):
     def remove_product_in_shopping_list(
         self, product_id: int, shopping_list_id: int = 1, amount: float = 1
     ):
+        """Remove a product from shopping list."""
         data = {
             "product_id": product_id,
             "list_id": shopping_list_id,
@@ -969,10 +1012,12 @@ class GrocyApiClient(object):
         self._do_post_request("stock/shoppinglist/remove-product", data)
 
     def add_overdue_products_to_shopping_list(self, shopping_list_id: int = 1):
+        """Add overdue products to shopping list."""
         data = {"list_id": shopping_list_id}
         self._do_post_request("stock/shoppinglist/add-overdue-products", data)
 
     def add_expired_products_to_shopping_list(self, shopping_list_id: int = 1):
+        """Add expired products to shopping list."""
         data = {"list_id": shopping_list_id}
         self._do_post_request("stock/shoppinglist/add-expired-products", data)
 
@@ -981,6 +1026,7 @@ class GrocyApiClient(object):
     def get_product_groups(
         self, query_filters: list[str] | None = None
     ) -> list[LocationData]:
+        """Get all product groups."""
         parsed_json = self._do_get_request("objects/product_groups", query_filters)
         if parsed_json:
             return [LocationData(**response) for response in parsed_json]
@@ -989,12 +1035,14 @@ class GrocyApiClient(object):
     # --- Product pictures ---
 
     def upload_product_picture(self, product_id: int, pic_path: str):
+        """Upload a product picture file."""
         b64fn = base64.b64encode(f"{product_id}.jpg".encode("ascii"))
         req_url = "files/productpictures/" + str(b64fn, "utf-8")
         with open(pic_path, "rb") as pic:  # noqa: PTH123
             self._do_put_request(req_url, pic)
 
     def update_product_pic(self, product_id: int):
+        """Update product picture filename."""
         pic_name = f"{product_id}.jpg"
         data = {"picture_file_name": pic_name}
         self._do_put_request(f"objects/products/{product_id}", data)
@@ -1002,30 +1050,36 @@ class GrocyApiClient(object):
     # --- Userfields ---
 
     def get_userfields(self, entity: str, object_id: int):
+        """Get custom userfields for an entity."""
         url = f"userfields/{entity}/{object_id}"
         return self._do_get_request(url)
 
     def set_userfields(self, entity: str, object_id: int, key: str, value):
+        """Set a custom userfield value."""
         data = {key: value}
         self._do_put_request(f"userfields/{entity}/{object_id}", data)
 
     # --- System ---
 
     def get_last_db_changed(self):
+        """Get timestamp of last database change."""
         resp = self._do_get_request("system/db-changed-time")
         return parse_date(resp.get("changed_time"))
 
     def get_system_info(self) -> SystemInfoDto:
+        """Get system version and environment info."""
         parsed_json = self._do_get_request("system/info")
         if parsed_json:
             return SystemInfoDto(**parsed_json)
 
     def get_system_time(self) -> SystemTimeDto:
+        """Get server time and timezone."""
         parsed_json = self._do_get_request("system/time")
         if parsed_json:
             return SystemTimeDto(**parsed_json)
 
     def get_system_config(self) -> SystemConfigDto:
+        """Get system configuration."""
         parsed_json = self._do_get_request("system/config")
         _LOGGER.debug("System config: %s", parsed_json)
         if parsed_json:
@@ -1034,17 +1088,20 @@ class GrocyApiClient(object):
     # --- Tasks ---
 
     def get_tasks(self, query_filters: list[str] | None = None) -> list[TaskResponse]:
+        """Get all tasks."""
         parsed_json = self._do_get_request("tasks", query_filters)
         if parsed_json:
             return [TaskResponse(**data) for data in parsed_json]
         return []
 
     def get_task(self, task_id: int) -> TaskResponse:
+        """Get a single task by ID."""
         url = f"objects/tasks/{task_id}"
         parsed_json = self._do_get_request(url)
         return TaskResponse(**parsed_json)
 
     def complete_task(self, task_id: int, done_time: datetime | None = None):
+        """Mark a task as completed."""
         url = f"tasks/{task_id}/complete"
 
         if done_time is None:
@@ -1056,6 +1113,7 @@ class GrocyApiClient(object):
         self._do_post_request(url, data)
 
     def undo_task(self, task_id: int):
+        """Undo a task completion."""
         return self._do_post_request(f"tasks/{task_id}/undo", {})
 
     # --- Meal plan ---
@@ -1063,6 +1121,7 @@ class GrocyApiClient(object):
     def get_meal_plan(
         self, query_filters: list[str] | None = None
     ) -> list[MealPlanResponse]:
+        """Get all meal plan items."""
         parsed_json = self._do_get_request("objects/meal_plan", query_filters)
         if parsed_json:
             return [MealPlanResponse(**data) for data in parsed_json]
@@ -1071,6 +1130,7 @@ class GrocyApiClient(object):
     def get_meal_plan_sections(
         self, query_filters: list[str] | None = None
     ) -> list[MealPlanSectionResponse]:
+        """Get all meal plan sections."""
         parsed_json = self.get_generic_objects_for_type(
             EntityType.MEAL_PLAN_SECTIONS, query_filters
         )
@@ -1079,6 +1139,7 @@ class GrocyApiClient(object):
         return []
 
     def get_meal_plan_section(self, meal_plan_section_id) -> MealPlanSectionResponse:
+        """Get a single meal plan section by ID."""
         parsed_json = self._do_get_request(
             f"objects/meal_plan_sections?query%5B%5D=id%3D{meal_plan_section_id}"
         )
@@ -1091,18 +1152,21 @@ class GrocyApiClient(object):
     def get_batteries(
         self, query_filters: list[str] | None = None
     ) -> list[CurrentBatteryResponse]:
+        """Get all batteries."""
         parsed_json = self._do_get_request("batteries", query_filters)
         if parsed_json:
             return [CurrentBatteryResponse(**data) for data in parsed_json]
         return []
 
     def get_battery(self, battery_id: int) -> BatteryDetailsResponse:
+        """Get a single battery by ID."""
         parsed_json = self._do_get_request(f"batteries/{battery_id}")
         if parsed_json:
             return BatteryDetailsResponse(**parsed_json)
         return None
 
     def charge_battery(self, battery_id: int, tracked_time: datetime | None = None):
+        """Record a battery charge cycle."""
         if tracked_time is None:
             tracked_time = datetime.now()
 
@@ -1112,6 +1176,7 @@ class GrocyApiClient(object):
         return self._do_post_request(f"batteries/{battery_id}/charge", data)
 
     def undo_battery_charge(self, charge_cycle_id: int):
+        """Undo a battery charge cycle."""
         return self._do_post_request(
             f"batteries/charge-cycles/{charge_cycle_id}/undo", {}
         )
@@ -1119,20 +1184,25 @@ class GrocyApiClient(object):
     # --- Generic CRUD ---
 
     def add_generic(self, entity_type: str, data):
+        """Create a new generic entity object."""
         return self._do_post_request(f"objects/{entity_type}", data)
 
     def get_generic(self, entity_type: str, object_id: int):
+        """Get a generic entity object by ID."""
         return self._do_get_request(f"objects/{entity_type}/{object_id}")
 
     def update_generic(self, entity_type: str, object_id: int, data):
+        """Update a generic entity object."""
         return self._do_put_request(f"objects/{entity_type}/{object_id}", data)
 
     def delete_generic(self, entity_type: str, object_id: int):
+        """Delete a generic entity object."""
         return self._do_delete_request(f"objects/{entity_type}/{object_id}")
 
     def get_generic_objects_for_type(
         self, entity_type: str | Enum, query_filters: list[str] | None = None
     ):
+        """Get all objects of a generic entity type."""
         if isinstance(entity_type, Enum):
             entity_type = entity_type.value
         return self._do_get_request(f"objects/{entity_type}", query_filters)
@@ -1154,12 +1224,14 @@ class GrocyApiClient(object):
     # --- Users ---
 
     def get_users(self) -> list[UserDto]:
+        """Get all users."""
         parsed_json = self._do_get_request("users")
         if parsed_json:
             return [UserDto(**user) for user in parsed_json]
         return []
 
     def get_user(self, user_id: int) -> UserDto:
+        """Get a single user by ID."""
         query_params = []
         if user_id:
             query_params.append(f"id={user_id}")
@@ -1169,35 +1241,44 @@ class GrocyApiClient(object):
         return None
 
     def get_current_user(self) -> UserDto | None:
+        """Get the currently authenticated user."""
         parsed_json = self._do_get_request("user")
         if parsed_json:
             return UserDto(**parsed_json[0])
         return None
 
     def create_user(self, data: dict):
+        """Create a new user."""
         return self._do_post_request("users", data)
 
     def edit_user(self, user_id: int, data: dict):
+        """Edit an existing user."""
         return self._do_put_request(f"users/{user_id}", data)
 
     def delete_user(self, user_id: int):
+        """Delete a user."""
         return self._do_delete_request(f"users/{user_id}")
 
     def get_user_settings(self):
+        """Get all settings for current user."""
         return self._do_get_request("user/settings")
 
     def get_user_setting(self, key: str):
+        """Get a single user setting."""
         return self._do_get_request(f"user/settings/{key}")
 
     def set_user_setting(self, key: str, value):
+        """Set a user setting."""
         return self._do_put_request(f"user/settings/{key}", {"value": value})
 
     def delete_user_setting(self, key: str):
+        """Delete a user setting."""
         return self._do_delete_request(f"user/settings/{key}")
 
     # --- Calendar ---
 
     def get_calendar_ical(self) -> str | None:
+        """Get calendar in iCal format."""
         req_url = urljoin(self._base_url, "calendar/ical")
         resp = requests.get(req_url, verify=self._verify_ssl, headers=self._headers)
         if resp.status_code >= 400:
@@ -1207,6 +1288,7 @@ class GrocyApiClient(object):
         return None
 
     def get_calendar_sharing_link(self) -> str | None:
+        """Get calendar sharing URL."""
         parsed_json = self._do_get_request("calendar/ical/sharing-link")
         if parsed_json:
             return parsed_json.get("url")
@@ -1215,16 +1297,19 @@ class GrocyApiClient(object):
     # --- Files ---
 
     def upload_file(self, group: str, file_name: str, data):
+        """Upload a file to Grocy."""
         b64fn = base64.b64encode(file_name.encode("ascii"))
         req_url = f"files/{group}/" + str(b64fn, "utf-8")
         self._do_put_request(req_url, data)
 
     def download_file(self, group: str, file_name: str):
+        """Download a file from Grocy."""
         b64fn = base64.b64encode(file_name.encode("ascii"))
         req_url = f"files/{group}/" + str(b64fn, "utf-8")
         return self._do_get_request(req_url)
 
     def delete_file(self, group: str, file_name: str):
+        """Delete a file from Grocy."""
         b64fn = base64.b64encode(file_name.encode("ascii"))
         req_url = f"files/{group}/" + str(b64fn, "utf-8")
         return self._do_delete_request(req_url)

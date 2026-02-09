@@ -53,52 +53,65 @@ class Grocy:
 
     @cached_property
     def stock(self) -> StockManager:
+        """Access stock management operations."""
         return StockManager(self._api_client)
 
     @cached_property
     def shopping_list(self) -> ShoppingListManager:
+        """Access shopping list operations."""
         return ShoppingListManager(self._api_client)
 
     @cached_property
     def recipes(self) -> RecipeManager:
+        """Access recipe operations."""
         return RecipeManager(self._api_client)
 
     @cached_property
     def chores(self) -> ChoreManager:
+        """Access chore management operations."""
         return ChoreManager(self._api_client)
 
     @cached_property
     def tasks(self) -> TaskManager:
+        """Access task management operations."""
         return TaskManager(self._api_client)
 
     @cached_property
     def batteries(self) -> BatteryManager:
+        """Access battery tracking operations."""
         return BatteryManager(self._api_client)
 
     @cached_property
     def equipment(self) -> EquipmentManager:
+        """Access equipment management operations."""
         return EquipmentManager(self._api_client)
 
     @cached_property
     def meal_plan(self) -> MealPlanManager:
+        """Access meal planning operations."""
         return MealPlanManager(self._api_client)
 
     @cached_property
     def users(self) -> UserManager:
+        """Access user management operations."""
         return UserManager(self._api_client)
 
     @cached_property
     def system(self) -> SystemManager:
+        """Access system information and configuration."""
         return SystemManager(self._api_client)
 
     @cached_property
     def generic(self) -> GenericEntityManager:
+        """Access generic entity CRUD operations."""
         return GenericEntityManager(self._api_client)
 
     @cached_property
     def calendar(self) -> CalendarManager:
+        """Access calendar operations."""
         return CalendarManager(self._api_client)
 
     @cached_property
     def files(self) -> FileManager:
+        """Access file management operations."""
         return FileManager(self._api_client)
