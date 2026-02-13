@@ -5,6 +5,7 @@ from .grocy_api_client import DEFAULT_PORT_NUMBER, GrocyApiClient
 from .managers.batteries import BatteryManager
 from .managers.calendar import CalendarManager
 from .managers.chores import ChoreManager
+from .managers.chores_log import ChoreLogManager
 from .managers.equipment import EquipmentManager
 from .managers.files import FileManager
 from .managers.generic import GenericEntityManager
@@ -70,6 +71,11 @@ class Grocy:
     def chores(self) -> ChoreManager:
         """Access chore management operations."""
         return ChoreManager(self._api_client)
+
+    @cached_property
+    def chores_log(self) -> ChoreManager:
+        """Access chore log management operations."""
+        return ChoreLogManager(self._api_client)
 
     @cached_property
     def tasks(self) -> TaskManager:
