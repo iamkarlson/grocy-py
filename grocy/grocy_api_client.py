@@ -151,6 +151,19 @@ class CurrentChoreResponse(BaseModel):
     next_estimated_execution_time: datetime | None = None
 
 
+class ChoreLogResponse(BaseModel):  # TODO: needs checking
+    id: int
+    chore_id: int
+    tracked_time: datetime
+    done_by_user_id: int
+    row_created_timestamp: datetime
+    undone: bool
+    undone_timestamp: datetime | None = None
+    skipped: bool
+    scheduled_execution_time: datetime | None = None
+    userfields: dict | None = None
+
+
 class CurrentStockResponse(BaseModel):
     """API response model for a product's current stock."""
 
@@ -581,6 +594,21 @@ class GrocyApiClient(object):
             return ProductDetailsResponse(**parsed_json)
         return None
 
+    def get_chores_log(
+        self, query_filters: list[str] | None = None
+    ) -> list[ChoreLogResponse]:
+        parsed_json = self._do_get_request("objects/chores_log", query_filters)
+        if parsed_json:
+            return [ChoreLogResponse(**chore_log) for chore_log in parsed_json]
+        return []
+
+    def get_chore_log(self, chore_log_id: int) -> ChoreLogResponse | None:
+        url = f"objects/chores_log/{chore_log_id}"
+        parsed_json = self._do_get_request(url)
+        if parsed_json:
+            return ChoreLogResponse(**parsed_json)
+        return None
+
     def add_product(
         self,
         product_id,
@@ -872,7 +900,7 @@ class GrocyApiClient(object):
             return [CurrentChoreResponse(**chore) for chore in parsed_json]
         return []
 
-    def get_chore(self, chore_id: int) -> ChoreDetailsResponse:
+    def get_chore(self, chore_id: int) -> ChoreDetailsResponse | None:
         """Get a single chore by ID."""
         url = f"chores/{chore_id}"
         parsed_json = self._do_get_request(url)
@@ -1236,12 +1264,12 @@ class GrocyApiClient(object):
             return [UserDto(**user) for user in parsed_json]
         return []
 
-    def get_user(self, user_id: int) -> UserDto:
+    def get_user(self, user_id: int) -> UserDto | None:
         """Get a single user by ID."""
         query_params = []
         if user_id:
             query_params.append(f"id={user_id}")
-        parsed_json = self._do_get_request("users")
+        parsed_json = self._do_get_request("users", query_filters=query_params)
         if parsed_json:
             return UserDto(**parsed_json[0])
         return None

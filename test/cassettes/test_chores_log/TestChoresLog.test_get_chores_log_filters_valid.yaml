@@ -1,0 +1,2245 @@
+interactions:
+- request:
+    body: null
+    headers:
+      Accept-Encoding:
+      - gzip, deflate, zstd
+      Connection:
+      - keep-alive
+      User-Agent:
+      - python-requests/2.32.5
+      accept:
+      - application/json
+    method: GET
+    uri: http://localhost:9192/api/objects/chores_log?query%5B%5D=undone%3D1
+  response:
+    body:
+      string: '[{"id":43,"chore_id":1,"tracked_time":"2026-01-26 00:00:00","done_by_user_id":4,"row_created_timestamp":"2026-02-19
+        09:17:00","undone":1,"undone_timestamp":"2026-02-19 09:17:00","skipped":0,"scheduled_execution_time":"2026-02-19
+        23:59:59"},{"id":44,"chore_id":2,"tracked_time":"2025-12-25 00:00:00","done_by_user_id":3,"row_created_timestamp":"2026-02-19
+        09:17:00","undone":1,"undone_timestamp":"2026-02-19 09:17:00","skipped":0,"scheduled_execution_time":"2026-02-16
+        23:59:59"},{"id":45,"chore_id":3,"tracked_time":"2026-02-03 00:00:00","done_by_user_id":3,"row_created_timestamp":"2026-02-19
+        09:17:00","undone":1,"undone_timestamp":"2026-02-19 09:17:00","skipped":0,"scheduled_execution_time":"2026-02-19
+        23:59:59"},{"id":46,"chore_id":4,"tracked_time":"2025-12-25 00:00:00","done_by_user_id":2,"row_created_timestamp":"2026-02-19
+        09:17:00","undone":1,"undone_timestamp":"2026-02-19 09:17:00","skipped":0,"scheduled_execution_time":"2026-02-14
+        23:59:59"},{"id":47,"chore_id":5,"tracked_time":"2026-02-11 00:00:00","done_by_user_id":1,"row_created_timestamp":"2026-02-19
+        09:17:00","undone":1,"undone_timestamp":"2026-02-19 09:17:00","skipped":0,"scheduled_execution_time":"2026-02-19
+        23:59:59"},{"id":48,"chore_id":6,"tracked_time":"2025-09-04 00:00:00","done_by_user_id":3,"row_created_timestamp":"2026-02-19
+        09:17:00","undone":1,"undone_timestamp":"2026-02-19 09:17:00","skipped":0,"scheduled_execution_time":"2026-02-16
+        23:59:59"},{"id":91,"chore_id":1,"tracked_time":"2026-01-02 00:00:00","done_by_user_id":2,"row_created_timestamp":"2026-02-19
+        09:17:00","undone":1,"undone_timestamp":"2026-02-19 09:17:00","skipped":0,"scheduled_execution_time":"2026-02-19
+        23:59:59"},{"id":92,"chore_id":2,"tracked_time":"2025-10-30 00:00:00","done_by_user_id":2,"row_created_timestamp":"2026-02-19
+        09:17:00","undone":1,"undone_timestamp":"2026-02-19 09:17:00","skipped":0,"scheduled_execution_time":"2026-02-16
+        23:59:59"},{"id":93,"chore_id":3,"tracked_time":"2026-01-18 00:00:00","done_by_user_id":2,"row_created_timestamp":"2026-02-19
+        09:17:00","undone":1,"undone_timestamp":"2026-02-19 09:17:00","skipped":0,"scheduled_execution_time":"2026-02-19
+        23:59:59"},{"id":94,"chore_id":4,"tracked_time":"2025-10-30 00:00:00","done_by_user_id":2,"row_created_timestamp":"2026-02-19
+        09:17:00","undone":1,"undone_timestamp":"2026-02-19 09:17:00","skipped":0,"scheduled_execution_time":"2026-02-14
+        23:59:59"},{"id":95,"chore_id":5,"tracked_time":"2026-02-03 00:00:00","done_by_user_id":3,"row_created_timestamp":"2026-02-19
+        09:17:00","undone":1,"undone_timestamp":"2026-02-19 09:17:00","skipped":0,"scheduled_execution_time":"2026-02-19
+        23:59:59"},{"id":96,"chore_id":6,"tracked_time":"2025-03-20 00:00:00","done_by_user_id":2,"row_created_timestamp":"2026-02-19
+        09:17:00","undone":1,"undone_timestamp":"2026-02-19 09:17:00","skipped":0,"scheduled_execution_time":"2026-02-16
+        23:59:59"},{"id":139,"chore_id":1,"tracked_time":"2025-12-09 00:00:00","done_by_user_id":2,"row_created_timestamp":"2026-02-19
+        09:17:01","undone":1,"undone_timestamp":"2026-02-19 09:17:01","skipped":0,"scheduled_execution_time":"2026-02-19
+        23:59:59"},{"id":140,"chore_id":2,"tracked_time":"2025-09-04 00:00:00","done_by_user_id":2,"row_created_timestamp":"2026-02-19
+        09:17:01","undone":1,"undone_timestamp":"2026-02-19 09:17:01","skipped":0,"scheduled_execution_time":"2026-02-16
+        23:59:59"},{"id":141,"chore_id":3,"tracked_time":"2026-01-02 00:00:00","done_by_user_id":3,"row_created_timestamp":"2026-02-19
+        09:17:01","undone":1,"undone_timestamp":"2026-02-19 09:17:01","skipped":0,"scheduled_execution_time":"2026-02-19
+        23:59:59"},{"id":142,"chore_id":4,"tracked_time":"2025-09-04 00:00:00","done_by_user_id":2,"row_created_timestamp":"2026-02-19
+        09:17:01","undone":1,"undone_timestamp":"2026-02-19 09:17:01","skipped":0,"scheduled_execution_time":"2026-02-14
+        23:59:59"},{"id":143,"chore_id":5,"tracked_time":"2026-01-26 00:00:00","done_by_user_id":4,"row_created_timestamp":"2026-02-19
+        09:17:01","undone":1,"undone_timestamp":"2026-02-19 09:17:01","skipped":0,"scheduled_execution_time":"2026-02-19
+        23:59:59"},{"id":144,"chore_id":6,"tracked_time":"2024-10-03 00:00:00","done_by_user_id":4,"row_created_timestamp":"2026-02-19
+        09:17:01","undone":1,"undone_timestamp":"2026-02-19 09:17:01","skipped":0,"scheduled_execution_time":"2026-02-16
+        23:59:59"}]'
+    headers:
+      Access-Control-Allow-Headers:
+      - '*'
+      Access-Control-Allow-Methods:
+      - GET, POST, PUT, DELETE, OPTIONS
+      Access-Control-Allow-Origin:
+      - '*'
+      Connection:
+      - keep-alive
+      Content-Type:
+      - application/json
+      Date:
+      - Thu, 19 Feb 2026 09:34:04 GMT
+      Server:
+      - nginx
+      Transfer-Encoding:
+      - chunked
+      X-Powered-By:
+      - PHP/8.3.19
+    status:
+      code: 200
+      message: OK
+- request:
+    body: null
+    headers:
+      Accept-Encoding:
+      - gzip, deflate, zstd
+      Connection:
+      - keep-alive
+      User-Agent:
+      - python-requests/2.32.5
+      accept:
+      - application/json
+    method: GET
+    uri: http://localhost:9192/api/userfields/chores_log/43
+  response:
+    body:
+      string: '[]'
+    headers:
+      Access-Control-Allow-Headers:
+      - '*'
+      Access-Control-Allow-Methods:
+      - GET, POST, PUT, DELETE, OPTIONS
+      Access-Control-Allow-Origin:
+      - '*'
+      Connection:
+      - keep-alive
+      Content-Type:
+      - application/json
+      Date:
+      - Thu, 19 Feb 2026 09:34:04 GMT
+      Server:
+      - nginx
+      Transfer-Encoding:
+      - chunked
+      X-Powered-By:
+      - PHP/8.3.19
+    status:
+      code: 200
+      message: OK
+- request:
+    body: null
+    headers:
+      Accept-Encoding:
+      - gzip, deflate, zstd
+      Connection:
+      - keep-alive
+      User-Agent:
+      - python-requests/2.32.5
+      accept:
+      - application/json
+    method: GET
+    uri: http://localhost:9192/api/chores/1
+  response:
+    body:
+      string: '{"chore":{"id":1,"name":"Change towels in the bathroom","description":null,"period_type":"hourly","period_days":null,"row_created_timestamp":"2026-02-19
+        09:16:56","period_config":null,"track_date_only":1,"rollover":0,"assignment_type":"random","assignment_config":"1,2,3,4","next_execution_assigned_to_user_id":1,"consume_product_on_execution":0,"product_id":null,"product_amount":null,"period_interval":72,"active":1,"start_date":"2025-01-01","rescheduled_date":null,"rescheduled_next_execution_assigned_to_user_id":null},"last_tracked":"2026-02-19
+        00:00:00","tracked_count":20,"last_done_by":{"id":2,"username":"Demo User
+        2","first_name":null,"last_name":null,"row_created_timestamp":"2026-02-19
+        09:16:51","display_name":"Demo User 2","picture_file_name":null},"next_estimated_execution_time":"2026-02-22
+        23:59:59","next_execution_assigned_user":{"id":1,"username":"Demo User","first_name":null,"last_name":null,"row_created_timestamp":"2026-02-19
+        09:16:48","display_name":"Demo User","picture_file_name":null},"average_execution_frequency_hours":81.81818181818181}'
+    headers:
+      Access-Control-Allow-Headers:
+      - '*'
+      Access-Control-Allow-Methods:
+      - GET, POST, PUT, DELETE, OPTIONS
+      Access-Control-Allow-Origin:
+      - '*'
+      Connection:
+      - keep-alive
+      Content-Type:
+      - application/json
+      Date:
+      - Thu, 19 Feb 2026 09:34:04 GMT
+      Server:
+      - nginx
+      Transfer-Encoding:
+      - chunked
+      X-Powered-By:
+      - PHP/8.3.19
+    status:
+      code: 200
+      message: OK
+- request:
+    body: null
+    headers:
+      Accept-Encoding:
+      - gzip, deflate, zstd
+      Connection:
+      - keep-alive
+      User-Agent:
+      - python-requests/2.32.5
+      accept:
+      - application/json
+    method: GET
+    uri: http://localhost:9192/api/users?query%5B%5D=id%3D4
+  response:
+    body:
+      string: '[{"id":4,"username":"Demo User 4","first_name":null,"last_name":null,"row_created_timestamp":"2026-02-19
+        09:16:51","display_name":"Demo User 4","picture_file_name":null}]'
+    headers:
+      Access-Control-Allow-Headers:
+      - '*'
+      Access-Control-Allow-Methods:
+      - GET, POST, PUT, DELETE, OPTIONS
+      Access-Control-Allow-Origin:
+      - '*'
+      Connection:
+      - keep-alive
+      Content-Type:
+      - application/json
+      Date:
+      - Thu, 19 Feb 2026 09:34:04 GMT
+      Server:
+      - nginx
+      Transfer-Encoding:
+      - chunked
+      X-Powered-By:
+      - PHP/8.3.19
+    status:
+      code: 200
+      message: OK
+- request:
+    body: null
+    headers:
+      Accept-Encoding:
+      - gzip, deflate, zstd
+      Connection:
+      - keep-alive
+      User-Agent:
+      - python-requests/2.32.5
+      accept:
+      - application/json
+    method: GET
+    uri: http://localhost:9192/api/userfields/chores_log/44
+  response:
+    body:
+      string: '[]'
+    headers:
+      Access-Control-Allow-Headers:
+      - '*'
+      Access-Control-Allow-Methods:
+      - GET, POST, PUT, DELETE, OPTIONS
+      Access-Control-Allow-Origin:
+      - '*'
+      Connection:
+      - keep-alive
+      Content-Type:
+      - application/json
+      Date:
+      - Thu, 19 Feb 2026 09:34:04 GMT
+      Server:
+      - nginx
+      Transfer-Encoding:
+      - chunked
+      X-Powered-By:
+      - PHP/8.3.19
+    status:
+      code: 200
+      message: OK
+- request:
+    body: null
+    headers:
+      Accept-Encoding:
+      - gzip, deflate, zstd
+      Connection:
+      - keep-alive
+      User-Agent:
+      - python-requests/2.32.5
+      accept:
+      - application/json
+    method: GET
+    uri: http://localhost:9192/api/chores/2
+  response:
+    body:
+      string: '{"chore":{"id":2,"name":"Mop the kitchen floor","description":null,"period_type":"weekly","period_days":null,"row_created_timestamp":"2026-02-19
+        09:16:56","period_config":"monday,thursday","track_date_only":1,"rollover":0,"assignment_type":"random","assignment_config":"1,2,3,4","next_execution_assigned_to_user_id":1,"consume_product_on_execution":0,"product_id":null,"product_amount":null,"period_interval":1,"active":1,"start_date":"2025-01-01","rescheduled_date":null,"rescheduled_next_execution_assigned_to_user_id":null},"last_tracked":"2026-02-12
+        00:00:00","tracked_count":19,"last_done_by":{"id":3,"username":"Demo User
+        3","first_name":null,"last_name":null,"row_created_timestamp":"2026-02-19
+        09:16:51","display_name":"Demo User 3","picture_file_name":null},"next_estimated_execution_time":"2026-02-16
+        23:59:59","next_execution_assigned_user":{"id":1,"username":"Demo User","first_name":null,"last_name":null,"row_created_timestamp":"2026-02-19
+        09:16:48","display_name":"Demo User","picture_file_name":null},"average_execution_frequency_hours":192}'
+    headers:
+      Access-Control-Allow-Headers:
+      - '*'
+      Access-Control-Allow-Methods:
+      - GET, POST, PUT, DELETE, OPTIONS
+      Access-Control-Allow-Origin:
+      - '*'
+      Connection:
+      - keep-alive
+      Content-Type:
+      - application/json
+      Date:
+      - Thu, 19 Feb 2026 09:34:05 GMT
+      Server:
+      - nginx
+      Transfer-Encoding:
+      - chunked
+      X-Powered-By:
+      - PHP/8.3.19
+    status:
+      code: 200
+      message: OK
+- request:
+    body: null
+    headers:
+      Accept-Encoding:
+      - gzip, deflate, zstd
+      Connection:
+      - keep-alive
+      User-Agent:
+      - python-requests/2.32.5
+      accept:
+      - application/json
+    method: GET
+    uri: http://localhost:9192/api/users?query%5B%5D=id%3D3
+  response:
+    body:
+      string: '[{"id":3,"username":"Demo User 3","first_name":null,"last_name":null,"row_created_timestamp":"2026-02-19
+        09:16:51","display_name":"Demo User 3","picture_file_name":null}]'
+    headers:
+      Access-Control-Allow-Headers:
+      - '*'
+      Access-Control-Allow-Methods:
+      - GET, POST, PUT, DELETE, OPTIONS
+      Access-Control-Allow-Origin:
+      - '*'
+      Connection:
+      - keep-alive
+      Content-Type:
+      - application/json
+      Date:
+      - Thu, 19 Feb 2026 09:34:05 GMT
+      Server:
+      - nginx
+      Transfer-Encoding:
+      - chunked
+      X-Powered-By:
+      - PHP/8.3.19
+    status:
+      code: 200
+      message: OK
+- request:
+    body: null
+    headers:
+      Accept-Encoding:
+      - gzip, deflate, zstd
+      Connection:
+      - keep-alive
+      User-Agent:
+      - python-requests/2.32.5
+      accept:
+      - application/json
+    method: GET
+    uri: http://localhost:9192/api/userfields/chores_log/45
+  response:
+    body:
+      string: '[]'
+    headers:
+      Access-Control-Allow-Headers:
+      - '*'
+      Access-Control-Allow-Methods:
+      - GET, POST, PUT, DELETE, OPTIONS
+      Access-Control-Allow-Origin:
+      - '*'
+      Connection:
+      - keep-alive
+      Content-Type:
+      - application/json
+      Date:
+      - Thu, 19 Feb 2026 09:34:05 GMT
+      Server:
+      - nginx
+      Transfer-Encoding:
+      - chunked
+      X-Powered-By:
+      - PHP/8.3.19
+    status:
+      code: 200
+      message: OK
+- request:
+    body: null
+    headers:
+      Accept-Encoding:
+      - gzip, deflate, zstd
+      Connection:
+      - keep-alive
+      User-Agent:
+      - python-requests/2.32.5
+      accept:
+      - application/json
+    method: GET
+    uri: http://localhost:9192/api/chores/3
+  response:
+    body:
+      string: '{"chore":{"id":3,"name":"Take out the trash","description":null,"period_type":"hourly","period_days":null,"row_created_timestamp":"2026-02-19
+        09:16:56","period_config":null,"track_date_only":1,"rollover":0,"assignment_type":"random","assignment_config":"1,2,3,4","next_execution_assigned_to_user_id":1,"consume_product_on_execution":0,"product_id":null,"product_amount":null,"period_interval":48,"active":1,"start_date":"2025-01-01","rescheduled_date":null,"rescheduled_next_execution_assigned_to_user_id":null},"last_tracked":"2026-02-17
+        00:00:00","tracked_count":19,"last_done_by":{"id":4,"username":"Demo User
+        4","first_name":null,"last_name":null,"row_created_timestamp":"2026-02-19
+        09:16:51","display_name":"Demo User 4","picture_file_name":null},"next_estimated_execution_time":"2026-02-19
+        23:59:59","next_execution_assigned_user":{"id":1,"username":"Demo User","first_name":null,"last_name":null,"row_created_timestamp":"2026-02-19
+        09:16:48","display_name":"Demo User","picture_file_name":null},"average_execution_frequency_hours":54.857142857142854}'
+    headers:
+      Access-Control-Allow-Headers:
+      - '*'
+      Access-Control-Allow-Methods:
+      - GET, POST, PUT, DELETE, OPTIONS
+      Access-Control-Allow-Origin:
+      - '*'
+      Connection:
+      - keep-alive
+      Content-Type:
+      - application/json
+      Date:
+      - Thu, 19 Feb 2026 09:34:05 GMT
+      Server:
+      - nginx
+      Transfer-Encoding:
+      - chunked
+      X-Powered-By:
+      - PHP/8.3.19
+    status:
+      code: 200
+      message: OK
+- request:
+    body: null
+    headers:
+      Accept-Encoding:
+      - gzip, deflate, zstd
+      Connection:
+      - keep-alive
+      User-Agent:
+      - python-requests/2.32.5
+      accept:
+      - application/json
+    method: GET
+    uri: http://localhost:9192/api/users?query%5B%5D=id%3D3
+  response:
+    body:
+      string: '[{"id":3,"username":"Demo User 3","first_name":null,"last_name":null,"row_created_timestamp":"2026-02-19
+        09:16:51","display_name":"Demo User 3","picture_file_name":null}]'
+    headers:
+      Access-Control-Allow-Headers:
+      - '*'
+      Access-Control-Allow-Methods:
+      - GET, POST, PUT, DELETE, OPTIONS
+      Access-Control-Allow-Origin:
+      - '*'
+      Connection:
+      - keep-alive
+      Content-Type:
+      - application/json
+      Date:
+      - Thu, 19 Feb 2026 09:34:05 GMT
+      Server:
+      - nginx
+      Transfer-Encoding:
+      - chunked
+      X-Powered-By:
+      - PHP/8.3.19
+    status:
+      code: 200
+      message: OK
+- request:
+    body: null
+    headers:
+      Accept-Encoding:
+      - gzip, deflate, zstd
+      Connection:
+      - keep-alive
+      User-Agent:
+      - python-requests/2.32.5
+      accept:
+      - application/json
+    method: GET
+    uri: http://localhost:9192/api/userfields/chores_log/46
+  response:
+    body:
+      string: '[]'
+    headers:
+      Access-Control-Allow-Headers:
+      - '*'
+      Access-Control-Allow-Methods:
+      - GET, POST, PUT, DELETE, OPTIONS
+      Access-Control-Allow-Origin:
+      - '*'
+      Connection:
+      - keep-alive
+      Content-Type:
+      - application/json
+      Date:
+      - Thu, 19 Feb 2026 09:34:05 GMT
+      Server:
+      - nginx
+      Transfer-Encoding:
+      - chunked
+      X-Powered-By:
+      - PHP/8.3.19
+    status:
+      code: 200
+      message: OK
+- request:
+    body: null
+    headers:
+      Accept-Encoding:
+      - gzip, deflate, zstd
+      Connection:
+      - keep-alive
+      User-Agent:
+      - python-requests/2.32.5
+      accept:
+      - application/json
+    method: GET
+    uri: http://localhost:9192/api/chores/4
+  response:
+    body:
+      string: '{"chore":{"id":4,"name":"Vacuum the living room floor","description":null,"period_type":"weekly","period_days":null,"row_created_timestamp":"2026-02-19
+        09:16:56","period_config":"saturday","track_date_only":1,"rollover":0,"assignment_type":"no-assignment","assignment_config":null,"next_execution_assigned_to_user_id":null,"consume_product_on_execution":0,"product_id":null,"product_amount":null,"period_interval":1,"active":1,"start_date":"2025-01-01","rescheduled_date":null,"rescheduled_next_execution_assigned_to_user_id":null},"last_tracked":"2026-02-19
+        00:00:00","tracked_count":20,"last_done_by":{"id":1,"username":"Demo User","first_name":null,"last_name":null,"row_created_timestamp":"2026-02-19
+        09:16:48","display_name":"Demo User","picture_file_name":null},"next_estimated_execution_time":"2026-02-21
+        23:59:59","next_execution_assigned_user":null,"average_execution_frequency_hours":190.9090909090909}'
+    headers:
+      Access-Control-Allow-Headers:
+      - '*'
+      Access-Control-Allow-Methods:
+      - GET, POST, PUT, DELETE, OPTIONS
+      Access-Control-Allow-Origin:
+      - '*'
+      Connection:
+      - keep-alive
+      Content-Type:
+      - application/json
+      Date:
+      - Thu, 19 Feb 2026 09:34:05 GMT
+      Server:
+      - nginx
+      Transfer-Encoding:
+      - chunked
+      X-Powered-By:
+      - PHP/8.3.19
+    status:
+      code: 200
+      message: OK
+- request:
+    body: null
+    headers:
+      Accept-Encoding:
+      - gzip, deflate, zstd
+      Connection:
+      - keep-alive
+      User-Agent:
+      - python-requests/2.32.5
+      accept:
+      - application/json
+    method: GET
+    uri: http://localhost:9192/api/users?query%5B%5D=id%3D2
+  response:
+    body:
+      string: '[{"id":2,"username":"Demo User 2","first_name":null,"last_name":null,"row_created_timestamp":"2026-02-19
+        09:16:51","display_name":"Demo User 2","picture_file_name":null}]'
+    headers:
+      Access-Control-Allow-Headers:
+      - '*'
+      Access-Control-Allow-Methods:
+      - GET, POST, PUT, DELETE, OPTIONS
+      Access-Control-Allow-Origin:
+      - '*'
+      Connection:
+      - keep-alive
+      Content-Type:
+      - application/json
+      Date:
+      - Thu, 19 Feb 2026 09:34:05 GMT
+      Server:
+      - nginx
+      Transfer-Encoding:
+      - chunked
+      X-Powered-By:
+      - PHP/8.3.19
+    status:
+      code: 200
+      message: OK
+- request:
+    body: null
+    headers:
+      Accept-Encoding:
+      - gzip, deflate, zstd
+      Connection:
+      - keep-alive
+      User-Agent:
+      - python-requests/2.32.5
+      accept:
+      - application/json
+    method: GET
+    uri: http://localhost:9192/api/userfields/chores_log/47
+  response:
+    body:
+      string: '[]'
+    headers:
+      Access-Control-Allow-Headers:
+      - '*'
+      Access-Control-Allow-Methods:
+      - GET, POST, PUT, DELETE, OPTIONS
+      Access-Control-Allow-Origin:
+      - '*'
+      Connection:
+      - keep-alive
+      Content-Type:
+      - application/json
+      Date:
+      - Thu, 19 Feb 2026 09:34:05 GMT
+      Server:
+      - nginx
+      Transfer-Encoding:
+      - chunked
+      X-Powered-By:
+      - PHP/8.3.19
+    status:
+      code: 200
+      message: OK
+- request:
+    body: null
+    headers:
+      Accept-Encoding:
+      - gzip, deflate, zstd
+      Connection:
+      - keep-alive
+      User-Agent:
+      - python-requests/2.32.5
+      accept:
+      - application/json
+    method: GET
+    uri: http://localhost:9192/api/chores/5
+  response:
+    body:
+      string: '{"chore":{"id":5,"name":"Clean the litter box","description":null,"period_type":"hourly","period_days":null,"row_created_timestamp":"2026-02-19
+        09:16:56","period_config":null,"track_date_only":1,"rollover":0,"assignment_type":"random","assignment_config":"1,2,3,4","next_execution_assigned_to_user_id":1,"consume_product_on_execution":0,"product_id":null,"product_amount":null,"period_interval":24,"active":1,"start_date":"2025-01-01","rescheduled_date":null,"rescheduled_next_execution_assigned_to_user_id":null},"last_tracked":"2026-02-18
+        00:00:00","tracked_count":19,"last_done_by":{"id":2,"username":"Demo User
+        2","first_name":null,"last_name":null,"row_created_timestamp":"2026-02-19
+        09:16:51","display_name":"Demo User 2","picture_file_name":null},"next_estimated_execution_time":"2026-02-19
+        23:59:59","next_execution_assigned_user":{"id":1,"username":"Demo User","first_name":null,"last_name":null,"row_created_timestamp":"2026-02-19
+        09:16:48","display_name":"Demo User","picture_file_name":null},"average_execution_frequency_hours":27.428571428571427}'
+    headers:
+      Access-Control-Allow-Headers:
+      - '*'
+      Access-Control-Allow-Methods:
+      - GET, POST, PUT, DELETE, OPTIONS
+      Access-Control-Allow-Origin:
+      - '*'
+      Connection:
+      - keep-alive
+      Content-Type:
+      - application/json
+      Date:
+      - Thu, 19 Feb 2026 09:34:05 GMT
+      Server:
+      - nginx
+      Transfer-Encoding:
+      - chunked
+      X-Powered-By:
+      - PHP/8.3.19
+    status:
+      code: 200
+      message: OK
+- request:
+    body: null
+    headers:
+      Accept-Encoding:
+      - gzip, deflate, zstd
+      Connection:
+      - keep-alive
+      User-Agent:
+      - python-requests/2.32.5
+      accept:
+      - application/json
+    method: GET
+    uri: http://localhost:9192/api/users?query%5B%5D=id%3D1
+  response:
+    body:
+      string: '[{"id":1,"username":"Demo User","first_name":null,"last_name":null,"row_created_timestamp":"2026-02-19
+        09:16:48","display_name":"Demo User","picture_file_name":null}]'
+    headers:
+      Access-Control-Allow-Headers:
+      - '*'
+      Access-Control-Allow-Methods:
+      - GET, POST, PUT, DELETE, OPTIONS
+      Access-Control-Allow-Origin:
+      - '*'
+      Connection:
+      - keep-alive
+      Content-Type:
+      - application/json
+      Date:
+      - Thu, 19 Feb 2026 09:34:05 GMT
+      Server:
+      - nginx
+      Transfer-Encoding:
+      - chunked
+      X-Powered-By:
+      - PHP/8.3.19
+    status:
+      code: 200
+      message: OK
+- request:
+    body: null
+    headers:
+      Accept-Encoding:
+      - gzip, deflate, zstd
+      Connection:
+      - keep-alive
+      User-Agent:
+      - python-requests/2.32.5
+      accept:
+      - application/json
+    method: GET
+    uri: http://localhost:9192/api/userfields/chores_log/48
+  response:
+    body:
+      string: '[]'
+    headers:
+      Access-Control-Allow-Headers:
+      - '*'
+      Access-Control-Allow-Methods:
+      - GET, POST, PUT, DELETE, OPTIONS
+      Access-Control-Allow-Origin:
+      - '*'
+      Connection:
+      - keep-alive
+      Content-Type:
+      - application/json
+      Date:
+      - Thu, 19 Feb 2026 09:34:05 GMT
+      Server:
+      - nginx
+      Transfer-Encoding:
+      - chunked
+      X-Powered-By:
+      - PHP/8.3.19
+    status:
+      code: 200
+      message: OK
+- request:
+    body: null
+    headers:
+      Accept-Encoding:
+      - gzip, deflate, zstd
+      Connection:
+      - keep-alive
+      User-Agent:
+      - python-requests/2.32.5
+      accept:
+      - application/json
+    method: GET
+    uri: http://localhost:9192/api/chores/6
+  response:
+    body:
+      string: '{"chore":{"id":6,"name":"Change the bed sheets","description":null,"period_type":"weekly","period_days":null,"row_created_timestamp":"2026-02-19
+        09:16:56","period_config":"monday","track_date_only":1,"rollover":0,"assignment_type":"no-assignment","assignment_config":null,"next_execution_assigned_to_user_id":null,"consume_product_on_execution":0,"product_id":null,"product_amount":null,"period_interval":3,"active":1,"start_date":"2025-01-01","rescheduled_date":"2026-03-01","rescheduled_next_execution_assigned_to_user_id":null},"last_tracked":"2026-01-29
+        00:00:00","tracked_count":19,"last_done_by":{"id":4,"username":"Demo User
+        4","first_name":null,"last_name":null,"row_created_timestamp":"2026-02-19
+        09:16:51","display_name":"Demo User 4","picture_file_name":null},"next_estimated_execution_time":"2026-03-01
+        23:59:59","next_execution_assigned_user":null,"average_execution_frequency_hours":576}'
+    headers:
+      Access-Control-Allow-Headers:
+      - '*'
+      Access-Control-Allow-Methods:
+      - GET, POST, PUT, DELETE, OPTIONS
+      Access-Control-Allow-Origin:
+      - '*'
+      Connection:
+      - keep-alive
+      Content-Type:
+      - application/json
+      Date:
+      - Thu, 19 Feb 2026 09:34:05 GMT
+      Server:
+      - nginx
+      Transfer-Encoding:
+      - chunked
+      X-Powered-By:
+      - PHP/8.3.19
+    status:
+      code: 200
+      message: OK
+- request:
+    body: null
+    headers:
+      Accept-Encoding:
+      - gzip, deflate, zstd
+      Connection:
+      - keep-alive
+      User-Agent:
+      - python-requests/2.32.5
+      accept:
+      - application/json
+    method: GET
+    uri: http://localhost:9192/api/users?query%5B%5D=id%3D3
+  response:
+    body:
+      string: '[{"id":3,"username":"Demo User 3","first_name":null,"last_name":null,"row_created_timestamp":"2026-02-19
+        09:16:51","display_name":"Demo User 3","picture_file_name":null}]'
+    headers:
+      Access-Control-Allow-Headers:
+      - '*'
+      Access-Control-Allow-Methods:
+      - GET, POST, PUT, DELETE, OPTIONS
+      Access-Control-Allow-Origin:
+      - '*'
+      Connection:
+      - keep-alive
+      Content-Type:
+      - application/json
+      Date:
+      - Thu, 19 Feb 2026 09:34:05 GMT
+      Server:
+      - nginx
+      Transfer-Encoding:
+      - chunked
+      X-Powered-By:
+      - PHP/8.3.19
+    status:
+      code: 200
+      message: OK
+- request:
+    body: null
+    headers:
+      Accept-Encoding:
+      - gzip, deflate, zstd
+      Connection:
+      - keep-alive
+      User-Agent:
+      - python-requests/2.32.5
+      accept:
+      - application/json
+    method: GET
+    uri: http://localhost:9192/api/userfields/chores_log/91
+  response:
+    body:
+      string: '[]'
+    headers:
+      Access-Control-Allow-Headers:
+      - '*'
+      Access-Control-Allow-Methods:
+      - GET, POST, PUT, DELETE, OPTIONS
+      Access-Control-Allow-Origin:
+      - '*'
+      Connection:
+      - keep-alive
+      Content-Type:
+      - application/json
+      Date:
+      - Thu, 19 Feb 2026 09:34:05 GMT
+      Server:
+      - nginx
+      Transfer-Encoding:
+      - chunked
+      X-Powered-By:
+      - PHP/8.3.19
+    status:
+      code: 200
+      message: OK
+- request:
+    body: null
+    headers:
+      Accept-Encoding:
+      - gzip, deflate, zstd
+      Connection:
+      - keep-alive
+      User-Agent:
+      - python-requests/2.32.5
+      accept:
+      - application/json
+    method: GET
+    uri: http://localhost:9192/api/chores/1
+  response:
+    body:
+      string: '{"chore":{"id":1,"name":"Change towels in the bathroom","description":null,"period_type":"hourly","period_days":null,"row_created_timestamp":"2026-02-19
+        09:16:56","period_config":null,"track_date_only":1,"rollover":0,"assignment_type":"random","assignment_config":"1,2,3,4","next_execution_assigned_to_user_id":1,"consume_product_on_execution":0,"product_id":null,"product_amount":null,"period_interval":72,"active":1,"start_date":"2025-01-01","rescheduled_date":null,"rescheduled_next_execution_assigned_to_user_id":null},"last_tracked":"2026-02-19
+        00:00:00","tracked_count":20,"last_done_by":{"id":2,"username":"Demo User
+        2","first_name":null,"last_name":null,"row_created_timestamp":"2026-02-19
+        09:16:51","display_name":"Demo User 2","picture_file_name":null},"next_estimated_execution_time":"2026-02-22
+        23:59:59","next_execution_assigned_user":{"id":1,"username":"Demo User","first_name":null,"last_name":null,"row_created_timestamp":"2026-02-19
+        09:16:48","display_name":"Demo User","picture_file_name":null},"average_execution_frequency_hours":81.81818181818181}'
+    headers:
+      Access-Control-Allow-Headers:
+      - '*'
+      Access-Control-Allow-Methods:
+      - GET, POST, PUT, DELETE, OPTIONS
+      Access-Control-Allow-Origin:
+      - '*'
+      Connection:
+      - keep-alive
+      Content-Type:
+      - application/json
+      Date:
+      - Thu, 19 Feb 2026 09:34:05 GMT
+      Server:
+      - nginx
+      Transfer-Encoding:
+      - chunked
+      X-Powered-By:
+      - PHP/8.3.19
+    status:
+      code: 200
+      message: OK
+- request:
+    body: null
+    headers:
+      Accept-Encoding:
+      - gzip, deflate, zstd
+      Connection:
+      - keep-alive
+      User-Agent:
+      - python-requests/2.32.5
+      accept:
+      - application/json
+    method: GET
+    uri: http://localhost:9192/api/users?query%5B%5D=id%3D2
+  response:
+    body:
+      string: '[{"id":2,"username":"Demo User 2","first_name":null,"last_name":null,"row_created_timestamp":"2026-02-19
+        09:16:51","display_name":"Demo User 2","picture_file_name":null}]'
+    headers:
+      Access-Control-Allow-Headers:
+      - '*'
+      Access-Control-Allow-Methods:
+      - GET, POST, PUT, DELETE, OPTIONS
+      Access-Control-Allow-Origin:
+      - '*'
+      Connection:
+      - keep-alive
+      Content-Type:
+      - application/json
+      Date:
+      - Thu, 19 Feb 2026 09:34:05 GMT
+      Server:
+      - nginx
+      Transfer-Encoding:
+      - chunked
+      X-Powered-By:
+      - PHP/8.3.19
+    status:
+      code: 200
+      message: OK
+- request:
+    body: null
+    headers:
+      Accept-Encoding:
+      - gzip, deflate, zstd
+      Connection:
+      - keep-alive
+      User-Agent:
+      - python-requests/2.32.5
+      accept:
+      - application/json
+    method: GET
+    uri: http://localhost:9192/api/userfields/chores_log/92
+  response:
+    body:
+      string: '[]'
+    headers:
+      Access-Control-Allow-Headers:
+      - '*'
+      Access-Control-Allow-Methods:
+      - GET, POST, PUT, DELETE, OPTIONS
+      Access-Control-Allow-Origin:
+      - '*'
+      Connection:
+      - keep-alive
+      Content-Type:
+      - application/json
+      Date:
+      - Thu, 19 Feb 2026 09:34:05 GMT
+      Server:
+      - nginx
+      Transfer-Encoding:
+      - chunked
+      X-Powered-By:
+      - PHP/8.3.19
+    status:
+      code: 200
+      message: OK
+- request:
+    body: null
+    headers:
+      Accept-Encoding:
+      - gzip, deflate, zstd
+      Connection:
+      - keep-alive
+      User-Agent:
+      - python-requests/2.32.5
+      accept:
+      - application/json
+    method: GET
+    uri: http://localhost:9192/api/chores/2
+  response:
+    body:
+      string: '{"chore":{"id":2,"name":"Mop the kitchen floor","description":null,"period_type":"weekly","period_days":null,"row_created_timestamp":"2026-02-19
+        09:16:56","period_config":"monday,thursday","track_date_only":1,"rollover":0,"assignment_type":"random","assignment_config":"1,2,3,4","next_execution_assigned_to_user_id":1,"consume_product_on_execution":0,"product_id":null,"product_amount":null,"period_interval":1,"active":1,"start_date":"2025-01-01","rescheduled_date":null,"rescheduled_next_execution_assigned_to_user_id":null},"last_tracked":"2026-02-12
+        00:00:00","tracked_count":19,"last_done_by":{"id":3,"username":"Demo User
+        3","first_name":null,"last_name":null,"row_created_timestamp":"2026-02-19
+        09:16:51","display_name":"Demo User 3","picture_file_name":null},"next_estimated_execution_time":"2026-02-16
+        23:59:59","next_execution_assigned_user":{"id":1,"username":"Demo User","first_name":null,"last_name":null,"row_created_timestamp":"2026-02-19
+        09:16:48","display_name":"Demo User","picture_file_name":null},"average_execution_frequency_hours":192}'
+    headers:
+      Access-Control-Allow-Headers:
+      - '*'
+      Access-Control-Allow-Methods:
+      - GET, POST, PUT, DELETE, OPTIONS
+      Access-Control-Allow-Origin:
+      - '*'
+      Connection:
+      - keep-alive
+      Content-Type:
+      - application/json
+      Date:
+      - Thu, 19 Feb 2026 09:34:05 GMT
+      Server:
+      - nginx
+      Transfer-Encoding:
+      - chunked
+      X-Powered-By:
+      - PHP/8.3.19
+    status:
+      code: 200
+      message: OK
+- request:
+    body: null
+    headers:
+      Accept-Encoding:
+      - gzip, deflate, zstd
+      Connection:
+      - keep-alive
+      User-Agent:
+      - python-requests/2.32.5
+      accept:
+      - application/json
+    method: GET
+    uri: http://localhost:9192/api/users?query%5B%5D=id%3D2
+  response:
+    body:
+      string: '[{"id":2,"username":"Demo User 2","first_name":null,"last_name":null,"row_created_timestamp":"2026-02-19
+        09:16:51","display_name":"Demo User 2","picture_file_name":null}]'
+    headers:
+      Access-Control-Allow-Headers:
+      - '*'
+      Access-Control-Allow-Methods:
+      - GET, POST, PUT, DELETE, OPTIONS
+      Access-Control-Allow-Origin:
+      - '*'
+      Connection:
+      - keep-alive
+      Content-Type:
+      - application/json
+      Date:
+      - Thu, 19 Feb 2026 09:34:05 GMT
+      Server:
+      - nginx
+      Transfer-Encoding:
+      - chunked
+      X-Powered-By:
+      - PHP/8.3.19
+    status:
+      code: 200
+      message: OK
+- request:
+    body: null
+    headers:
+      Accept-Encoding:
+      - gzip, deflate, zstd
+      Connection:
+      - keep-alive
+      User-Agent:
+      - python-requests/2.32.5
+      accept:
+      - application/json
+    method: GET
+    uri: http://localhost:9192/api/userfields/chores_log/93
+  response:
+    body:
+      string: '[]'
+    headers:
+      Access-Control-Allow-Headers:
+      - '*'
+      Access-Control-Allow-Methods:
+      - GET, POST, PUT, DELETE, OPTIONS
+      Access-Control-Allow-Origin:
+      - '*'
+      Connection:
+      - keep-alive
+      Content-Type:
+      - application/json
+      Date:
+      - Thu, 19 Feb 2026 09:34:05 GMT
+      Server:
+      - nginx
+      Transfer-Encoding:
+      - chunked
+      X-Powered-By:
+      - PHP/8.3.19
+    status:
+      code: 200
+      message: OK
+- request:
+    body: null
+    headers:
+      Accept-Encoding:
+      - gzip, deflate, zstd
+      Connection:
+      - keep-alive
+      User-Agent:
+      - python-requests/2.32.5
+      accept:
+      - application/json
+    method: GET
+    uri: http://localhost:9192/api/chores/3
+  response:
+    body:
+      string: '{"chore":{"id":3,"name":"Take out the trash","description":null,"period_type":"hourly","period_days":null,"row_created_timestamp":"2026-02-19
+        09:16:56","period_config":null,"track_date_only":1,"rollover":0,"assignment_type":"random","assignment_config":"1,2,3,4","next_execution_assigned_to_user_id":1,"consume_product_on_execution":0,"product_id":null,"product_amount":null,"period_interval":48,"active":1,"start_date":"2025-01-01","rescheduled_date":null,"rescheduled_next_execution_assigned_to_user_id":null},"last_tracked":"2026-02-17
+        00:00:00","tracked_count":19,"last_done_by":{"id":4,"username":"Demo User
+        4","first_name":null,"last_name":null,"row_created_timestamp":"2026-02-19
+        09:16:51","display_name":"Demo User 4","picture_file_name":null},"next_estimated_execution_time":"2026-02-19
+        23:59:59","next_execution_assigned_user":{"id":1,"username":"Demo User","first_name":null,"last_name":null,"row_created_timestamp":"2026-02-19
+        09:16:48","display_name":"Demo User","picture_file_name":null},"average_execution_frequency_hours":54.857142857142854}'
+    headers:
+      Access-Control-Allow-Headers:
+      - '*'
+      Access-Control-Allow-Methods:
+      - GET, POST, PUT, DELETE, OPTIONS
+      Access-Control-Allow-Origin:
+      - '*'
+      Connection:
+      - keep-alive
+      Content-Type:
+      - application/json
+      Date:
+      - Thu, 19 Feb 2026 09:34:05 GMT
+      Server:
+      - nginx
+      Transfer-Encoding:
+      - chunked
+      X-Powered-By:
+      - PHP/8.3.19
+    status:
+      code: 200
+      message: OK
+- request:
+    body: null
+    headers:
+      Accept-Encoding:
+      - gzip, deflate, zstd
+      Connection:
+      - keep-alive
+      User-Agent:
+      - python-requests/2.32.5
+      accept:
+      - application/json
+    method: GET
+    uri: http://localhost:9192/api/users?query%5B%5D=id%3D2
+  response:
+    body:
+      string: '[{"id":2,"username":"Demo User 2","first_name":null,"last_name":null,"row_created_timestamp":"2026-02-19
+        09:16:51","display_name":"Demo User 2","picture_file_name":null}]'
+    headers:
+      Access-Control-Allow-Headers:
+      - '*'
+      Access-Control-Allow-Methods:
+      - GET, POST, PUT, DELETE, OPTIONS
+      Access-Control-Allow-Origin:
+      - '*'
+      Connection:
+      - keep-alive
+      Content-Type:
+      - application/json
+      Date:
+      - Thu, 19 Feb 2026 09:34:05 GMT
+      Server:
+      - nginx
+      Transfer-Encoding:
+      - chunked
+      X-Powered-By:
+      - PHP/8.3.19
+    status:
+      code: 200
+      message: OK
+- request:
+    body: null
+    headers:
+      Accept-Encoding:
+      - gzip, deflate, zstd
+      Connection:
+      - keep-alive
+      User-Agent:
+      - python-requests/2.32.5
+      accept:
+      - application/json
+    method: GET
+    uri: http://localhost:9192/api/userfields/chores_log/94
+  response:
+    body:
+      string: '[]'
+    headers:
+      Access-Control-Allow-Headers:
+      - '*'
+      Access-Control-Allow-Methods:
+      - GET, POST, PUT, DELETE, OPTIONS
+      Access-Control-Allow-Origin:
+      - '*'
+      Connection:
+      - keep-alive
+      Content-Type:
+      - application/json
+      Date:
+      - Thu, 19 Feb 2026 09:34:05 GMT
+      Server:
+      - nginx
+      Transfer-Encoding:
+      - chunked
+      X-Powered-By:
+      - PHP/8.3.19
+    status:
+      code: 200
+      message: OK
+- request:
+    body: null
+    headers:
+      Accept-Encoding:
+      - gzip, deflate, zstd
+      Connection:
+      - keep-alive
+      User-Agent:
+      - python-requests/2.32.5
+      accept:
+      - application/json
+    method: GET
+    uri: http://localhost:9192/api/chores/4
+  response:
+    body:
+      string: '{"chore":{"id":4,"name":"Vacuum the living room floor","description":null,"period_type":"weekly","period_days":null,"row_created_timestamp":"2026-02-19
+        09:16:56","period_config":"saturday","track_date_only":1,"rollover":0,"assignment_type":"no-assignment","assignment_config":null,"next_execution_assigned_to_user_id":null,"consume_product_on_execution":0,"product_id":null,"product_amount":null,"period_interval":1,"active":1,"start_date":"2025-01-01","rescheduled_date":null,"rescheduled_next_execution_assigned_to_user_id":null},"last_tracked":"2026-02-19
+        00:00:00","tracked_count":20,"last_done_by":{"id":1,"username":"Demo User","first_name":null,"last_name":null,"row_created_timestamp":"2026-02-19
+        09:16:48","display_name":"Demo User","picture_file_name":null},"next_estimated_execution_time":"2026-02-21
+        23:59:59","next_execution_assigned_user":null,"average_execution_frequency_hours":190.9090909090909}'
+    headers:
+      Access-Control-Allow-Headers:
+      - '*'
+      Access-Control-Allow-Methods:
+      - GET, POST, PUT, DELETE, OPTIONS
+      Access-Control-Allow-Origin:
+      - '*'
+      Connection:
+      - keep-alive
+      Content-Type:
+      - application/json
+      Date:
+      - Thu, 19 Feb 2026 09:34:05 GMT
+      Server:
+      - nginx
+      Transfer-Encoding:
+      - chunked
+      X-Powered-By:
+      - PHP/8.3.19
+    status:
+      code: 200
+      message: OK
+- request:
+    body: null
+    headers:
+      Accept-Encoding:
+      - gzip, deflate, zstd
+      Connection:
+      - keep-alive
+      User-Agent:
+      - python-requests/2.32.5
+      accept:
+      - application/json
+    method: GET
+    uri: http://localhost:9192/api/users?query%5B%5D=id%3D2
+  response:
+    body:
+      string: '[{"id":2,"username":"Demo User 2","first_name":null,"last_name":null,"row_created_timestamp":"2026-02-19
+        09:16:51","display_name":"Demo User 2","picture_file_name":null}]'
+    headers:
+      Access-Control-Allow-Headers:
+      - '*'
+      Access-Control-Allow-Methods:
+      - GET, POST, PUT, DELETE, OPTIONS
+      Access-Control-Allow-Origin:
+      - '*'
+      Connection:
+      - keep-alive
+      Content-Type:
+      - application/json
+      Date:
+      - Thu, 19 Feb 2026 09:34:05 GMT
+      Server:
+      - nginx
+      Transfer-Encoding:
+      - chunked
+      X-Powered-By:
+      - PHP/8.3.19
+    status:
+      code: 200
+      message: OK
+- request:
+    body: null
+    headers:
+      Accept-Encoding:
+      - gzip, deflate, zstd
+      Connection:
+      - keep-alive
+      User-Agent:
+      - python-requests/2.32.5
+      accept:
+      - application/json
+    method: GET
+    uri: http://localhost:9192/api/userfields/chores_log/95
+  response:
+    body:
+      string: '[]'
+    headers:
+      Access-Control-Allow-Headers:
+      - '*'
+      Access-Control-Allow-Methods:
+      - GET, POST, PUT, DELETE, OPTIONS
+      Access-Control-Allow-Origin:
+      - '*'
+      Connection:
+      - keep-alive
+      Content-Type:
+      - application/json
+      Date:
+      - Thu, 19 Feb 2026 09:34:05 GMT
+      Server:
+      - nginx
+      Transfer-Encoding:
+      - chunked
+      X-Powered-By:
+      - PHP/8.3.19
+    status:
+      code: 200
+      message: OK
+- request:
+    body: null
+    headers:
+      Accept-Encoding:
+      - gzip, deflate, zstd
+      Connection:
+      - keep-alive
+      User-Agent:
+      - python-requests/2.32.5
+      accept:
+      - application/json
+    method: GET
+    uri: http://localhost:9192/api/chores/5
+  response:
+    body:
+      string: '{"chore":{"id":5,"name":"Clean the litter box","description":null,"period_type":"hourly","period_days":null,"row_created_timestamp":"2026-02-19
+        09:16:56","period_config":null,"track_date_only":1,"rollover":0,"assignment_type":"random","assignment_config":"1,2,3,4","next_execution_assigned_to_user_id":1,"consume_product_on_execution":0,"product_id":null,"product_amount":null,"period_interval":24,"active":1,"start_date":"2025-01-01","rescheduled_date":null,"rescheduled_next_execution_assigned_to_user_id":null},"last_tracked":"2026-02-18
+        00:00:00","tracked_count":19,"last_done_by":{"id":2,"username":"Demo User
+        2","first_name":null,"last_name":null,"row_created_timestamp":"2026-02-19
+        09:16:51","display_name":"Demo User 2","picture_file_name":null},"next_estimated_execution_time":"2026-02-19
+        23:59:59","next_execution_assigned_user":{"id":1,"username":"Demo User","first_name":null,"last_name":null,"row_created_timestamp":"2026-02-19
+        09:16:48","display_name":"Demo User","picture_file_name":null},"average_execution_frequency_hours":27.428571428571427}'
+    headers:
+      Access-Control-Allow-Headers:
+      - '*'
+      Access-Control-Allow-Methods:
+      - GET, POST, PUT, DELETE, OPTIONS
+      Access-Control-Allow-Origin:
+      - '*'
+      Connection:
+      - keep-alive
+      Content-Type:
+      - application/json
+      Date:
+      - Thu, 19 Feb 2026 09:34:05 GMT
+      Server:
+      - nginx
+      Transfer-Encoding:
+      - chunked
+      X-Powered-By:
+      - PHP/8.3.19
+    status:
+      code: 200
+      message: OK
+- request:
+    body: null
+    headers:
+      Accept-Encoding:
+      - gzip, deflate, zstd
+      Connection:
+      - keep-alive
+      User-Agent:
+      - python-requests/2.32.5
+      accept:
+      - application/json
+    method: GET
+    uri: http://localhost:9192/api/users?query%5B%5D=id%3D3
+  response:
+    body:
+      string: '[{"id":3,"username":"Demo User 3","first_name":null,"last_name":null,"row_created_timestamp":"2026-02-19
+        09:16:51","display_name":"Demo User 3","picture_file_name":null}]'
+    headers:
+      Access-Control-Allow-Headers:
+      - '*'
+      Access-Control-Allow-Methods:
+      - GET, POST, PUT, DELETE, OPTIONS
+      Access-Control-Allow-Origin:
+      - '*'
+      Connection:
+      - keep-alive
+      Content-Type:
+      - application/json
+      Date:
+      - Thu, 19 Feb 2026 09:34:05 GMT
+      Server:
+      - nginx
+      Transfer-Encoding:
+      - chunked
+      X-Powered-By:
+      - PHP/8.3.19
+    status:
+      code: 200
+      message: OK
+- request:
+    body: null
+    headers:
+      Accept-Encoding:
+      - gzip, deflate, zstd
+      Connection:
+      - keep-alive
+      User-Agent:
+      - python-requests/2.32.5
+      accept:
+      - application/json
+    method: GET
+    uri: http://localhost:9192/api/userfields/chores_log/96
+  response:
+    body:
+      string: '[]'
+    headers:
+      Access-Control-Allow-Headers:
+      - '*'
+      Access-Control-Allow-Methods:
+      - GET, POST, PUT, DELETE, OPTIONS
+      Access-Control-Allow-Origin:
+      - '*'
+      Connection:
+      - keep-alive
+      Content-Type:
+      - application/json
+      Date:
+      - Thu, 19 Feb 2026 09:34:05 GMT
+      Server:
+      - nginx
+      Transfer-Encoding:
+      - chunked
+      X-Powered-By:
+      - PHP/8.3.19
+    status:
+      code: 200
+      message: OK
+- request:
+    body: null
+    headers:
+      Accept-Encoding:
+      - gzip, deflate, zstd
+      Connection:
+      - keep-alive
+      User-Agent:
+      - python-requests/2.32.5
+      accept:
+      - application/json
+    method: GET
+    uri: http://localhost:9192/api/chores/6
+  response:
+    body:
+      string: '{"chore":{"id":6,"name":"Change the bed sheets","description":null,"period_type":"weekly","period_days":null,"row_created_timestamp":"2026-02-19
+        09:16:56","period_config":"monday","track_date_only":1,"rollover":0,"assignment_type":"no-assignment","assignment_config":null,"next_execution_assigned_to_user_id":null,"consume_product_on_execution":0,"product_id":null,"product_amount":null,"period_interval":3,"active":1,"start_date":"2025-01-01","rescheduled_date":"2026-03-01","rescheduled_next_execution_assigned_to_user_id":null},"last_tracked":"2026-01-29
+        00:00:00","tracked_count":19,"last_done_by":{"id":4,"username":"Demo User
+        4","first_name":null,"last_name":null,"row_created_timestamp":"2026-02-19
+        09:16:51","display_name":"Demo User 4","picture_file_name":null},"next_estimated_execution_time":"2026-03-01
+        23:59:59","next_execution_assigned_user":null,"average_execution_frequency_hours":576}'
+    headers:
+      Access-Control-Allow-Headers:
+      - '*'
+      Access-Control-Allow-Methods:
+      - GET, POST, PUT, DELETE, OPTIONS
+      Access-Control-Allow-Origin:
+      - '*'
+      Connection:
+      - keep-alive
+      Content-Type:
+      - application/json
+      Date:
+      - Thu, 19 Feb 2026 09:34:05 GMT
+      Server:
+      - nginx
+      Transfer-Encoding:
+      - chunked
+      X-Powered-By:
+      - PHP/8.3.19
+    status:
+      code: 200
+      message: OK
+- request:
+    body: null
+    headers:
+      Accept-Encoding:
+      - gzip, deflate, zstd
+      Connection:
+      - keep-alive
+      User-Agent:
+      - python-requests/2.32.5
+      accept:
+      - application/json
+    method: GET
+    uri: http://localhost:9192/api/users?query%5B%5D=id%3D2
+  response:
+    body:
+      string: '[{"id":2,"username":"Demo User 2","first_name":null,"last_name":null,"row_created_timestamp":"2026-02-19
+        09:16:51","display_name":"Demo User 2","picture_file_name":null}]'
+    headers:
+      Access-Control-Allow-Headers:
+      - '*'
+      Access-Control-Allow-Methods:
+      - GET, POST, PUT, DELETE, OPTIONS
+      Access-Control-Allow-Origin:
+      - '*'
+      Connection:
+      - keep-alive
+      Content-Type:
+      - application/json
+      Date:
+      - Thu, 19 Feb 2026 09:34:05 GMT
+      Server:
+      - nginx
+      Transfer-Encoding:
+      - chunked
+      X-Powered-By:
+      - PHP/8.3.19
+    status:
+      code: 200
+      message: OK
+- request:
+    body: null
+    headers:
+      Accept-Encoding:
+      - gzip, deflate, zstd
+      Connection:
+      - keep-alive
+      User-Agent:
+      - python-requests/2.32.5
+      accept:
+      - application/json
+    method: GET
+    uri: http://localhost:9192/api/userfields/chores_log/139
+  response:
+    body:
+      string: '[]'
+    headers:
+      Access-Control-Allow-Headers:
+      - '*'
+      Access-Control-Allow-Methods:
+      - GET, POST, PUT, DELETE, OPTIONS
+      Access-Control-Allow-Origin:
+      - '*'
+      Connection:
+      - keep-alive
+      Content-Type:
+      - application/json
+      Date:
+      - Thu, 19 Feb 2026 09:34:05 GMT
+      Server:
+      - nginx
+      Transfer-Encoding:
+      - chunked
+      X-Powered-By:
+      - PHP/8.3.19
+    status:
+      code: 200
+      message: OK
+- request:
+    body: null
+    headers:
+      Accept-Encoding:
+      - gzip, deflate, zstd
+      Connection:
+      - keep-alive
+      User-Agent:
+      - python-requests/2.32.5
+      accept:
+      - application/json
+    method: GET
+    uri: http://localhost:9192/api/chores/1
+  response:
+    body:
+      string: '{"chore":{"id":1,"name":"Change towels in the bathroom","description":null,"period_type":"hourly","period_days":null,"row_created_timestamp":"2026-02-19
+        09:16:56","period_config":null,"track_date_only":1,"rollover":0,"assignment_type":"random","assignment_config":"1,2,3,4","next_execution_assigned_to_user_id":1,"consume_product_on_execution":0,"product_id":null,"product_amount":null,"period_interval":72,"active":1,"start_date":"2025-01-01","rescheduled_date":null,"rescheduled_next_execution_assigned_to_user_id":null},"last_tracked":"2026-02-19
+        00:00:00","tracked_count":20,"last_done_by":{"id":2,"username":"Demo User
+        2","first_name":null,"last_name":null,"row_created_timestamp":"2026-02-19
+        09:16:51","display_name":"Demo User 2","picture_file_name":null},"next_estimated_execution_time":"2026-02-22
+        23:59:59","next_execution_assigned_user":{"id":1,"username":"Demo User","first_name":null,"last_name":null,"row_created_timestamp":"2026-02-19
+        09:16:48","display_name":"Demo User","picture_file_name":null},"average_execution_frequency_hours":81.81818181818181}'
+    headers:
+      Access-Control-Allow-Headers:
+      - '*'
+      Access-Control-Allow-Methods:
+      - GET, POST, PUT, DELETE, OPTIONS
+      Access-Control-Allow-Origin:
+      - '*'
+      Connection:
+      - keep-alive
+      Content-Type:
+      - application/json
+      Date:
+      - Thu, 19 Feb 2026 09:34:05 GMT
+      Server:
+      - nginx
+      Transfer-Encoding:
+      - chunked
+      X-Powered-By:
+      - PHP/8.3.19
+    status:
+      code: 200
+      message: OK
+- request:
+    body: null
+    headers:
+      Accept-Encoding:
+      - gzip, deflate, zstd
+      Connection:
+      - keep-alive
+      User-Agent:
+      - python-requests/2.32.5
+      accept:
+      - application/json
+    method: GET
+    uri: http://localhost:9192/api/users?query%5B%5D=id%3D2
+  response:
+    body:
+      string: '[{"id":2,"username":"Demo User 2","first_name":null,"last_name":null,"row_created_timestamp":"2026-02-19
+        09:16:51","display_name":"Demo User 2","picture_file_name":null}]'
+    headers:
+      Access-Control-Allow-Headers:
+      - '*'
+      Access-Control-Allow-Methods:
+      - GET, POST, PUT, DELETE, OPTIONS
+      Access-Control-Allow-Origin:
+      - '*'
+      Connection:
+      - keep-alive
+      Content-Type:
+      - application/json
+      Date:
+      - Thu, 19 Feb 2026 09:34:05 GMT
+      Server:
+      - nginx
+      Transfer-Encoding:
+      - chunked
+      X-Powered-By:
+      - PHP/8.3.19
+    status:
+      code: 200
+      message: OK
+- request:
+    body: null
+    headers:
+      Accept-Encoding:
+      - gzip, deflate, zstd
+      Connection:
+      - keep-alive
+      User-Agent:
+      - python-requests/2.32.5
+      accept:
+      - application/json
+    method: GET
+    uri: http://localhost:9192/api/userfields/chores_log/140
+  response:
+    body:
+      string: '[]'
+    headers:
+      Access-Control-Allow-Headers:
+      - '*'
+      Access-Control-Allow-Methods:
+      - GET, POST, PUT, DELETE, OPTIONS
+      Access-Control-Allow-Origin:
+      - '*'
+      Connection:
+      - keep-alive
+      Content-Type:
+      - application/json
+      Date:
+      - Thu, 19 Feb 2026 09:34:05 GMT
+      Server:
+      - nginx
+      Transfer-Encoding:
+      - chunked
+      X-Powered-By:
+      - PHP/8.3.19
+    status:
+      code: 200
+      message: OK
+- request:
+    body: null
+    headers:
+      Accept-Encoding:
+      - gzip, deflate, zstd
+      Connection:
+      - keep-alive
+      User-Agent:
+      - python-requests/2.32.5
+      accept:
+      - application/json
+    method: GET
+    uri: http://localhost:9192/api/chores/2
+  response:
+    body:
+      string: '{"chore":{"id":2,"name":"Mop the kitchen floor","description":null,"period_type":"weekly","period_days":null,"row_created_timestamp":"2026-02-19
+        09:16:56","period_config":"monday,thursday","track_date_only":1,"rollover":0,"assignment_type":"random","assignment_config":"1,2,3,4","next_execution_assigned_to_user_id":1,"consume_product_on_execution":0,"product_id":null,"product_amount":null,"period_interval":1,"active":1,"start_date":"2025-01-01","rescheduled_date":null,"rescheduled_next_execution_assigned_to_user_id":null},"last_tracked":"2026-02-12
+        00:00:00","tracked_count":19,"last_done_by":{"id":3,"username":"Demo User
+        3","first_name":null,"last_name":null,"row_created_timestamp":"2026-02-19
+        09:16:51","display_name":"Demo User 3","picture_file_name":null},"next_estimated_execution_time":"2026-02-16
+        23:59:59","next_execution_assigned_user":{"id":1,"username":"Demo User","first_name":null,"last_name":null,"row_created_timestamp":"2026-02-19
+        09:16:48","display_name":"Demo User","picture_file_name":null},"average_execution_frequency_hours":192}'
+    headers:
+      Access-Control-Allow-Headers:
+      - '*'
+      Access-Control-Allow-Methods:
+      - GET, POST, PUT, DELETE, OPTIONS
+      Access-Control-Allow-Origin:
+      - '*'
+      Connection:
+      - keep-alive
+      Content-Type:
+      - application/json
+      Date:
+      - Thu, 19 Feb 2026 09:34:05 GMT
+      Server:
+      - nginx
+      Transfer-Encoding:
+      - chunked
+      X-Powered-By:
+      - PHP/8.3.19
+    status:
+      code: 200
+      message: OK
+- request:
+    body: null
+    headers:
+      Accept-Encoding:
+      - gzip, deflate, zstd
+      Connection:
+      - keep-alive
+      User-Agent:
+      - python-requests/2.32.5
+      accept:
+      - application/json
+    method: GET
+    uri: http://localhost:9192/api/users?query%5B%5D=id%3D2
+  response:
+    body:
+      string: '[{"id":2,"username":"Demo User 2","first_name":null,"last_name":null,"row_created_timestamp":"2026-02-19
+        09:16:51","display_name":"Demo User 2","picture_file_name":null}]'
+    headers:
+      Access-Control-Allow-Headers:
+      - '*'
+      Access-Control-Allow-Methods:
+      - GET, POST, PUT, DELETE, OPTIONS
+      Access-Control-Allow-Origin:
+      - '*'
+      Connection:
+      - keep-alive
+      Content-Type:
+      - application/json
+      Date:
+      - Thu, 19 Feb 2026 09:34:05 GMT
+      Server:
+      - nginx
+      Transfer-Encoding:
+      - chunked
+      X-Powered-By:
+      - PHP/8.3.19
+    status:
+      code: 200
+      message: OK
+- request:
+    body: null
+    headers:
+      Accept-Encoding:
+      - gzip, deflate, zstd
+      Connection:
+      - keep-alive
+      User-Agent:
+      - python-requests/2.32.5
+      accept:
+      - application/json
+    method: GET
+    uri: http://localhost:9192/api/userfields/chores_log/141
+  response:
+    body:
+      string: '[]'
+    headers:
+      Access-Control-Allow-Headers:
+      - '*'
+      Access-Control-Allow-Methods:
+      - GET, POST, PUT, DELETE, OPTIONS
+      Access-Control-Allow-Origin:
+      - '*'
+      Connection:
+      - keep-alive
+      Content-Type:
+      - application/json
+      Date:
+      - Thu, 19 Feb 2026 09:34:05 GMT
+      Server:
+      - nginx
+      Transfer-Encoding:
+      - chunked
+      X-Powered-By:
+      - PHP/8.3.19
+    status:
+      code: 200
+      message: OK
+- request:
+    body: null
+    headers:
+      Accept-Encoding:
+      - gzip, deflate, zstd
+      Connection:
+      - keep-alive
+      User-Agent:
+      - python-requests/2.32.5
+      accept:
+      - application/json
+    method: GET
+    uri: http://localhost:9192/api/chores/3
+  response:
+    body:
+      string: '{"chore":{"id":3,"name":"Take out the trash","description":null,"period_type":"hourly","period_days":null,"row_created_timestamp":"2026-02-19
+        09:16:56","period_config":null,"track_date_only":1,"rollover":0,"assignment_type":"random","assignment_config":"1,2,3,4","next_execution_assigned_to_user_id":1,"consume_product_on_execution":0,"product_id":null,"product_amount":null,"period_interval":48,"active":1,"start_date":"2025-01-01","rescheduled_date":null,"rescheduled_next_execution_assigned_to_user_id":null},"last_tracked":"2026-02-17
+        00:00:00","tracked_count":19,"last_done_by":{"id":4,"username":"Demo User
+        4","first_name":null,"last_name":null,"row_created_timestamp":"2026-02-19
+        09:16:51","display_name":"Demo User 4","picture_file_name":null},"next_estimated_execution_time":"2026-02-19
+        23:59:59","next_execution_assigned_user":{"id":1,"username":"Demo User","first_name":null,"last_name":null,"row_created_timestamp":"2026-02-19
+        09:16:48","display_name":"Demo User","picture_file_name":null},"average_execution_frequency_hours":54.857142857142854}'
+    headers:
+      Access-Control-Allow-Headers:
+      - '*'
+      Access-Control-Allow-Methods:
+      - GET, POST, PUT, DELETE, OPTIONS
+      Access-Control-Allow-Origin:
+      - '*'
+      Connection:
+      - keep-alive
+      Content-Type:
+      - application/json
+      Date:
+      - Thu, 19 Feb 2026 09:34:05 GMT
+      Server:
+      - nginx
+      Transfer-Encoding:
+      - chunked
+      X-Powered-By:
+      - PHP/8.3.19
+    status:
+      code: 200
+      message: OK
+- request:
+    body: null
+    headers:
+      Accept-Encoding:
+      - gzip, deflate, zstd
+      Connection:
+      - keep-alive
+      User-Agent:
+      - python-requests/2.32.5
+      accept:
+      - application/json
+    method: GET
+    uri: http://localhost:9192/api/users?query%5B%5D=id%3D3
+  response:
+    body:
+      string: '[{"id":3,"username":"Demo User 3","first_name":null,"last_name":null,"row_created_timestamp":"2026-02-19
+        09:16:51","display_name":"Demo User 3","picture_file_name":null}]'
+    headers:
+      Access-Control-Allow-Headers:
+      - '*'
+      Access-Control-Allow-Methods:
+      - GET, POST, PUT, DELETE, OPTIONS
+      Access-Control-Allow-Origin:
+      - '*'
+      Connection:
+      - keep-alive
+      Content-Type:
+      - application/json
+      Date:
+      - Thu, 19 Feb 2026 09:34:05 GMT
+      Server:
+      - nginx
+      Transfer-Encoding:
+      - chunked
+      X-Powered-By:
+      - PHP/8.3.19
+    status:
+      code: 200
+      message: OK
+- request:
+    body: null
+    headers:
+      Accept-Encoding:
+      - gzip, deflate, zstd
+      Connection:
+      - keep-alive
+      User-Agent:
+      - python-requests/2.32.5
+      accept:
+      - application/json
+    method: GET
+    uri: http://localhost:9192/api/userfields/chores_log/142
+  response:
+    body:
+      string: '[]'
+    headers:
+      Access-Control-Allow-Headers:
+      - '*'
+      Access-Control-Allow-Methods:
+      - GET, POST, PUT, DELETE, OPTIONS
+      Access-Control-Allow-Origin:
+      - '*'
+      Connection:
+      - keep-alive
+      Content-Type:
+      - application/json
+      Date:
+      - Thu, 19 Feb 2026 09:34:06 GMT
+      Server:
+      - nginx
+      Transfer-Encoding:
+      - chunked
+      X-Powered-By:
+      - PHP/8.3.19
+    status:
+      code: 200
+      message: OK
+- request:
+    body: null
+    headers:
+      Accept-Encoding:
+      - gzip, deflate, zstd
+      Connection:
+      - keep-alive
+      User-Agent:
+      - python-requests/2.32.5
+      accept:
+      - application/json
+    method: GET
+    uri: http://localhost:9192/api/chores/4
+  response:
+    body:
+      string: '{"chore":{"id":4,"name":"Vacuum the living room floor","description":null,"period_type":"weekly","period_days":null,"row_created_timestamp":"2026-02-19
+        09:16:56","period_config":"saturday","track_date_only":1,"rollover":0,"assignment_type":"no-assignment","assignment_config":null,"next_execution_assigned_to_user_id":null,"consume_product_on_execution":0,"product_id":null,"product_amount":null,"period_interval":1,"active":1,"start_date":"2025-01-01","rescheduled_date":null,"rescheduled_next_execution_assigned_to_user_id":null},"last_tracked":"2026-02-19
+        00:00:00","tracked_count":20,"last_done_by":{"id":1,"username":"Demo User","first_name":null,"last_name":null,"row_created_timestamp":"2026-02-19
+        09:16:48","display_name":"Demo User","picture_file_name":null},"next_estimated_execution_time":"2026-02-21
+        23:59:59","next_execution_assigned_user":null,"average_execution_frequency_hours":190.9090909090909}'
+    headers:
+      Access-Control-Allow-Headers:
+      - '*'
+      Access-Control-Allow-Methods:
+      - GET, POST, PUT, DELETE, OPTIONS
+      Access-Control-Allow-Origin:
+      - '*'
+      Connection:
+      - keep-alive
+      Content-Type:
+      - application/json
+      Date:
+      - Thu, 19 Feb 2026 09:34:06 GMT
+      Server:
+      - nginx
+      Transfer-Encoding:
+      - chunked
+      X-Powered-By:
+      - PHP/8.3.19
+    status:
+      code: 200
+      message: OK
+- request:
+    body: null
+    headers:
+      Accept-Encoding:
+      - gzip, deflate, zstd
+      Connection:
+      - keep-alive
+      User-Agent:
+      - python-requests/2.32.5
+      accept:
+      - application/json
+    method: GET
+    uri: http://localhost:9192/api/users?query%5B%5D=id%3D2
+  response:
+    body:
+      string: '[{"id":2,"username":"Demo User 2","first_name":null,"last_name":null,"row_created_timestamp":"2026-02-19
+        09:16:51","display_name":"Demo User 2","picture_file_name":null}]'
+    headers:
+      Access-Control-Allow-Headers:
+      - '*'
+      Access-Control-Allow-Methods:
+      - GET, POST, PUT, DELETE, OPTIONS
+      Access-Control-Allow-Origin:
+      - '*'
+      Connection:
+      - keep-alive
+      Content-Type:
+      - application/json
+      Date:
+      - Thu, 19 Feb 2026 09:34:06 GMT
+      Server:
+      - nginx
+      Transfer-Encoding:
+      - chunked
+      X-Powered-By:
+      - PHP/8.3.19
+    status:
+      code: 200
+      message: OK
+- request:
+    body: null
+    headers:
+      Accept-Encoding:
+      - gzip, deflate, zstd
+      Connection:
+      - keep-alive
+      User-Agent:
+      - python-requests/2.32.5
+      accept:
+      - application/json
+    method: GET
+    uri: http://localhost:9192/api/userfields/chores_log/143
+  response:
+    body:
+      string: '[]'
+    headers:
+      Access-Control-Allow-Headers:
+      - '*'
+      Access-Control-Allow-Methods:
+      - GET, POST, PUT, DELETE, OPTIONS
+      Access-Control-Allow-Origin:
+      - '*'
+      Connection:
+      - keep-alive
+      Content-Type:
+      - application/json
+      Date:
+      - Thu, 19 Feb 2026 09:34:06 GMT
+      Server:
+      - nginx
+      Transfer-Encoding:
+      - chunked
+      X-Powered-By:
+      - PHP/8.3.19
+    status:
+      code: 200
+      message: OK
+- request:
+    body: null
+    headers:
+      Accept-Encoding:
+      - gzip, deflate, zstd
+      Connection:
+      - keep-alive
+      User-Agent:
+      - python-requests/2.32.5
+      accept:
+      - application/json
+    method: GET
+    uri: http://localhost:9192/api/chores/5
+  response:
+    body:
+      string: '{"chore":{"id":5,"name":"Clean the litter box","description":null,"period_type":"hourly","period_days":null,"row_created_timestamp":"2026-02-19
+        09:16:56","period_config":null,"track_date_only":1,"rollover":0,"assignment_type":"random","assignment_config":"1,2,3,4","next_execution_assigned_to_user_id":1,"consume_product_on_execution":0,"product_id":null,"product_amount":null,"period_interval":24,"active":1,"start_date":"2025-01-01","rescheduled_date":null,"rescheduled_next_execution_assigned_to_user_id":null},"last_tracked":"2026-02-18
+        00:00:00","tracked_count":19,"last_done_by":{"id":2,"username":"Demo User
+        2","first_name":null,"last_name":null,"row_created_timestamp":"2026-02-19
+        09:16:51","display_name":"Demo User 2","picture_file_name":null},"next_estimated_execution_time":"2026-02-19
+        23:59:59","next_execution_assigned_user":{"id":1,"username":"Demo User","first_name":null,"last_name":null,"row_created_timestamp":"2026-02-19
+        09:16:48","display_name":"Demo User","picture_file_name":null},"average_execution_frequency_hours":27.428571428571427}'
+    headers:
+      Access-Control-Allow-Headers:
+      - '*'
+      Access-Control-Allow-Methods:
+      - GET, POST, PUT, DELETE, OPTIONS
+      Access-Control-Allow-Origin:
+      - '*'
+      Connection:
+      - keep-alive
+      Content-Type:
+      - application/json
+      Date:
+      - Thu, 19 Feb 2026 09:34:06 GMT
+      Server:
+      - nginx
+      Transfer-Encoding:
+      - chunked
+      X-Powered-By:
+      - PHP/8.3.19
+    status:
+      code: 200
+      message: OK
+- request:
+    body: null
+    headers:
+      Accept-Encoding:
+      - gzip, deflate, zstd
+      Connection:
+      - keep-alive
+      User-Agent:
+      - python-requests/2.32.5
+      accept:
+      - application/json
+    method: GET
+    uri: http://localhost:9192/api/users?query%5B%5D=id%3D4
+  response:
+    body:
+      string: '[{"id":4,"username":"Demo User 4","first_name":null,"last_name":null,"row_created_timestamp":"2026-02-19
+        09:16:51","display_name":"Demo User 4","picture_file_name":null}]'
+    headers:
+      Access-Control-Allow-Headers:
+      - '*'
+      Access-Control-Allow-Methods:
+      - GET, POST, PUT, DELETE, OPTIONS
+      Access-Control-Allow-Origin:
+      - '*'
+      Connection:
+      - keep-alive
+      Content-Type:
+      - application/json
+      Date:
+      - Thu, 19 Feb 2026 09:34:06 GMT
+      Server:
+      - nginx
+      Transfer-Encoding:
+      - chunked
+      X-Powered-By:
+      - PHP/8.3.19
+    status:
+      code: 200
+      message: OK
+- request:
+    body: null
+    headers:
+      Accept-Encoding:
+      - gzip, deflate, zstd
+      Connection:
+      - keep-alive
+      User-Agent:
+      - python-requests/2.32.5
+      accept:
+      - application/json
+    method: GET
+    uri: http://localhost:9192/api/userfields/chores_log/144
+  response:
+    body:
+      string: '[]'
+    headers:
+      Access-Control-Allow-Headers:
+      - '*'
+      Access-Control-Allow-Methods:
+      - GET, POST, PUT, DELETE, OPTIONS
+      Access-Control-Allow-Origin:
+      - '*'
+      Connection:
+      - keep-alive
+      Content-Type:
+      - application/json
+      Date:
+      - Thu, 19 Feb 2026 09:34:06 GMT
+      Server:
+      - nginx
+      Transfer-Encoding:
+      - chunked
+      X-Powered-By:
+      - PHP/8.3.19
+    status:
+      code: 200
+      message: OK
+- request:
+    body: null
+    headers:
+      Accept-Encoding:
+      - gzip, deflate, zstd
+      Connection:
+      - keep-alive
+      User-Agent:
+      - python-requests/2.32.5
+      accept:
+      - application/json
+    method: GET
+    uri: http://localhost:9192/api/chores/6
+  response:
+    body:
+      string: '{"chore":{"id":6,"name":"Change the bed sheets","description":null,"period_type":"weekly","period_days":null,"row_created_timestamp":"2026-02-19
+        09:16:56","period_config":"monday","track_date_only":1,"rollover":0,"assignment_type":"no-assignment","assignment_config":null,"next_execution_assigned_to_user_id":null,"consume_product_on_execution":0,"product_id":null,"product_amount":null,"period_interval":3,"active":1,"start_date":"2025-01-01","rescheduled_date":"2026-03-01","rescheduled_next_execution_assigned_to_user_id":null},"last_tracked":"2026-01-29
+        00:00:00","tracked_count":19,"last_done_by":{"id":4,"username":"Demo User
+        4","first_name":null,"last_name":null,"row_created_timestamp":"2026-02-19
+        09:16:51","display_name":"Demo User 4","picture_file_name":null},"next_estimated_execution_time":"2026-03-01
+        23:59:59","next_execution_assigned_user":null,"average_execution_frequency_hours":576}'
+    headers:
+      Access-Control-Allow-Headers:
+      - '*'
+      Access-Control-Allow-Methods:
+      - GET, POST, PUT, DELETE, OPTIONS
+      Access-Control-Allow-Origin:
+      - '*'
+      Connection:
+      - keep-alive
+      Content-Type:
+      - application/json
+      Date:
+      - Thu, 19 Feb 2026 09:34:06 GMT
+      Server:
+      - nginx
+      Transfer-Encoding:
+      - chunked
+      X-Powered-By:
+      - PHP/8.3.19
+    status:
+      code: 200
+      message: OK
+- request:
+    body: null
+    headers:
+      Accept-Encoding:
+      - gzip, deflate, zstd
+      Connection:
+      - keep-alive
+      User-Agent:
+      - python-requests/2.32.5
+      accept:
+      - application/json
+    method: GET
+    uri: http://localhost:9192/api/users?query%5B%5D=id%3D4
+  response:
+    body:
+      string: '[{"id":4,"username":"Demo User 4","first_name":null,"last_name":null,"row_created_timestamp":"2026-02-19
+        09:16:51","display_name":"Demo User 4","picture_file_name":null}]'
+    headers:
+      Access-Control-Allow-Headers:
+      - '*'
+      Access-Control-Allow-Methods:
+      - GET, POST, PUT, DELETE, OPTIONS
+      Access-Control-Allow-Origin:
+      - '*'
+      Connection:
+      - keep-alive
+      Content-Type:
+      - application/json
+      Date:
+      - Thu, 19 Feb 2026 09:34:06 GMT
+      Server:
+      - nginx
+      Transfer-Encoding:
+      - chunked
+      X-Powered-By:
+      - PHP/8.3.19
+    status:
+      code: 200
+      message: OK
+version: 1

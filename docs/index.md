@@ -30,6 +30,7 @@ for item in shopping_list:
 - **[Stock](reference/managers/stock.md)** — query, add, consume, open, transfer, and inventory products
 - **[Shopping lists](reference/managers/shopping_list.md)** — view, add/remove products, bulk operations
 - **[Chores](reference/managers/chores.md)** — list, execute, undo, and assign chores
+- **[Chores Log](reference/managers/chores_log.md)** — list and get chore execution logs
 - **[Tasks](reference/managers/tasks.md)** — manage and complete tasks
 - **[Batteries](reference/managers/batteries.md)** — track battery charge cycles
 - **[Equipment](reference/managers/equipment.md)** — manage household equipment

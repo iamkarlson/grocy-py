@@ -30,6 +30,7 @@ dev = [
     "pytest-recording",
     "pytest-mock",
     "urllib3==2.6.3",
+    "ruff>=0.15.1",
 ]
 docs = [
     "mkdocs-material",

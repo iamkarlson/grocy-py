@@ -12,6 +12,12 @@ class TestUsers:
         assert user.display_name == "Demo User"
         assert user.username == "Demo User"
 
+        user = grocy.users.get(user_id=3)
+        assert isinstance(user, User)
+        assert user.id == 3
+        assert user.display_name == "Demo User 3"
+        assert user.username == "Demo User 3"
+
     @pytest.mark.vcr
     def test_get_users_valid(self, grocy):
         users = grocy.users.list()
