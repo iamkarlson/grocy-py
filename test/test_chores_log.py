@@ -23,19 +23,21 @@ class TestChoresLog:
             assert isinstance(chore_log.done_by, int)
             assert isinstance(chore_log.row_created_timestamp, datetime)
             assert isinstance(chore_log.undone, bool)
-            assert isinstance(chore_log.undone_timestamp, (datetime,type(None)))
+            assert isinstance(chore_log.undone_timestamp, (datetime, type(None)))
             assert isinstance(chore_log.skipped, bool)
-            assert isinstance(chore_log.scheduled_execution_time, (datetime,type(None)))
+            assert isinstance(
+                chore_log.scheduled_execution_time, (datetime, type(None))
+            )
             assert isinstance(chore_log.chore, Chore)
             assert isinstance(chore_log.done_by_user, User)
 
-        chore_log = next(chore_log for chore_log in chores_log if chore_log.id == 6) 
+        chore_log = next(chore_log for chore_log in chores_log if chore_log.id == 6)
         assert chore_log.chore_id == 6
         assert chore_log.done_by == 4
         assert chore_log.done_by_user.id == 4
 
     @pytest.mark.vcr
-    def test_get_chore_log_details(self, grocy): 
+    def test_get_chore_log_details(self, grocy):
         chore_log_details = grocy.chores_log.get(3, get_details=True)
         assert isinstance(chore_log_details, ChoreLog)
         assert chore_log_details.id == 3

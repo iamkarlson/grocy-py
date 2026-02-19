@@ -151,17 +151,18 @@ class CurrentChoreResponse(BaseModel):
     next_estimated_execution_time: datetime | None = None
 
 
-class ChoreLogResponse(BaseModel): # TODO: needs checking
+class ChoreLogResponse(BaseModel):  # TODO: needs checking
     id: int
     chore_id: int
     tracked_time: datetime
-    done_by_user_id: int 
+    done_by_user_id: int
     row_created_timestamp: datetime
     undone: bool
     undone_timestamp: datetime | None = None
     skipped: bool
     scheduled_execution_time: datetime | None = None
     userfields: dict | None = None
+
 
 class CurrentStockResponse(BaseModel):
     """API response model for a product's current stock."""
@@ -226,6 +227,7 @@ class ChoreDetailsResponse(BaseModel):
     track_count: int = 0
     next_execution_assigned_user: UserDto | None = None
     last_done_by: UserDto | None = None
+
 
 class TransactionType(Enum):
     """Stock transaction types."""
