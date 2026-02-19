@@ -3,7 +3,7 @@ interactions:
     body: null
     headers:
       Accept-Encoding:
-      - gzip, deflate
+      - gzip, deflate, zstd
       Connection:
       - keep-alive
       User-Agent:
@@ -11,17 +11,11 @@ interactions:
       accept:
       - application/json
     method: GET
-    uri: http://localhost:9192/api/users
+    uri: http://localhost:9192/api/users?query%5B%5D=id%3D1
   response:
     body:
-      string: '[{"id":1,"username":"Demo User","first_name":null,"last_name":null,"row_created_timestamp":"2026-01-07
-        22:58:27","display_name":"Demo User","picture_file_name":null},{"id":2,"username":"Demo
-        User 2","first_name":null,"last_name":null,"row_created_timestamp":"2026-01-07
-        22:58:31","display_name":"Demo User 2","picture_file_name":null},{"id":3,"username":"Demo
-        User 3","first_name":null,"last_name":null,"row_created_timestamp":"2026-01-07
-        22:58:31","display_name":"Demo User 3","picture_file_name":null},{"id":4,"username":"Demo
-        User 4","first_name":null,"last_name":null,"row_created_timestamp":"2026-01-07
-        22:58:31","display_name":"Demo User 4","picture_file_name":null}]'
+      string: '[{"id":1,"username":"Demo User","first_name":null,"last_name":null,"row_created_timestamp":"2026-02-19
+        09:16:48","display_name":"Demo User","picture_file_name":null}]'
     headers:
       Access-Control-Allow-Headers:
       - '*'
@@ -34,7 +28,46 @@ interactions:
       Content-Type:
       - application/json
       Date:
-      - Wed, 07 Jan 2026 23:00:20 GMT
+      - Thu, 19 Feb 2026 09:42:23 GMT
+      Server:
+      - nginx
+      Transfer-Encoding:
+      - chunked
+      X-Powered-By:
+      - PHP/8.3.19
+    status:
+      code: 200
+      message: OK
+- request:
+    body: null
+    headers:
+      Accept-Encoding:
+      - gzip, deflate, zstd
+      Connection:
+      - keep-alive
+      User-Agent:
+      - python-requests/2.32.5
+      accept:
+      - application/json
+    method: GET
+    uri: http://localhost:9192/api/users?query%5B%5D=id%3D3
+  response:
+    body:
+      string: '[{"id":3,"username":"Demo User 3","first_name":null,"last_name":null,"row_created_timestamp":"2026-02-19
+        09:16:51","display_name":"Demo User 3","picture_file_name":null}]'
+    headers:
+      Access-Control-Allow-Headers:
+      - '*'
+      Access-Control-Allow-Methods:
+      - GET, POST, PUT, DELETE, OPTIONS
+      Access-Control-Allow-Origin:
+      - '*'
+      Connection:
+      - keep-alive
+      Content-Type:
+      - application/json
+      Date:
+      - Thu, 19 Feb 2026 09:42:23 GMT
       Server:
       - nginx
       Transfer-Encoding:
