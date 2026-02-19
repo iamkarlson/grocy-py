@@ -45,11 +45,4 @@ class ChoreLogManager:
             chore_log.get_details(self._api)
         return chore_log
 
-    # def undo(self, execution_id: int):
-    #     """Undo a chore log execution.
-
-    #     Args:
-    #         execution_id: The chore log execution ID to undo.
-    #     """
-    #     return self._api.undo_chore_log_execution(execution_id)
 
