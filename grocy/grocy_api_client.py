@@ -933,10 +933,6 @@ class GrocyApiClient(object):
         """Undo a chore execution."""
         return self._do_post_request(f"chores/executions/{execution_id}/undo", {})
 
-    # def undo_chore_log_execution(self, execution_id: int):
-    #     """Undo a chore log execution."""
-    #     return self._do_post_request(f"chores/executions/{execution_id}/undo", {})
-
     def calculate_chore_assignments(self):
         """Recalculate chore assignments."""
         return self._do_post_request("chores/executions/calculate-next-assignments", {})
