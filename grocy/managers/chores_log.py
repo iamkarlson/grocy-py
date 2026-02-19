@@ -33,14 +33,17 @@ class ChoreLogManager:
                 chore_log.get_details(self._api)
         return chores_log
 
-    def get(self, chore_log_id: int) -> ChoreLog:
+    def get(self, chore_log_id: int, get_details: bool = False) -> ChoreLog:
         """Get a single chore log by ID.
 
         Args:
             chore_log_id: The Grocy chore log ID.
         """
         resp = self._api.get_chore_log(chore_log_id)
-        return ChoreLog.from_response(resp)
+        chore_log = ChoreLog.from_response(resp)
+        if get_details:
+            chore_log.get_details(self._api)
+        return chore_log
 
     # def undo(self, execution_id: int):
     #     """Undo a chore log execution.

@@ -23,9 +23,9 @@ class TestChoresLog:
             assert isinstance(chore_log.done_by, int)
             assert isinstance(chore_log.row_created_timestamp, datetime)
             assert isinstance(chore_log.undone, bool)
-            assert isinstance(chore_log.undone_timestamp, (datetime,None))
+            assert isinstance(chore_log.undone_timestamp, (datetime,type(None)))
             assert isinstance(chore_log.skipped, bool)
-            assert isinstance(chore_log.scheduled_execution_time, (datetime,None))
+            assert isinstance(chore_log.scheduled_execution_time, (datetime,type(None)))
             assert isinstance(chore_log.chore, Chore)
             assert isinstance(chore_log.done_by_user, User)
 
