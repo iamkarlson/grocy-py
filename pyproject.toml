@@ -21,7 +21,7 @@ license =  "MIT"
 Homepage = "https://github.com/iamkarlson/grocy-py"
 [dependency-groups]
 dev = [
-    "responses>=0.21,<0.26",
+    "responses>=0.21,<0.27",
     "pre-commit",
     "isort",
     "pytest",
