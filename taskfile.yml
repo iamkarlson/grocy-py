@@ -57,7 +57,7 @@ tasks:
       - |
         set -euo pipefail
         package_name=$(sed -n 's/^name\s*=\s*"\([^"]*\)".*/\1/p' pyproject.toml)
-        package_version=$(sed -n 's/^version\s*=\s*"\([^"]*\)".*/\1/p' pyproject.toml)
+        package_version=$(git describe --tags --abbrev=0 2>/dev/null)
         if [ -z "$package_name" ] || [ -z "$package_version" ]; then
           echo "Failed to read project name or version from pyproject.toml" >&2
           exit 1
