@@ -138,15 +138,18 @@ class Product(BaseModel):
         details = api_client.get_product(self.id)
         if details:
             updated = Product.from_details_response(details)
-            # Preserve fields that the details response doesn't provide
+            # Preserve fields that the details response doesn't provide.
+            # For example, from_stock_response sets best_before_date,
+            # amount_aggregated, etc. which from_details_response does not.
             preserved = {}
-            for field in ("amount_missing", "is_partly_in_stock"):
-                current = getattr(self, field, None)
-                if current is not None:
-                    preserved[field] = current
+            for field_name in Product.model_fields:
+                current = getattr(self, field_name, None)
+                new_val = getattr(updated, field_name, None)
+                if current is not None and new_val is None:
+                    preserved[field_name] = current
             self.__dict__.update(updated.__dict__)
-            for field, value in preserved.items():
-                setattr(self, field, value)
+            for field_name, value in preserved.items():
+                setattr(self, field_name, value)
 
 
 class Group(BaseModel):
