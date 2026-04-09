@@ -42,6 +42,39 @@ class TestGrocy(TestCase):
         self.assertEqual(len(self.grocy.shopping_list.items()), 0)
 
     @responses.activate
+    def test_get_shopping_list_whitespace_body(self):
+        responses.add(
+            responses.GET,
+            f"{self.base_url}/objects/shopping_list",
+            body=b"   ",
+            status=200,
+        )
+        self.assertEqual(self.grocy.shopping_list.items(), [])
+
+    @responses.activate
+    def test_get_meal_plan_integer_product_qu_id(self):
+        # Grocy API returns product_qu_id as int; model must not raise a validation error
+        responses.add(
+            responses.GET,
+            f"{self.base_url}/objects/meal_plan",
+            json=[
+                {
+                    "id": 1,
+                    "day": "2026-04-09T00:00:00",
+                    "type": "product",
+                    "product_id": 2,
+                    "product_amount": 1.0,
+                    "product_qu_id": 4,
+                    "row_created_timestamp": "2026-04-09T10:00:00",
+                }
+            ],
+            status=200,
+        )
+        result = self.grocy.meal_plan.items()
+        self.assertEqual(len(result), 1)
+        self.assertEqual(result[0].product_id, 2)
+
+    @responses.activate
     def test_clear_shopping_list_error(self):
         responses.add(
             responses.POST, f"{self.base_url}/stock/shoppinglist/clear", status=400

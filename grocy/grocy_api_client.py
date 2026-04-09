@@ -53,7 +53,7 @@ class MealPlanResponse(BaseModel):
     note: str | None = None
     product_id: int | None = None
     product_amount: float | None = None
-    product_qu_id: str | None = None
+    product_qu_id: int | str | None = None
     row_created_timestamp: datetime
     userfields: dict | None = None
     section_id: int | None = None
@@ -491,7 +491,11 @@ class GrocyApiClient(object):
             raise GrocyError(resp)
 
         if len(resp.content) > 0:
-            return resp.json()
+            try:
+                return resp.json()
+            except ValueError:
+                _LOGGER.warning("Received non-JSON response for /%s", end_url)
+                return None
         return None
 
     def _do_post_request(self, end_url: str, data: dict):
