@@ -43,6 +43,7 @@ class Product(BaseModel):
     amount_missing: float | None = None
     is_partly_in_stock: bool | None = None
     default_quantity_unit_purchase: QuantityUnit | None = None
+    picture_file_name: str | None = None
 
     @classmethod
     def from_stock_response(cls, resp) -> Product:
@@ -98,6 +99,7 @@ class Product(BaseModel):
             name = resp.product.name
             product_group_id = resp.product.product_group_id
             shopping_location_id = resp.product.shopping_location_id
+            picture_file_name = resp.product.picture_file_name
         qu = None
         if resp.default_quantity_unit_purchase:
             qu = QuantityUnit(
@@ -116,6 +118,7 @@ class Product(BaseModel):
             product_barcodes=product_barcodes,
             barcodes=barcodes,
             default_quantity_unit_purchase=qu,
+            picture_file_name=picture_file_name,
         )
 
     @classmethod
