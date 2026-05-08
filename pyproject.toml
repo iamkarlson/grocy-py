@@ -29,7 +29,7 @@ dev = [
     "vcrpy",
     "pytest-recording",
     "pytest-mock",
-    "urllib3==2.6.3",
+    "urllib3==2.7.0",
 ]
 docs = [
     "mkdocs-material",
