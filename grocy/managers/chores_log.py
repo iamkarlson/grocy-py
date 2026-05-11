@@ -44,5 +44,3 @@ class ChoreLogManager:
         if get_details:
             chore_log.get_details(self._api)
         return chore_log
-
-

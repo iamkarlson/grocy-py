@@ -7,4 +7,3 @@ Class for representing logged chore executions and the execution details.
 ::: grocy.data_models.chore_log.ChoreLog
     options:
       members_order: source
-
