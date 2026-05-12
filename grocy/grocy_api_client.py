@@ -203,6 +203,7 @@ class ProductDetailsResponse(BaseModel):
     default_quantity_unit_purchase: QuantityUnitData
     barcodes: list[ProductBarcodeData] | None = Field(None, alias="product_barcodes")
     location: LocationData | None = None
+    picture_file_name: str | None = None
 
 
 class ChoreDetailsResponse(BaseModel):
