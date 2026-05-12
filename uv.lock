@@ -456,9 +456,9 @@ docs = [
 
 [package.metadata]
 requires-dist = [
-    { name = "pydantic", specifier = "~=2.12.2" },
-    { name = "requests" },
-    { name = "tzdata" },
+    { name = "pydantic", specifier = ">=2.12.2,<2.14.0" },
+    { name = "requests", specifier = ">=2.32,<3" },
+    { name = "tzdata", specifier = ">=2024.1" },
     { name = "tzlocal", specifier = "~=5.2" },
 ]
 
