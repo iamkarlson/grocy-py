@@ -147,6 +147,15 @@ grocy.chores.undo(execution_id=1)
 grocy.chores.calculate_next_assignments()
 ```
 
+## Chores Log
+
+```python
+# List all logged chores
+chores_log = grocy.chores_log.list(get_details=True)
+for chore_log in chores_log:
+    print(f"{chore_log.chore.name} - execution time: {chore_log.tracked_time} by {chore_log.done_by_user.display_name")
+```
+
 ## Tasks
 
 ```python

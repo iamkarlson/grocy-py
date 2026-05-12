@@ -1,0 +1,163 @@
+interactions:
+- request:
+    body: null
+    headers:
+      Accept-Encoding:
+      - gzip, deflate, zstd
+      Connection:
+      - keep-alive
+      User-Agent:
+      - python-requests/2.32.5
+      accept:
+      - application/json
+    method: GET
+    uri: http://localhost:9192/api/objects/chores_log/3
+  response:
+    body:
+      string: '{"id":3,"chore_id":3,"tracked_time":"2026-02-17 00:00:00","done_by_user_id":4,"row_created_timestamp":"2026-02-19
+        09:16:59","undone":0,"undone_timestamp":null,"skipped":0,"scheduled_execution_time":"2025-01-01
+        23:59:59","userfields":null}'
+    headers:
+      Access-Control-Allow-Headers:
+      - '*'
+      Access-Control-Allow-Methods:
+      - GET, POST, PUT, DELETE, OPTIONS
+      Access-Control-Allow-Origin:
+      - '*'
+      Connection:
+      - keep-alive
+      Content-Type:
+      - application/json
+      Date:
+      - Thu, 19 Feb 2026 09:38:57 GMT
+      Server:
+      - nginx
+      Transfer-Encoding:
+      - chunked
+      X-Powered-By:
+      - PHP/8.3.19
+    status:
+      code: 200
+      message: OK
+- request:
+    body: null
+    headers:
+      Accept-Encoding:
+      - gzip, deflate, zstd
+      Connection:
+      - keep-alive
+      User-Agent:
+      - python-requests/2.32.5
+      accept:
+      - application/json
+    method: GET
+    uri: http://localhost:9192/api/userfields/chores_log/3
+  response:
+    body:
+      string: '[]'
+    headers:
+      Access-Control-Allow-Headers:
+      - '*'
+      Access-Control-Allow-Methods:
+      - GET, POST, PUT, DELETE, OPTIONS
+      Access-Control-Allow-Origin:
+      - '*'
+      Connection:
+      - keep-alive
+      Content-Type:
+      - application/json
+      Date:
+      - Thu, 19 Feb 2026 09:38:57 GMT
+      Server:
+      - nginx
+      Transfer-Encoding:
+      - chunked
+      X-Powered-By:
+      - PHP/8.3.19
+    status:
+      code: 200
+      message: OK
+- request:
+    body: null
+    headers:
+      Accept-Encoding:
+      - gzip, deflate, zstd
+      Connection:
+      - keep-alive
+      User-Agent:
+      - python-requests/2.32.5
+      accept:
+      - application/json
+    method: GET
+    uri: http://localhost:9192/api/chores/3
+  response:
+    body:
+      string: '{"chore":{"id":3,"name":"Take out the trash","description":null,"period_type":"hourly","period_days":null,"row_created_timestamp":"2026-02-19
+        09:16:56","period_config":null,"track_date_only":1,"rollover":0,"assignment_type":"random","assignment_config":"1,2,3,4","next_execution_assigned_to_user_id":1,"consume_product_on_execution":0,"product_id":null,"product_amount":null,"period_interval":48,"active":1,"start_date":"2025-01-01","rescheduled_date":null,"rescheduled_next_execution_assigned_to_user_id":null},"last_tracked":"2026-02-17
+        00:00:00","tracked_count":19,"last_done_by":{"id":4,"username":"Demo User
+        4","first_name":null,"last_name":null,"row_created_timestamp":"2026-02-19
+        09:16:51","display_name":"Demo User 4","picture_file_name":null},"next_estimated_execution_time":"2026-02-19
+        23:59:59","next_execution_assigned_user":{"id":1,"username":"Demo User","first_name":null,"last_name":null,"row_created_timestamp":"2026-02-19
+        09:16:48","display_name":"Demo User","picture_file_name":null},"average_execution_frequency_hours":54.857142857142854}'
+    headers:
+      Access-Control-Allow-Headers:
+      - '*'
+      Access-Control-Allow-Methods:
+      - GET, POST, PUT, DELETE, OPTIONS
+      Access-Control-Allow-Origin:
+      - '*'
+      Connection:
+      - keep-alive
+      Content-Type:
+      - application/json
+      Date:
+      - Thu, 19 Feb 2026 09:38:57 GMT
+      Server:
+      - nginx
+      Transfer-Encoding:
+      - chunked
+      X-Powered-By:
+      - PHP/8.3.19
+    status:
+      code: 200
+      message: OK
+- request:
+    body: null
+    headers:
+      Accept-Encoding:
+      - gzip, deflate, zstd
+      Connection:
+      - keep-alive
+      User-Agent:
+      - python-requests/2.32.5
+      accept:
+      - application/json
+    method: GET
+    uri: http://localhost:9192/api/users?query%5B%5D=id%3D4
+  response:
+    body:
+      string: '[{"id":4,"username":"Demo User 4","first_name":null,"last_name":null,"row_created_timestamp":"2026-02-19
+        09:16:51","display_name":"Demo User 4","picture_file_name":null}]'
+    headers:
+      Access-Control-Allow-Headers:
+      - '*'
+      Access-Control-Allow-Methods:
+      - GET, POST, PUT, DELETE, OPTIONS
+      Access-Control-Allow-Origin:
+      - '*'
+      Connection:
+      - keep-alive
+      Content-Type:
+      - application/json
+      Date:
+      - Thu, 19 Feb 2026 09:38:57 GMT
+      Server:
+      - nginx
+      Transfer-Encoding:
+      - chunked
+      X-Powered-By:
+      - PHP/8.3.19
+    status:
+      code: 200
+      message: OK
+version: 1

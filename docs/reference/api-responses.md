@@ -42,6 +42,10 @@ You typically don't construct these directly, but they document the shape of the
 
 ::: grocy.grocy_api_client.ChoreData
 
+## Chore Log Responses
+
+::: grocy.grocy_api_client.ChoreLogResponse
+
 ## Task Responses
 
 ::: grocy.grocy_api_client.TaskResponse
