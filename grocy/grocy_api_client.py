@@ -578,9 +578,22 @@ class GrocyApiClient(object):
             return [CurrentStockResponse(**response) for response in parsed_json]
         return []
 
-    def get_volatile_stock(self) -> CurrentVolatileStockResponse:
-        """Get stock warnings (due, overdue, expired, missing products)."""
-        parsed_json = self._do_get_request("stock/volatile")
+    def get_volatile_stock(
+        self, due_soon_days: int | None = None
+    ) -> CurrentVolatileStockResponse:
+        """Get stock warnings (due, overdue, expired, missing products).
+
+        Args:
+            due_soon_days: Size of the "due soon" window in days. When omitted,
+                Grocy applies its own default of 5 days, ignoring the
+                stock_due_soon_days system setting.
+        """
+        end_url = "stock/volatile"
+        if due_soon_days is not None:
+            end_url = f"{end_url}?due_soon_days={due_soon_days}"
+        parsed_json = self._do_get_request(end_url)
+        if not parsed_json:
+            return CurrentVolatileStockResponse()
         return CurrentVolatileStockResponse(**parsed_json)
 
     def get_product(self, product_id) -> ProductDetailsResponse:

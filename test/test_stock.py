@@ -2,6 +2,7 @@ import pytest
 
 from grocy.data_models.product import Product
 from grocy.errors import GrocyError
+from grocy.grocy_api_client import CurrentVolatileStockResponse
 
 
 class TestStock:
@@ -67,3 +68,57 @@ class TestStock:
 
         error = exc_info.value
         assert error.status_code == 400
+
+
+class TestStockVolatile:
+    """`due_soon_days` plumbing, from StockManager down to the API client.
+
+    Grocy defaults the due-soon window to 5 days and ignores the
+    stock_due_soon_days system setting unless the query param is sent, so
+    callers that read that setting need to be able to pass it through.
+    """
+
+    @pytest.fixture
+    def get_volatile_stock(self, grocy, mocker):
+        return mocker.patch.object(
+            grocy._api_client,
+            "get_volatile_stock",
+            return_value=CurrentVolatileStockResponse(),
+        )
+
+    def test_volatile_defaults_to_none(self, grocy, get_volatile_stock):
+        grocy.stock.volatile()
+
+        get_volatile_stock.assert_called_once_with(None)
+
+    def test_volatile_forwards_due_soon_days(self, grocy, get_volatile_stock):
+        grocy.stock.volatile(10)
+
+        get_volatile_stock.assert_called_once_with(10)
+
+    def test_volatile_returns_raw_response(self, grocy, get_volatile_stock):
+        result = grocy.stock.volatile()
+
+        assert result is get_volatile_stock.return_value
+
+    def test_due_products_defaults_to_none(self, grocy, get_volatile_stock):
+        grocy.stock.due_products()
+
+        get_volatile_stock.assert_called_once_with(None)
+
+    def test_due_products_forwards_due_soon_days(self, grocy, get_volatile_stock):
+        grocy.stock.due_products(get_details=False, due_soon_days=10)
+
+        get_volatile_stock.assert_called_once_with(10)
+
+    def test_due_products_handles_empty_response(self, grocy, get_volatile_stock):
+        assert grocy.stock.due_products(due_soon_days=10) == []
+
+    @pytest.mark.vcr
+    def test_due_products_with_due_soon_days_hits_grocy(self, grocy):
+        """Round-trip against a real Grocy to prove the query param is accepted."""
+        due_products = grocy.stock.due_products(True, due_soon_days=90)
+
+        assert isinstance(due_products, list)
+        for prod in due_products:
+            assert isinstance(prod, Product)
