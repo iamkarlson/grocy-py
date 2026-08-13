@@ -1,6 +1,6 @@
 # Changelog
 
-## [1.0.0](https://github.com/iamkarlson/grocy-py/tree/1.0.0) (2026-08-13)
+## [1.0.0](https://github.com/iamkarlson/grocy-py/tree/1.0.0) (2026-08-14)
 
 First stable release. From here the package follows [semantic versioning](https://semver.org/) — see [Stability](README.md#stability) for exactly what that covers. Nothing was removed or renamed relative to 0.1.0, so this is a drop-in upgrade; the version number marks the commitment, not a break.
 
