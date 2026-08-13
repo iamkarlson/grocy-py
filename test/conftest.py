@@ -1,8 +1,7 @@
-from test.test_const import CONST_API_KEY, CONST_BASE_URL, CONST_PORT, CONST_SSL
-
 import pytest
 
 from grocy.grocy import Grocy
+from test.test_const import CONST_API_KEY, CONST_BASE_URL, CONST_PORT, CONST_SSL
 
 
 @pytest.fixture

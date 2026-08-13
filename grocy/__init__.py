@@ -18,13 +18,13 @@ from .managers import (
 )
 
 __all__ = [
-    "Grocy",
     "BatteryManager",
     "CalendarManager",
     "ChoreManager",
     "EquipmentManager",
     "FileManager",
     "GenericEntityManager",
+    "Grocy",
     "MealPlanManager",
     "RecipeManager",
     "ShoppingListManager",

@@ -1,8 +1,7 @@
+import zoneinfo
 from datetime import datetime
 
-import zoneinfo
-
-import grocy.utils as utils
+from grocy import utils
 
 
 class TestUtils:

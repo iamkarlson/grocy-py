@@ -2,8 +2,8 @@ from datetime import datetime
 
 import pytest
 
-from grocy.data_models.chore_log import ChoreLog
 from grocy.data_models.chore import Chore
+from grocy.data_models.chore_log import ChoreLog
 from grocy.data_models.user import User
 from grocy.errors import GrocyError
 

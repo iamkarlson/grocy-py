@@ -11,11 +11,11 @@ jobs:
     permissions:
       id-token: write  # needed for trusted publisher (OIDC)
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
         with:
           fetch-depth: 0  # Fetch all history and tags for setuptools_scm
-      - uses: astral-sh/setup-uv@v5
-      - uses: actions/setup-python@v5
+      - uses: astral-sh/setup-uv@v10
+      - uses: actions/setup-python@v7
         with:
           python-version: "3.13"
 
