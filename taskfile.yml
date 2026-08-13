@@ -30,12 +30,12 @@ tasks:
   docs:
     desc: Build documentation locally
     cmds:
-      - uv run mkdocs build
+      - uv run --group docs mkdocs build
 
   docs:serve:
     desc: Serve documentation locally with live reload
     cmds:
-      - uv run mkdocs serve
+      - uv run --group docs mkdocs serve
 
   lint:
     desc: Lint with Ruff
