@@ -8,7 +8,6 @@ tasks:
     desc: Install project with development tooling
     cmds:
       - uv sync --dev --frozen
-      - uv pip install -e .
       - uv run pre-commit install
 
   deps:
