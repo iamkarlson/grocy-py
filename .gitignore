@@ -103,3 +103,6 @@ dist/
 *.env
 site/
 .grocy-data/
+
+# mkdocs-jupyter build cache
+.cache/
