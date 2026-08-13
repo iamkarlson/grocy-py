@@ -121,6 +121,10 @@ class ChoreData(BaseModel):
     period_type: str
     period_config: str | None = None
     period_days: int | None = 0
+    period_interval: int | None = 0
+    start_date: datetime | None = None
+    consume_product_on_execution: bool | None = False
+    product_id: int | None = None
     track_date_only: bool
     rollover: bool
     assignment_type: str | None = None

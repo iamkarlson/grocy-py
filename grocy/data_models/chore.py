@@ -39,6 +39,10 @@ class Chore(BaseModel):
     period_type: PeriodType | None = None
     period_config: str | None = None
     period_days: int | None = None
+    period_interval: int | None = 0
+    start_date: datetime | None = None
+    consume_product_on_execution: bool | None = False
+    product_id: int | None = None
     track_date_only: bool | None = None
     rollover: bool | None = None
     assignment_type: AssignmentType | None = None
@@ -103,6 +107,10 @@ class Chore(BaseModel):
             period_type=period_type,
             period_config=chore_data.period_config,
             period_days=chore_data.period_days,
+            period_interval=chore_data.period_interval,
+            start_date=chore_data.start_date,
+            consume_product_on_execution=chore_data.consume_product_on_execution,
+            product_id=chore_data.product_id,
             track_date_only=chore_data.track_date_only,
             rollover=chore_data.rollover,
             assignment_type=assignment_type,

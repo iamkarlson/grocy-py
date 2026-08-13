@@ -46,6 +46,11 @@ class TestChores:
         assert chore_details.next_execution_assigned_to_user_id == 2
         assert chore_details.userfields is None
 
+        assert chore_details.period_interval == 48
+        assert chore_details.start_date == datetime(2025, 1, 1)
+        assert chore_details.consume_product_on_execution is False
+        assert chore_details.product_id is None
+
     @pytest.mark.vcr
     def test_execute_chore_valid(self, grocy):
         result = grocy.chores.execute(1)
