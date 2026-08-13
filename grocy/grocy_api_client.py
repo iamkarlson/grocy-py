@@ -1,13 +1,13 @@
-import base64  # noqa: D100
-from datetime import datetime
-from enum import Enum
+import base64
 import json
 import logging
+from datetime import datetime
+from enum import Enum
 from typing import Any
 from urllib.parse import urljoin
 
-from pydantic import BaseModel, Field, field_validator, model_validator
 import requests
+from pydantic import BaseModel, Field, field_validator, model_validator
 
 from .data_models.generic import EntityType
 from .errors import GrocyError
@@ -121,6 +121,10 @@ class ChoreData(BaseModel):
     period_type: str
     period_config: str | None = None
     period_days: int | None = 0
+    period_interval: int | None = 0
+    start_date: datetime | None = None
+    consume_product_on_execution: bool | None = False
+    product_id: int | None = None
     track_date_only: bool
     rollover: bool
     assignment_type: str | None = None
@@ -457,7 +461,7 @@ def _enable_debug_mode():
     _LOGGER.setLevel(logging.DEBUG)
 
 
-class GrocyApiClient(object):
+class GrocyApiClient:
     """Low-level HTTP client for the Grocy REST API.
 
     Used internally by manager classes. Most users should use `Grocy` instead.
@@ -578,9 +582,22 @@ class GrocyApiClient(object):
             return [CurrentStockResponse(**response) for response in parsed_json]
         return []
 
-    def get_volatile_stock(self) -> CurrentVolatileStockResponse:
-        """Get stock warnings (due, overdue, expired, missing products)."""
-        parsed_json = self._do_get_request("stock/volatile")
+    def get_volatile_stock(
+        self, due_soon_days: int | None = None
+    ) -> CurrentVolatileStockResponse:
+        """Get stock warnings (due, overdue, expired, missing products).
+
+        Args:
+            due_soon_days: Size of the "due soon" window in days. When omitted,
+                Grocy applies its own default of 5 days, ignoring the
+                stock_due_soon_days system setting.
+        """
+        end_url = "stock/volatile"
+        if due_soon_days is not None:
+            end_url = f"{end_url}?due_soon_days={due_soon_days}"
+        parsed_json = self._do_get_request(end_url)
+        if not parsed_json:
+            return CurrentVolatileStockResponse()
         return CurrentVolatileStockResponse(**parsed_json)
 
     def get_product(self, product_id) -> ProductDetailsResponse:
@@ -670,10 +687,10 @@ class GrocyApiClient(object):
         self,
         product_id: int,
         new_amount: float,
-        best_before_date: datetime = None,
-        shopping_location_id: int = None,
-        location_id: int = None,
-        price: float = None,
+        best_before_date: datetime | None = None,
+        shopping_location_id: int | None = None,
+        location_id: int | None = None,
+        price: float | None = None,
     ):
         """Perform stock inventory correction for a product."""
         data = {
@@ -995,7 +1012,7 @@ class GrocyApiClient(object):
     # --- Shopping List ---
 
     def get_shopping_list(
-        self, query_filters: list[str] = None
+        self, query_filters: list[str] | None = None
     ) -> list[ShoppingListItem]:
         """Get all shopping list items."""
         parsed_json = self._do_get_request("objects/shopping_list", query_filters)
@@ -1003,7 +1020,7 @@ class GrocyApiClient(object):
             return [ShoppingListItem(**response) for response in parsed_json]
         return []
 
-    def add_missing_product_to_shopping_list(self, shopping_list_id: int = None):
+    def add_missing_product_to_shopping_list(self, shopping_list_id: int | None = None):
         """Add missing products to shopping list."""
         data = None
         if shopping_list_id:
@@ -1016,7 +1033,7 @@ class GrocyApiClient(object):
         product_id: int,
         shopping_list_id: int = 1,
         amount: float = 1,
-        quantity_unit_id: int = None,
+        quantity_unit_id: int | None = None,
     ):
         """Add a product to the shopping list."""
         data = {
@@ -1077,7 +1094,7 @@ class GrocyApiClient(object):
         """Upload a product picture file."""
         b64fn = base64.b64encode(f"{product_id}.jpg".encode("ascii"))
         req_url = "files/productpictures/" + str(b64fn, "utf-8")
-        with open(pic_path, "rb") as pic:  # noqa: PTH123
+        with open(pic_path, "rb") as pic:
             self._do_put_request(req_url, pic)
 
     def update_product_pic(self, product_id: int):
@@ -1256,7 +1273,7 @@ class GrocyApiClient(object):
             return EquipmentDetailsResponse(equipment=equipment_data)
         return None
 
-    def get_all_equipment(self, query_filters: list[str] = None) -> list[dict]:
+    def get_all_equipment(self, query_filters: list[str] | None = None) -> list[dict]:
         """Get all equipment items."""
         return self._do_get_request("objects/equipment", query_filters) or []
 

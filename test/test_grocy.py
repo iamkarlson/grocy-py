@@ -1,16 +1,16 @@
 import json
 from datetime import datetime
-from test.test_const import CONST_BASE_URL, CONST_PORT, CONST_SSL
 from unittest import TestCase
 from unittest.mock import mock_open, patch
 
 import pytest
 import responses
 
-from grocy.grocy import Grocy
 from grocy.data_models.product import Product
 from grocy.errors import GrocyError
+from grocy.grocy import Grocy
 from grocy.grocy_api_client import GrocyApiClient
+from test.test_const import CONST_BASE_URL, CONST_PORT, CONST_SSL
 
 
 class TestGrocy(TestCase):
@@ -121,23 +121,22 @@ class TestGrocy(TestCase):
 
     @responses.activate
     def test_upload_product_picture_error(self):
-        with patch("os.path.exists") as m_exist:
-            with patch("builtins.open", mock_open()):
-                m_exist.return_value = True
-                api_client = GrocyApiClient(
-                    CONST_BASE_URL, "demo_mode", port=CONST_PORT, verify_ssl=CONST_SSL
-                )
-                responses.add(
-                    responses.PUT,
-                    f"{self.base_url}/files/productpictures/MS5qcGc=",
-                    status=400,
-                )
-                self.assertRaises(
-                    GrocyError,
-                    api_client.upload_product_picture,
-                    1,
-                    "/somepath/pic.jpg",
-                )
+        with patch("os.path.exists") as m_exist, patch("builtins.open", mock_open()):
+            m_exist.return_value = True
+            api_client = GrocyApiClient(
+                CONST_BASE_URL, "demo_mode", port=CONST_PORT, verify_ssl=CONST_SSL
+            )
+            responses.add(
+                responses.PUT,
+                f"{self.base_url}/files/productpictures/MS5qcGc=",
+                status=400,
+            )
+            self.assertRaises(
+                GrocyError,
+                api_client.upload_product_picture,
+                1,
+                "/somepath/pic.jpg",
+            )
 
     @responses.activate
     def test_update_product_pic_error(self):

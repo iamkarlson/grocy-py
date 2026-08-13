@@ -40,6 +40,7 @@ All features are accessed through manager objects on the `Grocy` instance:
 | Stock | `grocy.stock` | Query, add, consume, open, transfer products |
 | Shopping List | `grocy.shopping_list` | View and manage shopping list items |
 | Chores | `grocy.chores` | List, execute, and track chores |
+| Chore Log | `grocy.chores_log` | Read individual chore execution log entries |
 | Tasks | `grocy.tasks` | Manage and complete tasks |
 | Batteries | `grocy.batteries` | Track battery charge cycles |
 | Equipment | `grocy.equipment` | Manage household equipment |
@@ -50,6 +51,29 @@ All features are accessed through manager objects on the `Grocy` instance:
 | Calendar | `grocy.calendar` | iCalendar export and sharing |
 | Files | `grocy.files` | Upload, download, delete files |
 | Generic | `grocy.generic` | CRUD any Grocy entity type |
+
+## Stability
+
+From 1.0.0 this library follows [semantic versioning](https://semver.org/).
+
+**What is covered.** Everything exported from the `grocy` package — `Grocy`,
+the manager classes, `EntityType`, `TransactionType` — plus any name reachable
+through a submodule path that does not start with an underscore, such as the
+data models in `grocy.data_models`.
+
+Within that surface:
+
+- a **major** bump may remove or rename things, or change a signature
+  incompatibly;
+- a **minor** bump only adds;
+- a **patch** bump only fixes behaviour.
+
+**What is not covered.** `GrocyApiClient` and its `_do_get_request` /
+`_do_post_request` / `_do_put_request` / `_do_delete_request` methods are
+internal. They are deliberately not re-exported from the package root and may
+change in any release. If you find yourself reaching for them because the
+managers cannot express what you need, please open an issue — that is a gap
+worth filling with public API instead.
 
 ## Development
 

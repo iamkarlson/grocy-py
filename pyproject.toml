@@ -10,7 +10,9 @@ authors = [
     { name = "George Green", email = "iamkarlson@gmail.com" }]
 requires-python = ">=3.12"
 dependencies = [
-    "requests>=2.32,<3",
+    # 2.33 is the floor for CVE-2026-25645 (insecure temp file reuse in
+    # extract_zipped_paths).
+    "requests>=2.33,<3",
     "pydantic>=2.12.2,<2.14.0",
     "tzdata>=2024.1",
     "tzlocal~=5.2"
@@ -23,13 +25,13 @@ Homepage = "https://github.com/iamkarlson/grocy-py"
 dev = [
     "responses>=0.21,<0.27",
     "pre-commit",
-    "isort",
     "pytest",
     "pytest-cov",
     "vcrpy",
     "pytest-recording",
     "pytest-mock",
-    "urllib3==2.7.0",
+    # 2.7.0 is the floor for GHSA-mf9v-mfxr-j63j / GHSA-qccp-gfcp-xxvc.
+    "urllib3>=2.7.0",
     "ruff>=0.15.1",
 ]
 docs = [
@@ -47,6 +49,31 @@ publish-url = "https://upload.pypi.org/legacy/"
 
 [tool.ruff]
 extend-exclude = ["test/cassettes"]
+
+[tool.ruff.lint]
+# Pin the rule set explicitly. This project previously relied on ruff's
+# defaults, so upgrading ruff silently changed which rules applied and turned
+# a green tree red. Adding rules should be a deliberate commit, not a side
+# effect of a version bump.
+select = ["E4", "E7", "E9", "F", "I", "UP", "SIM", "RUF", "DTZ"]
+
+ignore = [
+    # Grocy stores naive local datetimes. `datetime.now()` here is deliberate:
+    # the value is handed straight to utils.localize_datetime(), which attaches
+    # the local zone via tzlocal. Passing a tz-aware value instead would be
+    # double-handled and shift recorded chore/task/battery times.
+    "DTZ001",
+    "DTZ005",
+    "DTZ007",
+
+    # Public enums (EntityType, TransactionType, PeriodType, AssignmentType,
+    # MealPlanItemType) deliberately stay on `(str, Enum)` rather than moving to
+    # enum.StrEnum. The two differ observably: today f"{EntityType.PRODUCTS}"
+    # renders "EntityType.PRODUCTS", under StrEnum it would render "products".
+    # Any consumer interpolating an enum into a string would silently change
+    # behaviour, so this is a 2.0 decision, not a lint autofix.
+    "UP042",
+]
 
 [tool.ruff.format]
 exclude = ["test/cassettes"]

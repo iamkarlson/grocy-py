@@ -1,5 +1,35 @@
 # Changelog
 
+## [1.0.0](https://github.com/iamkarlson/grocy-py/tree/1.0.0) (2026-08-14)
+
+First stable release. From here the package follows [semantic versioning](https://semver.org/) — see [Stability](README.md#stability) for exactly what that covers. Nothing was removed or renamed relative to 0.1.0, so this is a drop-in upgrade; the version number marks the commitment, not a break.
+
+**Added**
+
+- `StockManager.volatile(due_soon_days=None)` returns the raw `CurrentVolatileStockResponse` with all four buckets (due, overdue, expired, missing) in a single request, instead of one request per bucket.
+- `StockManager.due_products(due_soon_days=...)` and `GrocyApiClient.get_volatile_stock(due_soon_days=...)`. Grocy defaults the due-soon window to 5 days and ignores the `stock_due_soon_days` system setting unless `?due_soon_days=N` is sent; there was previously no public way to send it, which pushed downstream consumers into calling the private API client.
+- `Chore.period_interval`, `Chore.start_date`, `Chore.consume_product_on_execution` and `Chore.product_id`, populated from the chore responses ([#12](https://github.com/iamkarlson/grocy-py/pull/12) by @asylumfunk).
+- `ChoreLogManager` is now exported from `grocy` and `grocy.managers`. It shipped in 0.1.0 as `grocy.chores_log` but was missing from both `__all__` lists.
+- `EntityType` and `TransactionType` are re-exported from the package root.
+
+**Fixed**
+
+- `Grocy.chores_log` was annotated as returning `ChoreManager` instead of `ChoreLogManager`.
+- Eight `GrocyApiClient` parameters used implicit `Optional` (`x: int = None`) and are now annotated `x: int | None = None`. Annotation-only; runtime behaviour is unchanged.
+- `GrocyApiClient.get_volatile_stock()` raised `TypeError` on an empty response body and now returns an empty `CurrentVolatileStockResponse`.
+
+**Changed**
+
+- Runtime floor `requests>=2.33` for CVE-2026-25645 (insecure temp file reuse in `extract_zipped_paths`). Dev dependency `urllib3` relaxed from `==2.7.0` to `>=2.7.0` so future fixes are not blocked by an equality pin.
+- Tested on Python 3.12, 3.13 and 3.14. `requires-python` stays `>=3.12`.
+- The ruff rule set is now declared explicitly rather than inherited from ruff's defaults, so a ruff upgrade can no longer silently change what is enforced.
+
+**Removed**
+
+- Dead config inherited from the pygrocy2 fork: `tox.ini` (referenced requirements files that do not exist), `.flake8`, `stackaid.json`, `setup.py`, and the Probot-era `.github/stale.yml` / `.github/no-response.yml`. Dependabot is replaced by Renovate.
+
+---
+
 ## [0.1.0](https://github.com/iamkarlson/grocy-py/tree/0.1.0) (2026-05-11)
 
 First post-`0.0.x` release. Cleans up the long-standing PR backlog from forks and tightens runtime dependency pins for downstream consumers (notably the [Home Assistant Grocy integration](https://github.com/iamkarlson/grocy)).

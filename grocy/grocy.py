@@ -73,7 +73,7 @@ class Grocy:
         return ChoreManager(self._api_client)
 
     @cached_property
-    def chores_log(self) -> ChoreManager:
+    def chores_log(self) -> ChoreLogManager:
         """Access chore log management operations."""
         return ChoreLogManager(self._api_client)
 

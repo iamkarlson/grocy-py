@@ -1,0 +1,14 @@
+# setuptools_scm adds every git-tracked file to the sdist by default, which
+# pulled in ~110 VCR cassettes and made the tarball roughly eight times the
+# size of the wheel. None of it is useful to someone installing the package.
+prune test
+prune docs
+prune scripts
+exclude docker-compose.yml
+exclude prod.env.example
+exclude mkdocs.yml
+exclude taskfile.yml
+exclude pytest.ini
+exclude .pre-commit-config.yaml
+exclude renovate.json
+exclude RELEASE_GUIDE.md

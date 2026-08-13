@@ -4,9 +4,9 @@ from datetime import datetime
 
 from pydantic import BaseModel
 
-from .user import User
-from .chore import Chore
 from ..grocy_api_client import GrocyApiClient
+from .chore import Chore
+from .user import User
 
 
 class ChoreLog(BaseModel):

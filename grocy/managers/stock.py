@@ -5,7 +5,11 @@ from typing import TYPE_CHECKING
 
 from ..data_models.generic import EntityType
 from ..data_models.product import Group, Product
-from ..grocy_api_client import ProductData, TransactionType
+from ..grocy_api_client import (
+    CurrentVolatileStockResponse,
+    ProductData,
+    TransactionType,
+)
 
 if TYPE_CHECKING:
     from ..grocy_api_client import GrocyApiClient
@@ -25,13 +29,35 @@ class StockManager:
         raw_stock = self._api.get_stock()
         return [Product.from_stock_response(resp) for resp in raw_stock]
 
-    def due_products(self, get_details: bool = False) -> list[Product]:
+    def volatile(
+        self, due_soon_days: int | None = None
+    ) -> CurrentVolatileStockResponse:
+        """Get the raw volatile stock response.
+
+        Returns all four buckets (due, overdue, expired, missing) in a single
+        request. Use this instead of calling `due_products`, `overdue_products`,
+        `expired_products` and `missing_products` separately when you need more
+        than one of them.
+
+        Args:
+            due_soon_days: Size of the "due soon" window in days. When omitted,
+                Grocy applies its own default of 5 days, ignoring the
+                stock_due_soon_days system setting.
+        """
+        return self._api.get_volatile_stock(due_soon_days)
+
+    def due_products(
+        self, get_details: bool = False, due_soon_days: int | None = None
+    ) -> list[Product]:
         """Get products that are due soon.
 
         Args:
             get_details: Fetch full product details for each item.
+            due_soon_days: Size of the "due soon" window in days. When omitted,
+                Grocy applies its own default of 5 days, ignoring the
+                stock_due_soon_days system setting.
         """
-        raw = self._api.get_volatile_stock().due_products
+        raw = self._api.get_volatile_stock(due_soon_days).due_products
         products = [Product.from_stock_response(resp) for resp in raw] if raw else []
         if get_details:
             for item in products:
