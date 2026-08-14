@@ -1,6 +1,10 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
-  "extends": ["config:recommended", ":dependencyDashboard"],
+  "extends": [
+    "config:recommended",
+    ":dependencyDashboard",
+    ":enablePreCommit"
+  ],
   "packageRules": [
     {
       "matchManagers": ["pep621"],
@@ -9,6 +13,12 @@
     {
       "matchManagers": ["github-actions"],
       "groupName": "github actions"
+    },
+    {
+      "description": "Keep the ruff-pre-commit rev in step with the ruff pin in pyproject.toml; letting them drift is how a ruff bump turns into a surprise wall of findings",
+      "matchManagers": ["pep621", "pre-commit"],
+      "matchPackageNames": ["ruff", "astral-sh/ruff-pre-commit"],
+      "groupName": "ruff"
     }
   ]
 }
