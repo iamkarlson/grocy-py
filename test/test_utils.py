@@ -1,5 +1,5 @@
 import zoneinfo
-from datetime import datetime
+from datetime import date, datetime
 
 from grocy import utils
 
@@ -99,3 +99,22 @@ class TestUtils:
         date_str = utils.grocy_datetime_str(date)
 
         assert date_str == "2022-07-10 21:17:34"
+
+
+class TestGrocyDateStr:
+    def test_plain_date(self):
+        assert utils.grocy_date_str(date(2019, 1, 19)) == "2019-01-19"
+
+    def test_naive_datetime(self):
+        stamp = datetime(2019, 1, 19, 23, 45, 12)
+
+        assert utils.grocy_date_str(stamp) == "2019-01-19"
+
+    def test_timezone_aware_datetime_keeps_its_own_day(self):
+        los_angeles = zoneinfo.ZoneInfo("America/Los_Angeles")
+        stamp = datetime(2019, 1, 19, 23, 45, 12, tzinfo=los_angeles)
+
+        assert utils.grocy_date_str(stamp) == "2019-01-19"
+
+    def test_none(self):
+        assert utils.grocy_date_str(None) == ""

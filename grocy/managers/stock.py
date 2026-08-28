@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from datetime import datetime
+from datetime import date, datetime
 from typing import TYPE_CHECKING
 
 from ..data_models.generic import EntityType
@@ -138,7 +138,7 @@ class StockManager:
         product_id: int,
         amount: float,
         price: float,
-        best_before_date: datetime | None = None,
+        best_before_date: date | datetime | None = None,
         transaction_type: TransactionType = TransactionType.PURCHASE,
     ):
         """Add stock for a product.
@@ -147,7 +147,8 @@ class StockManager:
             product_id: The Grocy product ID.
             amount: Quantity to add.
             price: Unit price.
-            best_before_date: Expiry date. Defaults to the product's configured default.
+            best_before_date: Expiry date, as a ``date`` or ``datetime``. Defaults
+                to the product's configured default.
             transaction_type: Type of stock transaction.
         """
         return self._api.add_product(
@@ -213,7 +214,7 @@ class StockManager:
         self,
         product_id: int,
         new_amount: float,
-        best_before_date: datetime | None = None,
+        best_before_date: date | datetime | None = None,
         shopping_location_id: int | None = None,
         location_id: int | None = None,
         price: float | None = None,
@@ -224,7 +225,8 @@ class StockManager:
         Args:
             product_id: The Grocy product ID.
             new_amount: The corrected total amount.
-            best_before_date: Expiry date for the corrected stock.
+            best_before_date: Expiry date for the corrected stock, as a ``date``
+                or ``datetime``.
             shopping_location_id: Where the product was purchased.
             location_id: Storage location ID.
             price: Unit price.
@@ -250,7 +252,7 @@ class StockManager:
         barcode: str,
         amount: float,
         price: float,
-        best_before_date: datetime | None = None,
+        best_before_date: date | datetime | None = None,
         get_details: bool = True,
     ) -> Product | None:
         """Add stock for a product identified by barcode.
@@ -259,7 +261,7 @@ class StockManager:
             barcode: Product barcode.
             amount: Quantity to add.
             price: Unit price.
-            best_before_date: Expiry date.
+            best_before_date: Expiry date, as a ``date`` or ``datetime``.
             get_details: Fetch full product details after adding.
         """
         resp = self._api.add_product_by_barcode(
@@ -327,7 +329,7 @@ class StockManager:
         self,
         barcode: str,
         new_amount: float,
-        best_before_date: datetime | None = None,
+        best_before_date: date | datetime | None = None,
         location_id: int | None = None,
         price: float | None = None,
         get_details: bool = True,
@@ -337,7 +339,8 @@ class StockManager:
         Args:
             barcode: Product barcode.
             new_amount: The corrected total amount.
-            best_before_date: Expiry date for the corrected stock.
+            best_before_date: Expiry date for the corrected stock, as a ``date``
+                or ``datetime``.
             location_id: Storage location ID.
             price: Unit price.
             get_details: Fetch full product details after correction.

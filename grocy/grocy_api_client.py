@@ -1,7 +1,7 @@
 import base64
 import json
 import logging
-from datetime import datetime
+from datetime import date, datetime
 from enum import Enum
 from typing import Any
 from urllib.parse import urljoin
@@ -11,7 +11,7 @@ from pydantic import BaseModel, Field, field_validator, model_validator
 
 from .data_models.generic import EntityType
 from .errors import GrocyError
-from .utils import grocy_datetime_str, localize_datetime, parse_date
+from .utils import grocy_date_str, grocy_datetime_str, localize_datetime, parse_date
 
 DEFAULT_PORT_NUMBER = 9192
 
@@ -636,7 +636,7 @@ class GrocyApiClient:
         product_id,
         amount: float,
         price: float,
-        best_before_date: datetime | None = None,
+        best_before_date: date | datetime | None = None,
         transaction_type: TransactionType = TransactionType.PURCHASE,
     ):
         """Add stock for a product."""
@@ -647,7 +647,7 @@ class GrocyApiClient:
         }
 
         if best_before_date is not None:
-            data["best_before_date"] = best_before_date.strftime("%Y-%m-%d")
+            data["best_before_date"] = grocy_date_str(best_before_date)
 
         return self._do_post_request(f"stock/products/{product_id}/add", data)
 
@@ -687,7 +687,7 @@ class GrocyApiClient:
         self,
         product_id: int,
         new_amount: float,
-        best_before_date: datetime | None = None,
+        best_before_date: date | datetime | None = None,
         shopping_location_id: int | None = None,
         location_id: int | None = None,
         price: float | None = None,
@@ -698,9 +698,7 @@ class GrocyApiClient:
         }
 
         if best_before_date is not None:
-            data["best_before_date"] = localize_datetime(best_before_date).strftime(
-                "%Y-%m-%d"
-            )
+            data["best_before_date"] = grocy_date_str(best_before_date)
         if shopping_location_id is not None:
             data["shopping_location_id"] = shopping_location_id
 
@@ -724,7 +722,7 @@ class GrocyApiClient:
         barcode: str,
         amount: float,
         price: float,
-        best_before_date: datetime | None = None,
+        best_before_date: date | datetime | None = None,
     ) -> StockLogResponse:
         """Add stock for a product identified by barcode."""
         data = {
@@ -734,9 +732,7 @@ class GrocyApiClient:
         }
 
         if best_before_date is not None:
-            data["best_before_date"] = localize_datetime(best_before_date).strftime(
-                "%Y-%m-%d"
-            )
+            data["best_before_date"] = grocy_date_str(best_before_date)
 
         parsed_json = self._do_post_request(
             f"stock/products/by-barcode/{barcode}/add", data
@@ -770,7 +766,7 @@ class GrocyApiClient:
         self,
         barcode: str,
         new_amount: float,
-        best_before_date: datetime | None = None,
+        best_before_date: date | datetime | None = None,
         location_id: int | None = None,
         price: float | None = None,
     ):
@@ -780,9 +776,7 @@ class GrocyApiClient:
         }
 
         if best_before_date is not None:
-            data["best_before_date"] = localize_datetime(best_before_date).strftime(
-                "%Y-%m-%d"
-            )
+            data["best_before_date"] = grocy_date_str(best_before_date)
 
         if location_id is not None:
             data["location_id"] = location_id

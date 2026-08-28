@@ -1,5 +1,16 @@
 # Changelog
 
+## [1.0.1](https://github.com/iamkarlson/grocy-py/tree/1.0.1) (2026-08-28)
+
+**Fixed**
+
+- The four stock write paths that take a `best_before_date` now accept a plain `datetime.date`, not only a `datetime`. `StockManager.add` happened to work already because it formatted the value directly; `inventory`, `add_by_barcode` and `inventory_by_barcode` routed it through `localize_datetime()`, which reads `.tzinfo` and therefore raised `AttributeError: 'datetime.date' object has no attribute 'tzinfo'`. This is the type Home Assistant's `cv.date` validator produces, so it is the common case for downstream integrations.
+- All four paths now share one date formatter, so they agree on the rendered value. Previously `add_product` skipped the localization step the other three applied; since `localize_datetime()` only attaches tzinfo and never shifts the clock, the emitted `YYYY-MM-DD` was already identical — the inconsistency was latent, not visible.
+
+**Changed**
+
+- `best_before_date` parameters are annotated `date | datetime | None` across `StockManager.add`, `.inventory`, `.add_by_barcode`, `.inventory_by_barcode` and the corresponding `GrocyApiClient` methods. Widening only; every call that type-checked against 1.0.0 still does. Inbound response models keep `datetime`, since Grocy returns timestamps there.
+
 ## [1.0.0](https://github.com/iamkarlson/grocy-py/tree/1.0.0) (2026-08-14)
 
 First stable release. From here the package follows [semantic versioning](https://semver.org/) — see [Stability](README.md#stability) for exactly what that covers. Nothing was removed or renamed relative to 0.1.0, so this is a drop-in upgrade; the version number marks the commitment, not a break.

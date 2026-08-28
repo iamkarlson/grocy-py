@@ -1,5 +1,5 @@
 import zoneinfo
-from datetime import datetime
+from datetime import date, datetime
 
 from tzlocal import get_localzone
 
@@ -63,6 +63,21 @@ def grocy_datetime_str(timestamp: datetime) -> str:
     if timestamp is None:
         return ""
     return timestamp.strftime("%Y-%m-%d %H:%M:%S")
+
+
+def grocy_date_str(value: date | datetime | None) -> str:
+    """Format a date or datetime as a Grocy-compatible date string (``YYYY-MM-DD``).
+
+    Grocy's date-only fields carry no time or offset, so a plain ``date`` is
+    formatted as-is. A ``datetime`` is localized first for consistency with the
+    other timestamp fields; since :func:`localize_datetime` only attaches tzinfo
+    and never shifts the clock, the rendered day is unchanged either way.
+    """
+    if value is None:
+        return ""
+    if isinstance(value, datetime):
+        return localize_datetime(value).strftime("%Y-%m-%d")
+    return value.strftime("%Y-%m-%d")
 
 
 def _detect_local_zone():
