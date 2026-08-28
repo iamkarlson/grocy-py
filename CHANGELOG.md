@@ -1,15 +1,21 @@
 # Changelog
 
-## [1.0.1](https://github.com/iamkarlson/grocy-py/tree/1.0.1) (2026-08-28)
+## [1.1.0](https://github.com/iamkarlson/grocy-py/tree/1.1.0) (2026-08-28)
+
+Accepting a new input type is added functionality, so this is a minor bump rather than a patch. Nothing was removed or renamed; every call that worked against 1.0.0 still works.
+
+**Added**
+
+- `best_before_date` now accepts a plain `datetime.date` on all four stock write paths: `StockManager.add`, `.inventory`, `.add_by_barcode` and `.inventory_by_barcode`, plus the corresponding `GrocyApiClient` methods. Home Assistant's `cv.date` validator produces exactly this type, so it is the common case for downstream integrations. The parameters are annotated `date | datetime | None`; passing a `datetime` behaves as before. Inbound response models keep `datetime`, since Grocy returns timestamps there.
 
 **Fixed**
 
-- The four stock write paths that take a `best_before_date` now accept a plain `datetime.date`, not only a `datetime`. `StockManager.add` happened to work already because it formatted the value directly; `inventory`, `add_by_barcode` and `inventory_by_barcode` routed it through `localize_datetime()`, which reads `.tzinfo` and therefore raised `AttributeError: 'datetime.date' object has no attribute 'tzinfo'`. This is the type Home Assistant's `cv.date` validator produces, so it is the common case for downstream integrations.
-- All four paths now share one date formatter, so they agree on the rendered value. Previously `add_product` skipped the localization step the other three applied; since `localize_datetime()` only attaches tzinfo and never shifts the clock, the emitted `YYYY-MM-DD` was already identical — the inconsistency was latent, not visible.
+- Three of those four paths raised `AttributeError: 'datetime.date' object has no attribute 'tzinfo'` when given a `date`. `inventory`, `add_by_barcode` and `inventory_by_barcode` routed the value through `localize_datetime()`, which reads `.tzinfo`; only `add` worked, and only because it formatted the value directly without localizing.
+- All four paths now share one date formatter, so they agree on the rendered value. The previous inconsistency was latent rather than visible: `localize_datetime()` only attaches tzinfo and never shifts the clock, so the emitted `YYYY-MM-DD` was already identical for any input that did not crash.
 
 **Changed**
 
-- `best_before_date` parameters are annotated `date | datetime | None` across `StockManager.add`, `.inventory`, `.add_by_barcode`, `.inventory_by_barcode` and the corresponding `GrocyApiClient` methods. Widening only; every call that type-checked against 1.0.0 still does. Inbound response models keep `datetime`, since Grocy returns timestamps there.
+- Dev dependency `ruff` moves to 0.16.5 with the `ruff-pre-commit` rev kept in step. 0.16.5 formats Python code blocks inside Markdown, which reformatted `docs/getting-started.md` (whitespace only). `task lint` now runs `ruff format --check .` so local and CI agree.
 
 ## [1.0.0](https://github.com/iamkarlson/grocy-py/tree/1.0.0) (2026-08-14)
 
