@@ -24,7 +24,7 @@ grocy = Grocy(
     "https://your-grocy-instance.com",
     "YOUR_API_KEY",
     port=9192,
-    path="grocy",       # if Grocy is behind a subpath
+    path="grocy",  # if Grocy is behind a subpath
     verify_ssl=True,
     debug=False,
 )
@@ -209,7 +209,9 @@ print(f"{recipe.name} ({recipe.base_servings} servings)")
 
 # Check fulfillment
 fulfillment = grocy.recipes.fulfillment(recipe_id=1)
-print(f"Fulfilled: {fulfillment.need_fulfilled}, missing: {fulfillment.missing_products_count}")
+print(
+    f"Fulfilled: {fulfillment.need_fulfilled}, missing: {fulfillment.missing_products_count}"
+)
 
 # Get all recipes' fulfillment status
 for f in grocy.recipes.all_fulfillment():
@@ -348,8 +350,8 @@ stock = grocy.stock.current()
 # Full details (1 + N API calls)
 due = grocy.stock.due_products(get_details=True)
 for product in due:
-    print(product.name)       # available with details
-    print(product.barcodes)   # available with details
+    print(product.name)  # available with details
+    print(product.barcodes)  # available with details
 ```
 
 ## Error Handling

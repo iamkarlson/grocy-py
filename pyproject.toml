@@ -32,7 +32,7 @@ dev = [
     "pytest-mock",
     # 2.7.0 is the floor for GHSA-mf9v-mfxr-j63j / GHSA-qccp-gfcp-xxvc.
     "urllib3>=2.7.0",
-    "ruff>=0.15.1",
+    "ruff>=0.16.5",
 ]
 docs = [
     "mkdocs-material",

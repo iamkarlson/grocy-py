@@ -41,6 +41,7 @@ tasks:
     desc: Lint with Ruff
     cmds:
       - uv run ruff check .
+      - uv run ruff format --check .
 
   format:
     desc: Format code with Ruff and apply fixes
