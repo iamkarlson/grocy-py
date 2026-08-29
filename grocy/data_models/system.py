@@ -50,7 +50,7 @@ class SystemTime(BaseModel):
 class SystemConfig(BaseModel):
     """Grocy system configuration including locale, currency, and feature flags."""
 
-    username: str
+    username: str | None = None
     base_path: str
     base_url: str
     mode: str
