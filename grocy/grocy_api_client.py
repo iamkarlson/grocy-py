@@ -375,7 +375,10 @@ class SystemTimeDto(BaseModel):
 class SystemConfigDto(BaseModel, extra="allow"):
     """API response model for system configuration."""
 
-    username: str = Field(alias="USER_USERNAME")
+    # grocy 4.7.0 stopped exposing the user-scoped constants (USER_USERNAME,
+    # USER_ID, USER_PICTURE_FILE_NAME) from GET /system/config, so this is
+    # absent on newer servers.
+    username: str | None = Field(default=None, alias="USER_USERNAME")
     base_path: str = Field(alias="BASE_PATH")
     base_url: str = Field(alias="BASE_URL")
     mode: str = Field(alias="MODE")
