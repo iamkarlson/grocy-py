@@ -1,5 +1,17 @@
 # Changelog
 
+## [1.2.0](https://github.com/iamkarlson/grocy-py/tree/1.2.0) (2026-10-03)
+
+Grocy 4.7.0 stopped returning the user-scoped constants (`USER_USERNAME`, `USER_ID`, `USER_PICTURE_FILE_NAME`) from `GET /system/config`. 1.1.0 and earlier declared `USER_USERNAME` as required, so `Grocy.system.config()` raised `ValidationError` against any 4.7.x server. Support for the new server response is added capability, so this is a minor bump. Nothing was removed or renamed.
+
+**Added**
+
+- `Grocy.system.config()` works against Grocy 4.7.0 and later. `SystemConfigDto.username` and `SystemConfig.username` are now `str | None`. The value is `None` when the server does not send it, and unchanged on older servers ([#13](https://github.com/iamkarlson/grocy-py/pull/13) by @ripa1993, with the second-layer finding from @thkrmr in [iamkarlson/grocy#60](https://github.com/iamkarlson/grocy/issues/60)).
+
+**Note for typed consumers**
+
+- `SystemConfig.username` was `str` and is now `str | None`. If you read it, handle `None`.
+
 ## [1.1.0](https://github.com/iamkarlson/grocy-py/tree/1.1.0) (2026-08-28)
 
 Accepting a new input type is added functionality, so this is a minor bump rather than a patch. Nothing was removed or renamed; every call that worked against 1.0.0 still works.
