@@ -1,5 +1,25 @@
 # Changelog
 
+## [1.3.0](https://github.com/iamkarlson/grocy-py/tree/1.3.0) (2026-10-03)
+
+Grocy stores the meal plan `type` as free text without a constraint. One entry with a value outside `MealPlanItemType` stopped the read of the whole meal plan. This release adds two enum members and widens one field, so it is a minor bump. Nothing was removed or renamed.
+
+**Added**
+
+- `MealPlanItemType.MAIN` (`"main"`) and `MealPlanItemType.SIDE` (`"side"`).
+
+**Fixed**
+
+- `Grocy.meal_plan.items()` raised `ValueError: 'main' is not a valid MealPlanItemType` when one entry had an unknown type ([iamkarlson/grocy#69](https://github.com/iamkarlson/grocy/issues/69) by @pwtinkering). A value that is not in the enum now stays a plain string, and the library logs a warning.
+
+**Changed**
+
+- All locked dev dependencies upgraded. This clears advisories in urllib3, tornado and virtualenv. All of them are dev dependencies. Dev dependency `ruff` moves to 0.16.10, and `pre-commit-hooks` to v6.
+
+**Note for typed consumers**
+
+- `MealPlanItem.type` was `MealPlanItemType` and is now `MealPlanItemType | str`. Comparisons with enum members work as before.
+
 ## [1.2.0](https://github.com/iamkarlson/grocy-py/tree/1.2.0) (2026-10-03)
 
 Grocy 4.7.0 stopped returning the user-scoped constants (`USER_USERNAME`, `USER_ID`, `USER_PICTURE_FILE_NAME`) from `GET /system/config`. 1.1.0 and earlier declared `USER_USERNAME` as required, so `Grocy.system.config()` raised `ValidationError` against any 4.7.x server. Support for the new server response is added capability, so this is a minor bump. Nothing was removed or renamed.
