@@ -79,3 +79,45 @@ class TestMealPlan:
 
         error = exc_info.value
         assert error.status_code == 500
+
+
+class TestMealPlanItemType:
+    """Grocy stores meal_plan.type as free text without a constraint (#69 in iamkarlson/grocy)."""
+
+    @staticmethod
+    def _response(type_value: str):
+        from grocy.grocy_api_client import MealPlanResponse
+
+        return MealPlanResponse(
+            id=7,
+            day="2026-10-03 00:00:00",
+            type=type_value,
+            row_created_timestamp="2026-10-01 12:00:00",
+        )
+
+    @pytest.mark.parametrize("member", list(MealPlanItemType))
+    def test_known_type_is_enum_member(self, member, caplog):
+        from grocy.data_models.meal_items import MealPlanItem
+
+        item = MealPlanItem.from_response(self._response(member.value))
+
+        assert item.type is member
+        assert "unknown type" not in caplog.text
+
+    @pytest.mark.parametrize("value", ["main", "side"])
+    def test_main_and_side_are_known(self, value):
+        from grocy.data_models.meal_items import MealPlanItem
+
+        item = MealPlanItem.from_response(self._response(value))
+
+        assert isinstance(item.type, MealPlanItemType)
+        assert item.type == value
+
+    def test_unknown_type_is_kept_as_string(self, caplog):
+        from grocy.data_models.meal_items import MealPlanItem
+
+        item = MealPlanItem.from_response(self._response("dessert"))
+
+        assert item.type == "dessert"
+        assert not isinstance(item.type, MealPlanItemType)
+        assert "Meal plan item 7 has unknown type 'dessert'" in caplog.text

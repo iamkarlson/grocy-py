@@ -1,10 +1,13 @@
 from __future__ import annotations
 
 import base64
+import logging
 from datetime import date, datetime
 from enum import Enum
 
 from pydantic import BaseModel
+
+_LOGGER = logging.getLogger(__name__)
 
 
 class RecipeItem(BaseModel):
@@ -66,6 +69,8 @@ class MealPlanItemType(str, Enum):
     NOTE = "note"
     PRODUCT = "product"
     RECIPE = "recipe"
+    MAIN = "main"
+    SIDE = "side"
 
 
 class MealPlanItem(BaseModel):
@@ -79,7 +84,8 @@ class MealPlanItem(BaseModel):
     recipe: RecipeItem | None = None
     section_id: int | None = None
     section: MealPlanSection | None = None
-    type: MealPlanItemType
+    # Grocy stores the type as free text, so values outside the enum are kept as-is.
+    type: MealPlanItemType | str
     product_id: int | None = None
 
     @classmethod
@@ -93,7 +99,7 @@ class MealPlanItem(BaseModel):
             recipe_servings=resp.recipe_servings,
             note=resp.note,
             section_id=resp.section_id,
-            type=MealPlanItemType(resp.type),
+            type=cls._parse_type(resp.type, resp.id),
             product_id=resp.product_id,
         )
 
@@ -107,6 +113,18 @@ class MealPlanItem(BaseModel):
             section = api_client.get_meal_plan_section(self.section_id)
             if section:
                 self.section = MealPlanSection.from_response(section)
+
+    @staticmethod
+    def _parse_type(value: str, item_id: int) -> MealPlanItemType | str:
+        try:
+            return MealPlanItemType(value)
+        except ValueError:
+            _LOGGER.warning(
+                "Meal plan item %s has unknown type %r; keeping it as a string",
+                item_id,
+                value,
+            )
+            return value
 
     @staticmethod
     def _normalize_day(value) -> date | None:
