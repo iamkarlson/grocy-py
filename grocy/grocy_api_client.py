@@ -14,6 +14,7 @@ from .errors import GrocyError
 from .utils import grocy_date_str, grocy_datetime_str, localize_datetime, parse_date
 
 DEFAULT_PORT_NUMBER = 9192
+DEFAULT_TIMEOUT = 30
 
 _LOGGER = logging.getLogger(__name__)
 _LOGGER.setLevel(logging.INFO)
@@ -478,6 +479,7 @@ class GrocyApiClient:
         path: str | None = None,
         verify_ssl=True,
         debug=False,
+        timeout: float = DEFAULT_TIMEOUT,
     ):
         if debug:
             _enable_debug_mode()
@@ -490,54 +492,55 @@ class GrocyApiClient:
 
         self._api_key = api_key
         self._verify_ssl = verify_ssl
+        self._timeout = timeout
         if self._api_key == "demo_mode":
             self._headers = {"accept": "application/json"}
         else:
             self._headers = {"accept": "application/json", "GROCY-API-KEY": api_key}
 
-    def _do_get_request(self, end_url: str, query_filters: list[str] | None = None):
-        req_url = urljoin(self._base_url, end_url)
-        params = None
-        if query_filters:
-            params = {"query[]": query_filters}
-        resp = requests.get(
-            req_url, verify=self._verify_ssl, headers=self._headers, params=params
+    def _send(
+        self, method: str, end_url: str, headers: dict | None = None, **kwargs
+    ) -> requests.Response:
+        resp = requests.request(
+            method,
+            urljoin(self._base_url, end_url),
+            verify=self._verify_ssl,
+            headers=headers or self._headers,
+            timeout=self._timeout,
+            **kwargs,
         )
 
-        _LOGGER.debug("-->\tGET /%s", end_url)
+        _LOGGER.debug("-->\t%s /%s", method, end_url)
+        if (body := kwargs.get("json", kwargs.get("data"))) is not None:
+            _LOGGER.debug("\t\t%s", body)
         _LOGGER.debug("<--\t%d for /%s", resp.status_code, end_url)
         _LOGGER.debug("\t\t%s", resp.content)
 
         if resp.status_code >= 400:
             raise GrocyError(resp)
+        return resp
 
-        if len(resp.content) > 0:
-            try:
-                return resp.json()
-            except ValueError:
-                _LOGGER.warning("Received non-JSON response for /%s", end_url)
-                return None
-        return None
+    def _send_json(self, method: str, end_url: str, **kwargs):
+        """Send a request and return the JSON body, or None for a blank body.
+
+        A 2xx body that is not JSON (a proxy or login page) raises GrocyError.
+        """
+        resp = self._send(method, end_url, **kwargs)
+        if not resp.content.strip():
+            return None
+        try:
+            return resp.json()
+        except ValueError as error:
+            raise GrocyError(resp) from error
+
+    def _do_get_request(self, end_url: str, query_filters: list[str] | None = None):
+        params = {"query[]": query_filters} if query_filters else None
+        return self._send_json("GET", end_url, params=params)
 
     def _do_post_request(self, end_url: str, data: dict):
-        req_url = urljoin(self._base_url, end_url)
-        resp = requests.post(
-            req_url, verify=self._verify_ssl, headers=self._headers, json=data
-        )
-
-        _LOGGER.debug("-->\tPOST /%s", end_url)
-        _LOGGER.debug("\t\t%s", data)
-        _LOGGER.debug("<--\t%d for /%s", resp.status_code, end_url)
-        _LOGGER.debug("\t\t%s", resp.content)
-
-        if resp.status_code >= 400:
-            raise GrocyError(resp)
-        if len(resp.content) > 0:
-            return resp.json()
-        return None
+        return self._send_json("POST", end_url, json=data)
 
     def _do_put_request(self, end_url: str, data):
-        req_url = urljoin(self._base_url, end_url)
         up_header = self._headers.copy()
         up_header["accept"] = "*/*"
         if isinstance(data, dict):
@@ -545,36 +548,10 @@ class GrocyApiClient:
             data = json.dumps(data)
         else:
             up_header["Content-Type"] = "application/octet-stream"
-        resp = requests.put(
-            req_url, verify=self._verify_ssl, headers=up_header, data=data
-        )
-
-        _LOGGER.debug("-->\tPUT /%s", end_url)
-        _LOGGER.debug("\t\t%s", data)
-        _LOGGER.debug("<--\t%d for /%s", resp.status_code, end_url)
-        _LOGGER.debug("\t\t%s", resp.content)
-
-        if resp.status_code >= 400:
-            raise GrocyError(resp)
-
-        if len(resp.content) > 0:
-            return resp.json()
-        return None
+        return self._send_json("PUT", end_url, headers=up_header, data=data)
 
     def _do_delete_request(self, end_url: str):
-        req_url = urljoin(self._base_url, end_url)
-        resp = requests.delete(req_url, verify=self._verify_ssl, headers=self._headers)
-
-        _LOGGER.debug("-->\tDELETE /%s", end_url)
-        _LOGGER.debug("<--\t%d for /%s", resp.status_code, end_url)
-        _LOGGER.debug("\t\t%s", resp.content)
-
-        if resp.status_code >= 400:
-            raise GrocyError(resp)
-
-        if len(resp.content) > 0:
-            return resp.json()
-        return None
+        return self._send_json("DELETE", end_url)
 
     # --- Stock ---
 
@@ -1332,13 +1309,7 @@ class GrocyApiClient:
 
     def get_calendar_ical(self) -> str | None:
         """Get calendar in iCal format."""
-        req_url = urljoin(self._base_url, "calendar/ical")
-        resp = requests.get(req_url, verify=self._verify_ssl, headers=self._headers)
-        if resp.status_code >= 400:
-            raise GrocyError(resp)
-        if len(resp.content) > 0:
-            return resp.text
-        return None
+        return self._send("GET", "calendar/ical").text or None
 
     def get_calendar_sharing_link(self) -> str | None:
         """Get calendar sharing URL."""
@@ -1349,20 +1320,20 @@ class GrocyApiClient:
 
     # --- Files ---
 
+    @staticmethod
+    def _file_url(group: str, file_name: str) -> str:
+        b64fn = base64.b64encode(file_name.encode("utf-8"))
+        return f"files/{group}/" + str(b64fn, "utf-8")
+
     def upload_file(self, group: str, file_name: str, data):
         """Upload a file to Grocy."""
-        b64fn = base64.b64encode(file_name.encode("ascii"))
-        req_url = f"files/{group}/" + str(b64fn, "utf-8")
-        self._do_put_request(req_url, data)
+        self._do_put_request(self._file_url(group, file_name), data)
 
-    def download_file(self, group: str, file_name: str):
+    def download_file(self, group: str, file_name: str) -> bytes:
         """Download a file from Grocy."""
-        b64fn = base64.b64encode(file_name.encode("ascii"))
-        req_url = f"files/{group}/" + str(b64fn, "utf-8")
-        return self._do_get_request(req_url)
+        headers = {**self._headers, "accept": "*/*"}
+        return self._send("GET", self._file_url(group, file_name), headers).content
 
     def delete_file(self, group: str, file_name: str):
         """Delete a file from Grocy."""
-        b64fn = base64.b64encode(file_name.encode("ascii"))
-        req_url = f"files/{group}/" + str(b64fn, "utf-8")
-        return self._do_delete_request(req_url)
+        return self._do_delete_request(self._file_url(group, file_name))
