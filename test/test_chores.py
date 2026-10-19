@@ -54,14 +54,15 @@ class TestChores:
     @pytest.mark.vcr
     def test_execute_chore_valid(self, grocy):
         result = grocy.chores.execute(1)
-        assert not isinstance(result, GrocyError)
+        assert result["chore_id"] == 1
 
     @pytest.mark.vcr
     def test_execute_chore_valid_with_data(self, grocy):
         result = grocy.chores.execute(
             1, done_by=1, tracked_time=datetime.now(), skipped=False
         )
-        assert not isinstance(result, GrocyError)
+        assert result["chore_id"] == 1
+        assert result["done_by_user_id"] == 1
 
     @pytest.mark.vcr
     def test_execute_chore_invalid(self, grocy):
@@ -76,6 +77,7 @@ class TestChores:
         query_filter = ["next_execution_assigned_to_user_id=1"]
         chores = grocy.chores.list(get_details=True, query_filters=query_filter)
 
+        assert chores
         for item in chores:
             assert item.next_execution_assigned_to_user_id == 1
 
