@@ -28,6 +28,8 @@ class GrocyError(Exception):
     def __init__(self, response: Response):
         self._status_code = response.status_code
         self._message = _error_message(response)
+        detail = f": {self._message}" if self._message else ""
+        super().__init__(f"HTTP {self._status_code}{detail}")
 
     @property
     def status_code(self) -> int:

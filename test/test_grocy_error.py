@@ -40,3 +40,13 @@ def test_empty_body_has_no_message():
 
     assert error.status_code == 404
     assert error.message is None
+
+
+def test_str_shows_status_and_message():
+    error = GrocyError(make_response(400, b'{"error_message": "bad input"}'))
+
+    assert str(error) == "HTTP 400: bad input"
+
+
+def test_str_without_message_shows_status():
+    assert str(GrocyError(make_response(404, b""))) == "HTTP 404"
