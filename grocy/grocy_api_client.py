@@ -230,7 +230,7 @@ class ChoreDetailsResponse(BaseModel):
     chore: ChoreData
     last_tracked: datetime | None = None
     next_estimated_execution_time: datetime | None = None
-    track_count: int = 0
+    track_count: int = Field(0, alias="tracked_count")
     next_execution_assigned_user: UserDto | None = None
     last_done_by: UserDto | None = None
 
@@ -242,6 +242,11 @@ class TransactionType(Enum):
     CONSUME = "consume"
     INVENTORY_CORRECTION = "inventory-correction"
     PRODUCT_OPENED = "product-opened"
+    TRANSFER_FROM = "transfer_from"
+    TRANSFER_TO = "transfer_to"
+    STOCK_EDIT_OLD = "stock-edit-old"
+    STOCK_EDIT_NEW = "stock-edit-new"
+    SELF_PRODUCTION = "self-production"
 
 
 class TaskCategoryDto(BaseModel):
@@ -343,7 +348,7 @@ class StockLogResponse(BaseModel):
     spoiled: bool = False
     stock_id: str
     transaction_id: str
-    transaction_type: TransactionType
+    transaction_type: TransactionType | str = Field(union_mode="left_to_right")
 
 
 class GrocyVersionDto(BaseModel):

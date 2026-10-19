@@ -1,13 +1,12 @@
 from __future__ import annotations
 
 import base64
-import logging
 from datetime import date, datetime
 from enum import Enum
 
 from pydantic import BaseModel
 
-_LOGGER = logging.getLogger(__name__)
+from ..utils import enum_or_str
 
 
 class RecipeItem(BaseModel):
@@ -99,7 +98,9 @@ class MealPlanItem(BaseModel):
             recipe_servings=resp.recipe_servings,
             note=resp.note,
             section_id=resp.section_id,
-            type=cls._parse_type(resp.type, resp.id),
+            type=enum_or_str(
+                MealPlanItemType, resp.type, f"Meal plan item {resp.id}", "type"
+            ),
             product_id=resp.product_id,
         )
 
@@ -113,18 +114,6 @@ class MealPlanItem(BaseModel):
             section = api_client.get_meal_plan_section(self.section_id)
             if section:
                 self.section = MealPlanSection.from_response(section)
-
-    @staticmethod
-    def _parse_type(value: str, item_id: int) -> MealPlanItemType | str:
-        try:
-            return MealPlanItemType(value)
-        except ValueError:
-            _LOGGER.warning(
-                "Meal plan item %s has unknown type %r; keeping it as a string",
-                item_id,
-                value,
-            )
-            return value
 
     @staticmethod
     def _normalize_day(value) -> date | None:

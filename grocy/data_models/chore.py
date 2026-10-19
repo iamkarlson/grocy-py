@@ -5,6 +5,7 @@ from enum import Enum
 
 from pydantic import BaseModel
 
+from ..utils import enum_or_str
 from .user import User
 
 
@@ -36,7 +37,7 @@ class Chore(BaseModel):
     id: int
     name: str | None = None
     description: str | None = None
-    period_type: PeriodType | None = None
+    period_type: PeriodType | str | None = None
     period_config: str | None = None
     period_days: int | None = None
     period_interval: int | None = 0
@@ -45,7 +46,7 @@ class Chore(BaseModel):
     product_id: int | None = None
     track_date_only: bool | None = None
     rollover: bool | None = None
-    assignment_type: AssignmentType | None = None
+    assignment_type: AssignmentType | str | None = None
     assignment_config: str | None = None
     next_execution_assigned_to_user_id: int | None = None
     userfields: dict | None = None
@@ -68,13 +69,16 @@ class Chore(BaseModel):
     def from_details_response(cls, resp) -> Chore:
         """Create from a chore-details API response."""
         chore_data = resp.chore
+        owner = f"Chore {chore_data.id}"
         period_type = (
-            PeriodType(chore_data.period_type)
+            enum_or_str(PeriodType, chore_data.period_type, owner, "period_type")
             if chore_data.period_type is not None
             else None
         )
         assignment_type = (
-            AssignmentType(chore_data.assignment_type)
+            enum_or_str(
+                AssignmentType, chore_data.assignment_type, owner, "assignment_type"
+            )
             if chore_data.assignment_type is not None
             else None
         )

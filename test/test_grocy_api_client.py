@@ -10,6 +10,8 @@ from grocy.grocy_api_client import (
     DEFAULT_TIMEOUT,
     CurrentVolatileStockResponse,
     GrocyApiClient,
+    StockLogResponse,
+    TransactionType,
 )
 
 
@@ -177,3 +179,38 @@ class TestRequests:
 
         assert client.download_file("productpictures", "Bäckerei.jpg") == b"\xff\xd8"
         assert responses.calls[0].request.headers["accept"] == "*/*"
+
+
+class TestStockLogTransactionType:
+    @staticmethod
+    def _log(transaction_type: str) -> StockLogResponse:
+        return StockLogResponse(
+            id=1,
+            product_id=1,
+            amount=1,
+            best_before_date="2026-10-20",
+            purchased_date="2026-10-20",
+            stock_id="s1",
+            transaction_id="t1",
+            transaction_type=transaction_type,
+        )
+
+    @pytest.mark.parametrize(
+        "value",
+        [
+            "purchase",
+            "consume",
+            "inventory-correction",
+            "product-opened",
+            "transfer_from",
+            "transfer_to",
+            "stock-edit-old",
+            "stock-edit-new",
+            "self-production",
+        ],
+    )
+    def test_every_grocy_type_is_an_enum_member(self, value):
+        assert self._log(value).transaction_type is TransactionType(value)
+
+    def test_unknown_type_is_kept_as_string(self):
+        assert self._log("future-type").transaction_type == "future-type"

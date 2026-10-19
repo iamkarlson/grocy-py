@@ -122,6 +122,7 @@ class Product(BaseModel):
             location_id=location_id,
             shopping_location_id=shopping_location_id,
             available_amount=resp.stock_amount,
+            amount_opened=resp.stock_amount_opened,
             best_before_date=resp.next_best_before_date,
             product_barcodes=product_barcodes,
             barcodes=barcodes,
