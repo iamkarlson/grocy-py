@@ -25,7 +25,7 @@ class FileManager:
         """
         return self._api.upload_file(group, file_name, data)
 
-    def download(self, group: str, file_name: str):
+    def download(self, group: str, file_name: str) -> bytes:
         """Download a file.
 
         Args:

@@ -1,7 +1,7 @@
 import logging
 from functools import cached_property
 
-from .grocy_api_client import DEFAULT_PORT_NUMBER, GrocyApiClient
+from .grocy_api_client import DEFAULT_PORT_NUMBER, DEFAULT_TIMEOUT, GrocyApiClient
 from .managers.batteries import BatteryManager
 from .managers.calendar import CalendarManager
 from .managers.chores import ChoreManager
@@ -34,6 +34,8 @@ class Grocy:
         path: Optional URL path prefix (e.g. ``"grocy"`` for ``/grocy/api/``).
         verify_ssl: Whether to verify SSL certificates.
         debug: Enable debug logging.
+        timeout: Seconds to wait for the server to connect and to answer.
+            A call that waits longer raises ``requests.Timeout``.
     """
 
     def __init__(
@@ -44,9 +46,10 @@ class Grocy:
         path: str | None = None,
         verify_ssl=True,
         debug=False,
+        timeout: float = DEFAULT_TIMEOUT,
     ):
         self._api_client = GrocyApiClient(
-            base_url, api_key, port, path, verify_ssl, debug
+            base_url, api_key, port, path, verify_ssl, debug, timeout
         )
 
         if debug:

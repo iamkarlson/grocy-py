@@ -7,19 +7,19 @@ interactions:
       Connection:
       - keep-alive
       User-Agent:
-      - python-requests/2.32.5
+      - python-requests/2.34.2
       accept:
       - application/json
     method: GET
-    uri: http://localhost:9192/api/batteries?query%5B%5D=next_estimated_charge_time%3C2022-06-20
+    uri: http://localhost:9192/api/batteries?query%5B%5D=next_estimated_charge_time%3E2022-06-20
   response:
     body:
-      string: '[]'
+      string: '[{"id":1,"battery_id":1,"last_tracked_time":"2026-02-14 23:59:59","next_estimated_charge_time":"2026-08-13
+        23:59:59"},{"id":2,"battery_id":2,"last_tracked_time":"2026-06-24 14:05:45","next_estimated_charge_time":"2999-12-31
+        23:59:59"},{"id":3,"battery_id":3,"last_tracked_time":"2026-06-09 14:05:45","next_estimated_charge_time":"2026-08-08
+        14:05:45"},{"id":4,"battery_id":4,"last_tracked_time":"2026-06-18 14:05:45","next_estimated_charge_time":"2026-08-17
+        14:05:45"}]'
     headers:
-      Access-Control-Allow-Headers:
-      - '*'
-      Access-Control-Allow-Methods:
-      - GET, POST, PUT, DELETE, OPTIONS
       Access-Control-Allow-Origin:
       - '*'
       Connection:
@@ -27,13 +27,13 @@ interactions:
       Content-Type:
       - application/json
       Date:
-      - Wed, 07 Jan 2026 23:00:15 GMT
+      - Mon, 19 Oct 2026 23:58:58 GMT
       Server:
       - nginx
       Transfer-Encoding:
       - chunked
       X-Powered-By:
-      - PHP/8.3.19
+      - PHP/8.5.6
     status:
       code: 200
       message: OK

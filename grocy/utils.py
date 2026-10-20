@@ -1,7 +1,29 @@
+import logging
 import zoneinfo
 from datetime import date, datetime
+from enum import Enum
 
 from tzlocal import get_localzone
+
+_LOGGER = logging.getLogger(__name__)
+
+
+def enum_or_str[E: Enum](
+    enum_cls: type[E], value: str, owner: str, field: str
+) -> E | str:
+    """Return the enum member for a value, or the value itself if it is unknown.
+
+    Grocy stores these values as free text, so a newer Grocy or a manual edit
+    can send a value that the enum does not have. One such value must not
+    break the whole list.
+    """
+    try:
+        return enum_cls(value)
+    except ValueError:
+        _LOGGER.warning(
+            "%s has unknown %s %r; keeping it as a string", owner, field, value
+        )
+        return value
 
 
 def parse_date(input_value):

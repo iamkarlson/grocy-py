@@ -1,8 +1,18 @@
+import base64
 from datetime import date, datetime
 
 import pytest
+import responses
 
-from grocy.grocy_api_client import CurrentVolatileStockResponse, GrocyApiClient
+from grocy.errors import GrocyError
+from grocy.grocy import Grocy
+from grocy.grocy_api_client import (
+    DEFAULT_TIMEOUT,
+    CurrentVolatileStockResponse,
+    GrocyApiClient,
+    StockLogResponse,
+    TransactionType,
+)
 
 
 class TestGrocyApiClient:
@@ -119,3 +129,88 @@ class TestBestBeforeDate:
         call(None)
 
         assert "best_before_date" not in do_post.call_args[0][1]
+
+
+class TestRequests:
+    BASE = "http://grocy.de:9192/api"
+
+    @pytest.fixture
+    def client(self):
+        return GrocyApiClient(api_key="key", base_url="http://grocy.de")
+
+    @responses.activate
+    def test_every_request_has_the_default_timeout(self, client):
+        responses.get(f"{self.BASE}/stock", json=[])
+
+        client.get_stock()
+
+        assert responses.calls[0].request.req_kwargs["timeout"] == DEFAULT_TIMEOUT
+
+    @responses.activate
+    def test_grocy_passes_its_timeout_to_the_client(self):
+        responses.get(f"{self.BASE}/stock", json=[])
+
+        Grocy("http://grocy.de", "key", timeout=5).stock.current()
+
+        assert responses.calls[0].request.req_kwargs["timeout"] == 5
+
+    @responses.activate
+    @pytest.mark.parametrize("method", ["GET", "POST", "PUT", "DELETE"])
+    def test_html_with_status_200_raises_grocy_error(self, client, method):
+        html = "<html><body>Sign in</body></html>"
+        responses.add(method, f"{self.BASE}/objects/products/1", body=html)
+        send = {
+            "GET": lambda: client._do_get_request("objects/products/1"),
+            "POST": lambda: client._do_post_request("objects/products/1", {}),
+            "PUT": lambda: client._do_put_request("objects/products/1", {}),
+            "DELETE": lambda: client._do_delete_request("objects/products/1"),
+        }[method]
+
+        with pytest.raises(GrocyError) as error:
+            send()
+
+        assert error.value.status_code == 200
+        assert error.value.message == html
+
+    @responses.activate
+    def test_download_file_returns_the_bytes(self, client):
+        name = base64.b64encode("Bäckerei.jpg".encode()).decode()
+        responses.get(f"{self.BASE}/files/productpictures/{name}", body=b"\xff\xd8")
+
+        assert client.download_file("productpictures", "Bäckerei.jpg") == b"\xff\xd8"
+        assert responses.calls[0].request.headers["accept"] == "*/*"
+
+
+class TestStockLogTransactionType:
+    @staticmethod
+    def _log(transaction_type: str) -> StockLogResponse:
+        return StockLogResponse(
+            id=1,
+            product_id=1,
+            amount=1,
+            best_before_date="2026-10-20",
+            purchased_date="2026-10-20",
+            stock_id="s1",
+            transaction_id="t1",
+            transaction_type=transaction_type,
+        )
+
+    @pytest.mark.parametrize(
+        "value",
+        [
+            "purchase",
+            "consume",
+            "inventory-correction",
+            "product-opened",
+            "transfer_from",
+            "transfer_to",
+            "stock-edit-old",
+            "stock-edit-new",
+            "self-production",
+        ],
+    )
+    def test_every_grocy_type_is_an_enum_member(self, value):
+        assert self._log(value).transaction_type is TransactionType(value)
+
+    def test_unknown_type_is_kept_as_string(self):
+        assert self._log("future-type").transaction_type == "future-type"

@@ -5,6 +5,7 @@ import pytest
 from grocy.data_models.chore import AssignmentType, Chore, PeriodType
 from grocy.data_models.user import User
 from grocy.errors import GrocyError
+from grocy.grocy_api_client import ChoreDetailsResponse
 
 
 class TestChores:
@@ -50,18 +51,20 @@ class TestChores:
         assert chore_details.start_date == datetime(2025, 1, 1)
         assert chore_details.consume_product_on_execution is False
         assert chore_details.product_id is None
+        assert chore_details.track_count == 19
 
     @pytest.mark.vcr
     def test_execute_chore_valid(self, grocy):
         result = grocy.chores.execute(1)
-        assert not isinstance(result, GrocyError)
+        assert result["chore_id"] == 1
 
     @pytest.mark.vcr
     def test_execute_chore_valid_with_data(self, grocy):
         result = grocy.chores.execute(
             1, done_by=1, tracked_time=datetime.now(), skipped=False
         )
-        assert not isinstance(result, GrocyError)
+        assert result["chore_id"] == 1
+        assert result["done_by_user_id"] == 1
 
     @pytest.mark.vcr
     def test_execute_chore_invalid(self, grocy):
@@ -76,6 +79,7 @@ class TestChores:
         query_filter = ["next_execution_assigned_to_user_id=1"]
         chores = grocy.chores.list(get_details=True, query_filters=query_filter)
 
+        assert chores
         for item in chores:
             assert item.next_execution_assigned_to_user_id == 1
 
@@ -86,3 +90,30 @@ class TestChores:
 
         error = exc_info.value
         assert error.status_code == 500
+
+
+class TestChoreEnums:
+    @staticmethod
+    def _chore(**fields) -> Chore:
+        data = {
+            "id": 9,
+            "name": "Chore",
+            "period_type": "daily",
+            "track_date_only": False,
+            "rollover": False,
+        }
+        return Chore.from_details_response(ChoreDetailsResponse(chore=data | fields))
+
+    def test_known_values_are_enum_members(self):
+        chore = self._chore(assignment_type="random")
+
+        assert chore.period_type is PeriodType.DAILY
+        assert chore.assignment_type is AssignmentType.RANDOM
+
+    def test_unknown_values_are_kept_as_strings(self, caplog):
+        chore = self._chore(period_type="biweekly", assignment_type="round-robin")
+
+        assert chore.period_type == "biweekly"
+        assert chore.assignment_type == "round-robin"
+        assert "Chore 9 has unknown period_type 'biweekly'" in caplog.text
+        assert "Chore 9 has unknown assignment_type 'round-robin'" in caplog.text

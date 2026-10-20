@@ -45,11 +45,12 @@ class TestBattery:
 
     @pytest.mark.vcr
     def test_get_batteries_filters_valid(self, grocy):
-        query_filter = ["next_estimated_charge_time<2022-06-20"]
+        query_filter = ["next_estimated_charge_time>2022-06-20"]
         batteries = grocy.batteries.list(query_filters=query_filter)
 
+        assert batteries
         for item in batteries:
-            assert item.next_estimated_charge_time < datetime(2022, 6, 20)
+            assert item.next_estimated_charge_time > datetime(2022, 6, 20)
 
     @pytest.mark.vcr
     def test_get_batteries_filters_invalid(self, grocy, invalid_query_filter):
