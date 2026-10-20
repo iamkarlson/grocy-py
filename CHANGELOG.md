@@ -1,5 +1,36 @@
 # Changelog
 
+## [1.4.0](https://github.com/iamkarlson/grocy-py/tree/1.4.0) (2026-10-20)
+
+This release makes the error paths reliable. Every request now has a timeout, and every failed request raises `GrocyError`. It also fixes 4 data model mappings. The new `timeout` argument and the wider field types make this a minor bump. Nothing was removed or renamed.
+
+**Added**
+
+- `Grocy(..., timeout=30)` and `GrocyApiClient(..., timeout=30)`. Before, no request had a timeout, so a server that accepted the connection and did not answer blocked the call forever ([#14](https://github.com/iamkarlson/grocy-py/issues/14)).
+- `TransactionType` has the 5 values that it did not have: `TRANSFER_FROM`, `TRANSFER_TO`, `STOCK_EDIT_OLD`, `STOCK_EDIT_NEW` and `SELF_PRODUCTION` ([#19](https://github.com/iamkarlson/grocy-py/issues/19)).
+
+**Fixed**
+
+- `GrocyError` no longer crashes when the error body is not Grocy JSON, for example an HTML 502 page from a reverse proxy. It keeps the status code and the first 200 characters of the body ([#15](https://github.com/iamkarlson/grocy-py/issues/15), fix by @jay23606 in [#30](https://github.com/iamkarlson/grocy-py/pull/30)).
+- `str(GrocyError)` shows `HTTP 400: <message>` instead of `<Response [400]>` ([#26](https://github.com/iamkarlson/grocy-py/issues/26)).
+- A 2xx answer that is not JSON, for example a login page of a proxy, raises `GrocyError`. Before, GET returned empty data without an error, and POST, PUT and DELETE raised `JSONDecodeError` ([#17](https://github.com/iamkarlson/grocy-py/issues/17), [#18](https://github.com/iamkarlson/grocy-py/issues/18)).
+- `files.download()` returns the file bytes. Before, it always returned `None`. File names with non-ASCII characters now work for upload, download and delete ([#23](https://github.com/iamkarlson/grocy-py/issues/23)).
+- An unknown chore `period_type` or `assignment_type` stays a plain string with a warning. Before, one such chore broke `chores.list()` for all chores ([#16](https://github.com/iamkarlson/grocy-py/issues/16)).
+- `stock.transaction()` no longer raises `ValidationError` for transfers, stock edits and self-production. An unknown type stays a plain string ([#19](https://github.com/iamkarlson/grocy-py/issues/19)).
+- `Chore.track_count` reads Grocy's `tracked_count`. Before, it was always 0 ([#20](https://github.com/iamkarlson/grocy-py/issues/20)).
+- `stock.product(id).amount_opened` is set. Before, it was always `None` ([#27](https://github.com/iamkarlson/grocy-py/issues/27)).
+- Four tests that could never fail now assert real data ([#28](https://github.com/iamkarlson/grocy-py/issues/28)).
+
+**Changed**
+
+- If your code expected `[]` or `None` from a call that got an HTML page with status 200, it now gets `GrocyError`.
+- All locked dev dependencies upgraded. Dev dependency `ruff` moves to 0.17.1.
+
+**Note for typed consumers**
+
+- `Chore.period_type` is `PeriodType | str | None`, `Chore.assignment_type` is `AssignmentType | str | None`, and `StockLogResponse.transaction_type` is `TransactionType | str`. Comparisons with enum members work as before.
+- `files.download()` and `GrocyApiClient.download_file()` return `bytes`.
+
 ## [1.3.0](https://github.com/iamkarlson/grocy-py/tree/1.3.0) (2026-10-03)
 
 Grocy stores the meal plan `type` as free text without a constraint. One entry with a value outside `MealPlanItemType` stopped the read of the whole meal plan. This release adds two enum members and widens one field, so it is a minor bump. Nothing was removed or renamed.
