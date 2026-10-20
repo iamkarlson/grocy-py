@@ -7,7 +7,13 @@ from typing import Any
 from urllib.parse import urljoin
 
 import requests
-from pydantic import BaseModel, Field, field_validator, model_validator
+from pydantic import (
+    AliasChoices,
+    BaseModel,
+    Field,
+    field_validator,
+    model_validator,
+)
 
 from .data_models.generic import EntityType
 from .errors import GrocyError
@@ -230,7 +236,9 @@ class ChoreDetailsResponse(BaseModel):
     chore: ChoreData
     last_tracked: datetime | None = None
     next_estimated_execution_time: datetime | None = None
-    track_count: int = Field(0, alias="tracked_count")
+    track_count: int = Field(
+        0, validation_alias=AliasChoices("tracked_count", "track_count")
+    )
     next_execution_assigned_user: UserDto | None = None
     last_done_by: UserDto | None = None
 
