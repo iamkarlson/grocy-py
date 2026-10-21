@@ -232,6 +232,21 @@ class TestRequests:
         assert client._do_delete_request("objects/tasks/1") is None
 
     @responses.activate
+    @pytest.mark.parametrize(
+        ("path", "call"),
+        [
+            ("objects/tasks/1", lambda grocy: grocy.tasks.get(1)),
+            ("chores/1", lambda grocy: grocy.chores.get(1)),
+            ("objects/chores_log/1", lambda grocy: grocy.chores_log.get(1)),
+            ("system/db-changed-time", lambda grocy: grocy.system.db_changed_time()),
+        ],
+    )
+    def test_getter_with_empty_json_body_returns_none(self, path, call):
+        responses.get(f"{self.BASE}/{path}", body="", content_type="application/json")
+
+        assert call(Grocy("http://grocy.de", "key")) is None
+
+    @responses.activate
     def test_barcode_is_one_encoded_path_segment(self, client):
         responses.post(
             f"{self.BASE}/stock/products/by-barcode/A%232%3Fx%2FB/open", json=[]

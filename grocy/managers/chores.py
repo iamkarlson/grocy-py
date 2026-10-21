@@ -34,14 +34,14 @@ class ChoreManager:
                 chore.get_details(self._api)
         return chores
 
-    def get(self, chore_id: int) -> Chore:
+    def get(self, chore_id: int) -> Chore | None:
         """Get a single chore by ID.
 
         Args:
             chore_id: The Grocy chore ID.
         """
         resp = self._api.get_chore(chore_id)
-        return Chore.from_details_response(resp)
+        return Chore.from_details_response(resp) if resp else None
 
     def execute(
         self,

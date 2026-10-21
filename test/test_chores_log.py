@@ -1,4 +1,5 @@
 from datetime import datetime
+from unittest.mock import MagicMock
 
 import pytest
 
@@ -67,3 +68,23 @@ class TestChoresLog:
 
         error = exc_info.value
         assert error.status_code == 500
+
+    def test_details_with_deleted_user_and_chore_keep_the_entry(self):
+        api = MagicMock()
+        api.get_userfields.return_value = {}
+        api.get_chore.return_value = None
+        api.get_user.return_value = None
+        chore_log = ChoreLog(
+            id=1,
+            chore_id=1,
+            tracked_time=datetime(2026, 10, 21),
+            done_by=99,
+            row_created_timestamp=datetime(2026, 10, 21),
+            undone=False,
+            skipped=False,
+        )
+
+        chore_log.get_details(api)
+
+        assert chore_log.chore is None
+        assert chore_log.done_by_user is None

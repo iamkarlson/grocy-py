@@ -1124,7 +1124,7 @@ class GrocyApiClient:
     def get_last_db_changed(self):
         """Get timestamp of last database change."""
         resp = self._do_get_request("system/db-changed-time")
-        return parse_date(resp.get("changed_time"))
+        return parse_date(resp.get("changed_time")) if resp else None
 
     def get_system_info(self) -> SystemInfoDto:
         """Get system version and environment info."""
@@ -1154,11 +1154,13 @@ class GrocyApiClient:
             return [TaskResponse(**data) for data in parsed_json]
         return []
 
-    def get_task(self, task_id: int) -> TaskResponse:
+    def get_task(self, task_id: int) -> TaskResponse | None:
         """Get a single task by ID."""
         url = f"objects/tasks/{task_id}"
         parsed_json = self._do_get_request(url)
-        return TaskResponse(**parsed_json)
+        if parsed_json:
+            return TaskResponse(**parsed_json)
+        return None
 
     def complete_task(self, task_id: int, done_time: datetime | None = None):
         """Mark a task as completed."""
