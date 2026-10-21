@@ -23,7 +23,6 @@ DEFAULT_PORT_NUMBER = 9192
 DEFAULT_TIMEOUT = 30
 
 _LOGGER = logging.getLogger(__name__)
-_LOGGER.setLevel(logging.INFO)
 
 
 def _field_not_empty_validator(field_name: str):

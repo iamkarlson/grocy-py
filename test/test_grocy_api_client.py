@@ -1,4 +1,5 @@
 import base64
+import logging
 from datetime import date, datetime
 
 import pytest
@@ -153,6 +154,15 @@ class TestRequests:
         Grocy("http://grocy.de", "key", timeout=5).stock.current()
 
         assert responses.calls[0].request.req_kwargs["timeout"] == 5
+
+    @responses.activate
+    def test_debug_level_of_the_application_reaches_the_client(self, client, caplog):
+        responses.get(f"{self.BASE}/stock", json=[])
+        caplog.set_level(logging.DEBUG, logger="grocy")
+
+        client.get_stock()
+
+        assert "GET /stock" in caplog.text
 
     @responses.activate
     @pytest.mark.parametrize("method", ["GET", "POST", "PUT", "DELETE"])
