@@ -4,7 +4,7 @@ import logging
 from datetime import date, datetime
 from enum import Enum
 from typing import Any
-from urllib.parse import urljoin
+from urllib.parse import quote, urljoin
 
 import requests
 from pydantic import (
@@ -23,6 +23,11 @@ DEFAULT_PORT_NUMBER = 9192
 DEFAULT_TIMEOUT = 30
 
 _LOGGER = logging.getLogger(__name__)
+
+
+def _segment(value) -> str:
+    """Percent-encode a value for use as one URL path segment."""
+    return quote(str(value), safe="")
 
 
 def _field_not_empty_validator(field_name: str):
@@ -536,7 +541,9 @@ class GrocyApiClient:
             and not resp.content
             and resp.headers.get("content-type", "").startswith("text/html")
         ):
-            raise GrocyError(resp, "empty HTML page: Grocy has no API route for this URL")
+            raise GrocyError(
+                resp, "empty HTML page: Grocy has no API route for this URL"
+            )
         return resp
 
     def _send_json(self, method: str, end_url: str, **kwargs):
@@ -609,7 +616,7 @@ class GrocyApiClient:
 
     def get_product_by_barcode(self, barcode) -> ProductDetailsResponse:
         """Get product information by barcode."""
-        url = f"stock/products/by-barcode/{barcode}"
+        url = f"stock/products/by-barcode/{_segment(barcode)}"
         parsed_json = self._do_get_request(url)
         if parsed_json:
             return ProductDetailsResponse(**parsed_json)
@@ -734,7 +741,7 @@ class GrocyApiClient:
             data["best_before_date"] = grocy_date_str(best_before_date)
 
         parsed_json = self._do_post_request(
-            f"stock/products/by-barcode/{barcode}/add", data
+            f"stock/products/by-barcode/{_segment(barcode)}/add", data
         )
 
         if parsed_json:
@@ -753,7 +760,7 @@ class GrocyApiClient:
         }
 
         parsed_json = self._do_post_request(
-            f"stock/products/by-barcode/{barcode}/consume", data
+            f"stock/products/by-barcode/{_segment(barcode)}/consume", data
         )
 
         if parsed_json:
@@ -784,7 +791,7 @@ class GrocyApiClient:
             data["price"] = price
 
         parsed_json = self._do_post_request(
-            f"stock/products/by-barcode/{barcode}/inventory", data
+            f"stock/products/by-barcode/{_segment(barcode)}/inventory", data
         )
 
         if parsed_json:
@@ -810,7 +817,9 @@ class GrocyApiClient:
     def open_product_by_barcode(self, barcode: str, amount: float = 1):
         """Mark stock as opened by barcode."""
         data = {"amount": amount}
-        return self._do_post_request(f"stock/products/by-barcode/{barcode}/open", data)
+        return self._do_post_request(
+            f"stock/products/by-barcode/{_segment(barcode)}/open", data
+        )
 
     def transfer_product_by_barcode(
         self,
@@ -826,7 +835,7 @@ class GrocyApiClient:
             "location_id_to": location_to,
         }
         return self._do_post_request(
-            f"stock/products/by-barcode/{barcode}/transfer", data
+            f"stock/products/by-barcode/{_segment(barcode)}/transfer", data
         )
 
     def merge_products(self, product_id_keep: int, product_id_remove: int):
@@ -902,7 +911,9 @@ class GrocyApiClient:
 
     def external_barcode_lookup(self, barcode: str):
         """Look up barcode using external service."""
-        return self._do_get_request(f"stock/barcodes/external-lookup/{barcode}")
+        return self._do_get_request(
+            f"stock/barcodes/external-lookup/{_segment(barcode)}"
+        )
 
     # --- Chores ---
 
@@ -1314,15 +1325,15 @@ class GrocyApiClient:
 
     def get_user_setting(self, key: str):
         """Get a single user setting."""
-        return self._do_get_request(f"user/settings/{key}")
+        return self._do_get_request(f"user/settings/{_segment(key)}")
 
     def set_user_setting(self, key: str, value):
         """Set a user setting."""
-        return self._do_put_request(f"user/settings/{key}", {"value": value})
+        return self._do_put_request(f"user/settings/{_segment(key)}", {"value": value})
 
     def delete_user_setting(self, key: str):
         """Delete a user setting."""
-        return self._do_delete_request(f"user/settings/{key}")
+        return self._do_delete_request(f"user/settings/{_segment(key)}")
 
     # --- Calendar ---
 

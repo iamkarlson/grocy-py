@@ -232,6 +232,24 @@ class TestRequests:
         assert client._do_delete_request("objects/tasks/1") is None
 
     @responses.activate
+    def test_barcode_is_one_encoded_path_segment(self, client):
+        responses.post(
+            f"{self.BASE}/stock/products/by-barcode/A%232%3Fx%2FB/open", json=[]
+        )
+
+        client.open_product_by_barcode("A#2?x/B")
+
+        assert responses.calls[0].request.path_url == (
+            "/api/stock/products/by-barcode/A%232%3Fx%2FB/open"
+        )
+
+    @responses.activate
+    def test_user_setting_key_is_one_encoded_path_segment(self, client):
+        responses.get(f"{self.BASE}/user/settings/a%2Fb%3F", json={"value": 1})
+
+        assert client.get_user_setting("a/b?") == {"value": 1}
+
+    @responses.activate
     def test_download_file_returns_the_bytes(self, client):
         name = base64.b64encode("Bäckerei.jpg".encode()).decode()
         responses.get(f"{self.BASE}/files/productpictures/{name}", body=b"\xff\xd8")
