@@ -50,3 +50,10 @@ def test_str_shows_status_and_message():
 
 def test_str_without_message_shows_status():
     assert str(GrocyError(make_response(404, b""))) == "HTTP 404"
+
+
+def test_explicit_message_is_used():
+    error = GrocyError(make_response(200, b""), "no route")
+
+    assert error.message == "no route"
+    assert str(error) == "HTTP 200: no route"

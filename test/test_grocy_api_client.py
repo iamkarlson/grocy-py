@@ -183,6 +183,55 @@ class TestRequests:
         assert error.value.message == html
 
     @responses.activate
+    @pytest.mark.parametrize("method", ["GET", "POST", "PUT", "DELETE"])
+    def test_empty_html_page_raises_grocy_error(self, client, method):
+        # Grocy 4.7.1 answers an unknown API route like this.
+        responses.add(
+            method,
+            f"{self.BASE}/nonexistent",
+            body="",
+            content_type="text/html; charset=UTF-8",
+        )
+        send = {
+            "GET": lambda: client._do_get_request("nonexistent"),
+            "POST": lambda: client._do_post_request("nonexistent", {}),
+            "PUT": lambda: client._do_put_request("nonexistent", {}),
+            "DELETE": lambda: client._do_delete_request("nonexistent"),
+        }[method]
+
+        with pytest.raises(GrocyError, match="no API route") as error:
+            send()
+
+        assert error.value.status_code == 200
+
+    @responses.activate
+    def test_upload_to_an_unroutable_file_name_raises_grocy_error(self, client):
+        # The base64 form of this name contains "/", so Grocy matches no route.
+        name = "проверка-ü 1.txt"
+        url = f"{self.BASE}/{client._file_url('productpictures', name)}"
+        responses.put(url, body="", content_type="text/html; charset=UTF-8")
+
+        with pytest.raises(GrocyError, match="no API route"):
+            client.upload_file("productpictures", name, b"data")
+
+    @responses.activate
+    @pytest.mark.parametrize(
+        ("status", "content_type"),
+        [(204, "application/json"), (200, "application/json"), (200, "text/plain")],
+    )
+    def test_empty_body_that_is_not_html_returns_none(
+        self, client, status, content_type
+    ):
+        responses.delete(
+            f"{self.BASE}/objects/tasks/1",
+            body="",
+            status=status,
+            content_type=content_type,
+        )
+
+        assert client._do_delete_request("objects/tasks/1") is None
+
+    @responses.activate
     def test_download_file_returns_the_bytes(self, client):
         name = base64.b64encode("Bäckerei.jpg".encode()).decode()
         responses.get(f"{self.BASE}/files/productpictures/{name}", body=b"\xff\xd8")

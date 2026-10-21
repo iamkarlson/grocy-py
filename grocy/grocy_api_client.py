@@ -530,6 +530,13 @@ class GrocyApiClient:
 
         if resp.status_code >= 400:
             raise GrocyError(resp)
+        # Grocy answers a URL that matches no API route with an empty 200 HTML page.
+        if (
+            resp.status_code == 200
+            and not resp.content
+            and resp.headers.get("content-type", "").startswith("text/html")
+        ):
+            raise GrocyError(resp, "empty HTML page: Grocy has no API route for this URL")
         return resp
 
     def _send_json(self, method: str, end_url: str, **kwargs):
