@@ -86,6 +86,9 @@ class MealPlanItem(BaseModel):
     # Grocy stores the type as free text, so values outside the enum are kept as-is.
     type: MealPlanItemType | str
     product_id: int | None = None
+    # In the stock quantity unit of the product.
+    product_amount: float | None = None
+    done: bool = False
 
     @classmethod
     def from_response(cls, resp) -> MealPlanItem:
@@ -102,6 +105,8 @@ class MealPlanItem(BaseModel):
                 MealPlanItemType, resp.type, f"Meal plan item {resp.id}", "type"
             ),
             product_id=resp.product_id,
+            product_amount=resp.product_amount,
+            done=resp.done,
         )
 
     def get_details(self, api_client):

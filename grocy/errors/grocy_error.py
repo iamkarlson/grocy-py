@@ -25,9 +25,9 @@ class GrocyError(Exception):
         message: Error message from the API, if available.
     """
 
-    def __init__(self, response: Response):
+    def __init__(self, response: Response, message: str | None = None):
         self._status_code = response.status_code
-        self._message = _error_message(response)
+        self._message = message or _error_message(response)
         detail = f": {self._message}" if self._message else ""
         super().__init__(f"HTTP {self._status_code}{detail}")
 

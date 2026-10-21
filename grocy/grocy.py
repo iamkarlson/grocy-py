@@ -18,7 +18,6 @@ from .managers.tasks import TaskManager
 from .managers.users import UserManager
 
 _LOGGER = logging.getLogger(__name__)
-_LOGGER.setLevel(logging.INFO)
 
 
 class Grocy:

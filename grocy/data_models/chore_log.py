@@ -46,12 +46,18 @@ class ChoreLog(BaseModel):
 
     def get_details(self, api_client: GrocyApiClient):
         self.userfields = api_client.get_userfields("chores_log", self.id)
-        self.chore = Chore.from_details_response(api_client.get_chore(self.chore_id))
+        chore = api_client.get_chore(self.chore_id)
+        self.chore = Chore.from_details_response(chore) if chore else None
+        # The user that did the chore can be deleted later.
         user = api_client.get_user(self.done_by)
-        self.done_by_user = User(
-            id=user.id,
-            username=user.username,
-            first_name=user.first_name,
-            last_name=user.last_name,
-            display_name=user.display_name,
+        self.done_by_user = (
+            User(
+                id=user.id,
+                username=user.username,
+                first_name=user.first_name,
+                last_name=user.last_name,
+                display_name=user.display_name,
+            )
+            if user
+            else None
         )

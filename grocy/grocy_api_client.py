@@ -1,10 +1,12 @@
 import base64
 import json
 import logging
-from datetime import date, datetime
+from datetime import date, datetime, timedelta, timezone, tzinfo
 from enum import Enum
+from functools import cached_property
 from typing import Any
-from urllib.parse import urljoin
+from urllib.parse import quote, urljoin
+from zoneinfo import ZoneInfo, ZoneInfoNotFoundError
 
 import requests
 from pydantic import (
@@ -17,13 +19,17 @@ from pydantic import (
 
 from .data_models.generic import EntityType
 from .errors import GrocyError
-from .utils import grocy_date_str, grocy_datetime_str, localize_datetime, parse_date
+from .utils import grocy_date_str, grocy_datetime_str, parse_date
 
 DEFAULT_PORT_NUMBER = 9192
 DEFAULT_TIMEOUT = 30
 
 _LOGGER = logging.getLogger(__name__)
-_LOGGER.setLevel(logging.INFO)
+
+
+def _segment(value) -> str:
+    """Percent-encode a value for use as one URL path segment."""
+    return quote(str(value), safe="")
 
 
 def _field_not_empty_validator(field_name: str):
@@ -64,6 +70,7 @@ class MealPlanResponse(BaseModel):
     row_created_timestamp: datetime
     userfields: dict | None = None
     section_id: int | None = None
+    done: bool = False
 
 
 class RecipeDetailsResponse(BaseModel):
@@ -531,6 +538,15 @@ class GrocyApiClient:
 
         if resp.status_code >= 400:
             raise GrocyError(resp)
+        # Grocy answers a URL that matches no API route with an empty 200 HTML page.
+        if (
+            resp.status_code == 200
+            and not resp.content
+            and resp.headers.get("content-type", "").startswith("text/html")
+        ):
+            raise GrocyError(
+                resp, "empty HTML page: Grocy has no API route for this URL"
+            )
         return resp
 
     def _send_json(self, method: str, end_url: str, **kwargs):
@@ -565,6 +581,31 @@ class GrocyApiClient:
 
     def _do_delete_request(self, end_url: str):
         return self._send_json("DELETE", end_url)
+
+    @cached_property
+    def _server_zone(self) -> tzinfo:
+        """Time zone of the Grocy server, read once from system/time."""
+        server_time = self._do_get_request("system/time")
+        try:
+            return ZoneInfo(server_time["timezone"])
+        except (ZoneInfoNotFoundError, ValueError):
+            return timezone(timedelta(seconds=server_time["offset"]))
+
+    def _server_time_str(self, value: datetime) -> str:
+        """Format a datetime as Grocy server local time.
+
+        Grocy reads every time as server local time. A naive datetime is sent
+        unchanged; an aware datetime is converted to the server time zone first.
+        """
+        if value.tzinfo is not None:
+            value = value.astimezone(self._server_zone)
+        return grocy_datetime_str(value)
+
+    def _server_date_str(self, value: date | datetime) -> str:
+        """Format a date, or the server local date of a datetime."""
+        if isinstance(value, datetime) and value.tzinfo is not None:
+            value = value.astimezone(self._server_zone)
+        return grocy_date_str(value)
 
     # --- Stock ---
 
@@ -603,7 +644,7 @@ class GrocyApiClient:
 
     def get_product_by_barcode(self, barcode) -> ProductDetailsResponse:
         """Get product information by barcode."""
-        url = f"stock/products/by-barcode/{barcode}"
+        url = f"stock/products/by-barcode/{_segment(barcode)}"
         parsed_json = self._do_get_request(url)
         if parsed_json:
             return ProductDetailsResponse(**parsed_json)
@@ -640,7 +681,7 @@ class GrocyApiClient:
         }
 
         if best_before_date is not None:
-            data["best_before_date"] = grocy_date_str(best_before_date)
+            data["best_before_date"] = self._server_date_str(best_before_date)
 
         return self._do_post_request(f"stock/products/{product_id}/add", data)
 
@@ -691,7 +732,7 @@ class GrocyApiClient:
         }
 
         if best_before_date is not None:
-            data["best_before_date"] = grocy_date_str(best_before_date)
+            data["best_before_date"] = self._server_date_str(best_before_date)
         if shopping_location_id is not None:
             data["shopping_location_id"] = shopping_location_id
 
@@ -725,10 +766,10 @@ class GrocyApiClient:
         }
 
         if best_before_date is not None:
-            data["best_before_date"] = grocy_date_str(best_before_date)
+            data["best_before_date"] = self._server_date_str(best_before_date)
 
         parsed_json = self._do_post_request(
-            f"stock/products/by-barcode/{barcode}/add", data
+            f"stock/products/by-barcode/{_segment(barcode)}/add", data
         )
 
         if parsed_json:
@@ -747,7 +788,7 @@ class GrocyApiClient:
         }
 
         parsed_json = self._do_post_request(
-            f"stock/products/by-barcode/{barcode}/consume", data
+            f"stock/products/by-barcode/{_segment(barcode)}/consume", data
         )
 
         if parsed_json:
@@ -769,7 +810,7 @@ class GrocyApiClient:
         }
 
         if best_before_date is not None:
-            data["best_before_date"] = grocy_date_str(best_before_date)
+            data["best_before_date"] = self._server_date_str(best_before_date)
 
         if location_id is not None:
             data["location_id"] = location_id
@@ -778,7 +819,7 @@ class GrocyApiClient:
             data["price"] = price
 
         parsed_json = self._do_post_request(
-            f"stock/products/by-barcode/{barcode}/inventory", data
+            f"stock/products/by-barcode/{_segment(barcode)}/inventory", data
         )
 
         if parsed_json:
@@ -804,7 +845,9 @@ class GrocyApiClient:
     def open_product_by_barcode(self, barcode: str, amount: float = 1):
         """Mark stock as opened by barcode."""
         data = {"amount": amount}
-        return self._do_post_request(f"stock/products/by-barcode/{barcode}/open", data)
+        return self._do_post_request(
+            f"stock/products/by-barcode/{_segment(barcode)}/open", data
+        )
 
     def transfer_product_by_barcode(
         self,
@@ -820,7 +863,7 @@ class GrocyApiClient:
             "location_id_to": location_to,
         }
         return self._do_post_request(
-            f"stock/products/by-barcode/{barcode}/transfer", data
+            f"stock/products/by-barcode/{_segment(barcode)}/transfer", data
         )
 
     def merge_products(self, product_id_keep: int, product_id_remove: int):
@@ -896,7 +939,9 @@ class GrocyApiClient:
 
     def external_barcode_lookup(self, barcode: str):
         """Look up barcode using external service."""
-        return self._do_get_request(f"stock/barcodes/external-lookup/{barcode}")
+        return self._do_get_request(
+            f"stock/barcodes/external-lookup/{_segment(barcode)}"
+        )
 
     # --- Chores ---
 
@@ -925,16 +970,10 @@ class GrocyApiClient:
         skipped: bool = False,
     ):
         """Mark a chore as executed."""
-        if tracked_time is None:
-            tracked_time = datetime.now()
-
-        localized_tracked_time = localize_datetime(tracked_time)
-
-        data = {
-            "tracked_time": grocy_datetime_str(localized_tracked_time),
-            "skipped": skipped,
-        }
-
+        data = {"skipped": skipped}
+        # Without a time, Grocy uses its own clock.
+        if tracked_time is not None:
+            data["tracked_time"] = self._server_time_str(tracked_time)
         if done_by is not None:
             data["done_by"] = done_by
 
@@ -1107,7 +1146,7 @@ class GrocyApiClient:
     def get_last_db_changed(self):
         """Get timestamp of last database change."""
         resp = self._do_get_request("system/db-changed-time")
-        return parse_date(resp.get("changed_time"))
+        return parse_date(resp.get("changed_time")) if resp else None
 
     def get_system_info(self) -> SystemInfoDto:
         """Get system version and environment info."""
@@ -1137,22 +1176,21 @@ class GrocyApiClient:
             return [TaskResponse(**data) for data in parsed_json]
         return []
 
-    def get_task(self, task_id: int) -> TaskResponse:
+    def get_task(self, task_id: int) -> TaskResponse | None:
         """Get a single task by ID."""
         url = f"objects/tasks/{task_id}"
         parsed_json = self._do_get_request(url)
-        return TaskResponse(**parsed_json)
+        if parsed_json:
+            return TaskResponse(**parsed_json)
+        return None
 
     def complete_task(self, task_id: int, done_time: datetime | None = None):
         """Mark a task as completed."""
         url = f"tasks/{task_id}/complete"
 
-        if done_time is None:
-            done_time = datetime.now()
-
-        localized_done_time = localize_datetime(done_time)
-
-        data = {"done_time": grocy_datetime_str(localized_done_time)}
+        data = {}
+        if done_time is not None:
+            data["done_time"] = self._server_time_str(done_time)
         self._do_post_request(url, data)
 
     def undo_task(self, task_id: int):
@@ -1210,11 +1248,9 @@ class GrocyApiClient:
 
     def charge_battery(self, battery_id: int, tracked_time: datetime | None = None):
         """Record a battery charge cycle."""
-        if tracked_time is None:
-            tracked_time = datetime.now()
-
-        localized_tracked_time = localize_datetime(tracked_time)
-        data = {"tracked_time": grocy_datetime_str(localized_tracked_time)}
+        data = {}
+        if tracked_time is not None:
+            data["tracked_time"] = self._server_time_str(tracked_time)
 
         return self._do_post_request(f"batteries/{battery_id}/charge", data)
 
@@ -1308,15 +1344,15 @@ class GrocyApiClient:
 
     def get_user_setting(self, key: str):
         """Get a single user setting."""
-        return self._do_get_request(f"user/settings/{key}")
+        return self._do_get_request(f"user/settings/{_segment(key)}")
 
     def set_user_setting(self, key: str, value):
         """Set a user setting."""
-        return self._do_put_request(f"user/settings/{key}", {"value": value})
+        return self._do_put_request(f"user/settings/{_segment(key)}", {"value": value})
 
     def delete_user_setting(self, key: str):
         """Delete a user setting."""
-        return self._do_delete_request(f"user/settings/{key}")
+        return self._do_delete_request(f"user/settings/{_segment(key)}")
 
     # --- Calendar ---
 

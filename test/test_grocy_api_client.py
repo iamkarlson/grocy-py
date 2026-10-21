@@ -1,5 +1,7 @@
 import base64
-from datetime import date, datetime
+import json
+import logging
+from datetime import UTC, date, datetime
 
 import pytest
 import responses
@@ -155,6 +157,15 @@ class TestRequests:
         assert responses.calls[0].request.req_kwargs["timeout"] == 5
 
     @responses.activate
+    def test_debug_level_of_the_application_reaches_the_client(self, client, caplog):
+        responses.get(f"{self.BASE}/stock", json=[])
+        caplog.set_level(logging.DEBUG, logger="grocy")
+
+        client.get_stock()
+
+        assert "GET /stock" in caplog.text
+
+    @responses.activate
     @pytest.mark.parametrize("method", ["GET", "POST", "PUT", "DELETE"])
     def test_html_with_status_200_raises_grocy_error(self, client, method):
         html = "<html><body>Sign in</body></html>"
@@ -171,6 +182,88 @@ class TestRequests:
 
         assert error.value.status_code == 200
         assert error.value.message == html
+
+    @responses.activate
+    @pytest.mark.parametrize("method", ["GET", "POST", "PUT", "DELETE"])
+    def test_empty_html_page_raises_grocy_error(self, client, method):
+        # Grocy 4.7.1 answers an unknown API route like this.
+        responses.add(
+            method,
+            f"{self.BASE}/nonexistent",
+            body="",
+            content_type="text/html; charset=UTF-8",
+        )
+        send = {
+            "GET": lambda: client._do_get_request("nonexistent"),
+            "POST": lambda: client._do_post_request("nonexistent", {}),
+            "PUT": lambda: client._do_put_request("nonexistent", {}),
+            "DELETE": lambda: client._do_delete_request("nonexistent"),
+        }[method]
+
+        with pytest.raises(GrocyError, match="no API route") as error:
+            send()
+
+        assert error.value.status_code == 200
+
+    @responses.activate
+    def test_upload_to_an_unroutable_file_name_raises_grocy_error(self, client):
+        # The base64 form of this name contains "/", so Grocy matches no route.
+        name = "проверка-ü 1.txt"
+        url = f"{self.BASE}/{client._file_url('productpictures', name)}"
+        responses.put(url, body="", content_type="text/html; charset=UTF-8")
+
+        with pytest.raises(GrocyError, match="no API route"):
+            client.upload_file("productpictures", name, b"data")
+
+    @responses.activate
+    @pytest.mark.parametrize(
+        ("status", "content_type"),
+        [(204, "application/json"), (200, "application/json"), (200, "text/plain")],
+    )
+    def test_empty_body_that_is_not_html_returns_none(
+        self, client, status, content_type
+    ):
+        responses.delete(
+            f"{self.BASE}/objects/tasks/1",
+            body="",
+            status=status,
+            content_type=content_type,
+        )
+
+        assert client._do_delete_request("objects/tasks/1") is None
+
+    @responses.activate
+    @pytest.mark.parametrize(
+        ("path", "call"),
+        [
+            ("objects/tasks/1", lambda grocy: grocy.tasks.get(1)),
+            ("chores/1", lambda grocy: grocy.chores.get(1)),
+            ("objects/chores_log/1", lambda grocy: grocy.chores_log.get(1)),
+            ("system/db-changed-time", lambda grocy: grocy.system.db_changed_time()),
+        ],
+    )
+    def test_getter_with_empty_json_body_returns_none(self, path, call):
+        responses.get(f"{self.BASE}/{path}", body="", content_type="application/json")
+
+        assert call(Grocy("http://grocy.de", "key")) is None
+
+    @responses.activate
+    def test_barcode_is_one_encoded_path_segment(self, client):
+        responses.post(
+            f"{self.BASE}/stock/products/by-barcode/A%232%3Fx%2FB/open", json=[]
+        )
+
+        client.open_product_by_barcode("A#2?x/B")
+
+        assert responses.calls[0].request.path_url == (
+            "/api/stock/products/by-barcode/A%232%3Fx%2FB/open"
+        )
+
+    @responses.activate
+    def test_user_setting_key_is_one_encoded_path_segment(self, client):
+        responses.get(f"{self.BASE}/user/settings/a%2Fb%3F", json={"value": 1})
+
+        assert client.get_user_setting("a/b?") == {"value": 1}
 
     @responses.activate
     def test_download_file_returns_the_bytes(self, client):
@@ -214,3 +307,77 @@ class TestStockLogTransactionType:
 
     def test_unknown_type_is_kept_as_string(self):
         assert self._log("future-type").transaction_type == "future-type"
+
+
+class TestServerTime:
+    BASE = "http://grocy.de:9192/api"
+
+    @pytest.fixture
+    def client(self):
+        return GrocyApiClient(api_key="key", base_url="http://grocy.de")
+
+    def _server_zone(self, name="Europe/Amsterdam", offset=7200):
+        responses.get(
+            f"{self.BASE}/system/time", json={"timezone": name, "offset": offset}
+        )
+
+    @staticmethod
+    def _body(call_index=-1):
+        return json.loads(responses.calls[call_index].request.body)
+
+    @responses.activate
+    def test_no_time_lets_grocy_use_its_own_clock(self, client):
+        responses.post(f"{self.BASE}/chores/1/execute", json={})
+        responses.post(f"{self.BASE}/tasks/1/complete", json={})
+        responses.post(f"{self.BASE}/batteries/1/charge", json={})
+
+        client.execute_chore(1)
+        client.complete_task(1)
+        client.charge_battery(1)
+
+        assert [self._body(i) for i in range(3)] == [{"skipped": False}, {}, {}]
+
+    @responses.activate
+    def test_naive_time_is_sent_unchanged(self, client):
+        responses.post(f"{self.BASE}/chores/1/execute", json={})
+
+        client.execute_chore(1, tracked_time=datetime(2026, 10, 4, 22, 30))
+
+        assert self._body()["tracked_time"] == "2026-10-04 22:30:00"
+        assert len(responses.calls) == 1
+
+    @responses.activate
+    def test_aware_time_is_converted_to_the_server_zone(self, client):
+        self._server_zone()
+        responses.post(f"{self.BASE}/chores/1/execute", json={})
+        responses.post(f"{self.BASE}/tasks/1/complete", json={})
+        utc_time = datetime(2026, 10, 4, 22, 30, tzinfo=UTC)
+
+        client.execute_chore(1, tracked_time=utc_time)
+        client.complete_task(1, done_time=utc_time)
+
+        assert self._body(1)["tracked_time"] == "2026-10-05 00:30:00"
+        assert self._body(2)["done_time"] == "2026-10-05 00:30:00"
+        assert [call.request.path_url for call in responses.calls].count(
+            "/api/system/time"
+        ) == 1
+
+    @responses.activate
+    def test_aware_best_before_date_uses_the_server_date(self, client):
+        self._server_zone()
+        responses.post(f"{self.BASE}/stock/products/1/add", json=[])
+
+        client.add_product(
+            1, 1, 2.5, best_before_date=datetime(2026, 10, 4, 23, 0, tzinfo=UTC)
+        )
+
+        assert self._body()["best_before_date"] == "2026-10-05"
+
+    @responses.activate
+    def test_unknown_zone_name_falls_back_to_the_offset(self, client):
+        self._server_zone(name="Not/AZone", offset=3600)
+        responses.post(f"{self.BASE}/batteries/1/charge", json={})
+
+        client.charge_battery(1, tracked_time=datetime(2026, 10, 4, 23, 30, tzinfo=UTC))
+
+        assert self._body()["tracked_time"] == "2026-10-05 00:30:00"

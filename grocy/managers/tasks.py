@@ -23,21 +23,24 @@ class TaskManager:
         raw_tasks = self._api.get_tasks(query_filters)
         return [Task.from_response(task) for task in raw_tasks]
 
-    def get(self, task_id: int) -> Task:
+    def get(self, task_id: int) -> Task | None:
         """Get a single task by ID.
 
         Args:
             task_id: The Grocy task ID.
         """
         resp = self._api.get_task(task_id)
-        return Task.from_response(resp)
+        return Task.from_response(resp) if resp else None
 
     def complete(self, task_id: int, done_time: datetime | None = None):
         """Mark a task as completed.
 
         Args:
             task_id: The Grocy task ID.
-            done_time: When the task was completed. Defaults to now.
+            done_time: When the task was completed.
+                A naive datetime is Grocy server local time; an aware datetime
+                is converted to the server time zone. Defaults to the Grocy
+                server clock.
         """
         return self._api.complete_task(task_id, done_time)
 

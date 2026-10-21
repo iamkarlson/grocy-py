@@ -1,5 +1,31 @@
 # Changelog
 
+## [1.5.0](https://github.com/iamkarlson/grocy-py/tree/1.5.0) (2026-10-21)
+
+This release sends times in the Grocy server time zone, makes more error paths clear, and adds 2 meal plan fields. The new fields and the new default for times make this a minor bump. Nothing was removed or renamed.
+
+**Added**
+
+- `MealPlanItem.done` and `MealPlanItem.product_amount`. Grocy marks a meal plan entry as done; it does not delete it. `product_amount` is in the stock quantity unit of the product (for [iamkarlson/grocy#77](https://github.com/iamkarlson/grocy/issues/77)).
+- `GrocyError(response, message)` takes an optional message.
+
+**Fixed**
+
+- Times are sent in the Grocy server time zone. Before, `chores.execute()`, `tasks.complete()` and `batteries.charge()` without a time sent the clock of the client, and Grocy read it as server local time. A client in another time zone than the server recorded the time, or the day, wrong. These methods now send no time, and Grocy uses its own clock. An aware `datetime` is converted to the server time zone, which grocy-py reads once from `system/time`. A naive `datetime` is sent unchanged, as server local time ([#21](https://github.com/iamkarlson/grocy-py/issues/21)).
+- Grocy answers a URL that matches no API route with status 200 and an empty HTML page. This now raises `GrocyError`. Before, it gave empty data and no error. The same happens for a file name whose base64 form contains `/`: Grocy cannot route it, so the upload stored nothing and the download returned empty bytes ([#17](https://github.com/iamkarlson/grocy-py/issues/17)).
+- A `#` or `?` in a barcode or a user setting key no longer cuts the URL. A `/` cannot work, because Grocy decodes it before it matches the route. It now raises `GrocyError` ([#25](https://github.com/iamkarlson/grocy-py/issues/25)).
+- `chores_log.list(get_details=True)` no longer fails for all entries when a user who did a chore, or the chore, was deleted. `done_by_user` and `chore` are then `None` ([#22](https://github.com/iamkarlson/grocy-py/issues/22)).
+- `tasks.get()`, `chores.get()`, `chores_log.get()` and `system.db_changed_time()` return `None` for an empty answer. Before, they raised `AttributeError` or `TypeError` ([#22](https://github.com/iamkarlson/grocy-py/issues/22)).
+- grocy-py no longer sets the level of its loggers at import. Debug logging that the application turns on, for example `logger: logs: grocy: debug` in Home Assistant, now works ([#24](https://github.com/iamkarlson/grocy-py/issues/24)).
+
+**Changed**
+
+- The locked dependencies are upgraded.
+
+**Note for typed consumers**
+
+- `tasks.get()`, `chores.get()` and `chores_log.get()` now return `Task | None`, `Chore | None` and `ChoreLog | None`.
+
 ## [1.4.0](https://github.com/iamkarlson/grocy-py/tree/1.4.0) (2026-10-20)
 
 This release makes the error paths reliable. Every request now has a timeout, and every failed request raises `GrocyError`. It also fixes 4 data model mappings. The new `timeout` argument and the wider field types make this a minor bump. Nothing was removed or renamed.
