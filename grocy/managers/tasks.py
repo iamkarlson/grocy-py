@@ -37,7 +37,10 @@ class TaskManager:
 
         Args:
             task_id: The Grocy task ID.
-            done_time: When the task was completed. Defaults to now.
+            done_time: When the task was completed.
+                A naive datetime is Grocy server local time; an aware datetime
+                is converted to the server time zone. Defaults to the Grocy
+                server clock.
         """
         return self._api.complete_task(task_id, done_time)
 

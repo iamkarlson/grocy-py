@@ -55,7 +55,10 @@ class ChoreManager:
         Args:
             chore_id: The Grocy chore ID.
             done_by: User ID of who performed the chore.
-            tracked_time: When the chore was done. Defaults to now.
+            tracked_time: When the chore was done.
+                A naive datetime is Grocy server local time; an aware datetime
+                is converted to the server time zone. Defaults to the Grocy
+                server clock.
             skipped: Mark as skipped rather than done.
         """
         return self._api.execute_chore(chore_id, done_by, tracked_time, skipped)

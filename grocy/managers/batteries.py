@@ -50,7 +50,10 @@ class BatteryManager:
 
         Args:
             battery_id: The Grocy battery ID.
-            tracked_time: When the charge occurred. Defaults to now.
+            tracked_time: When the charge occurred.
+                A naive datetime is Grocy server local time; an aware datetime
+                is converted to the server time zone. Defaults to the Grocy
+                server clock.
         """
         return self._api.charge_battery(battery_id, tracked_time)
 

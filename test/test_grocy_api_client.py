@@ -1,6 +1,7 @@
 import base64
+import json
 import logging
-from datetime import date, datetime
+from datetime import UTC, date, datetime
 
 import pytest
 import responses
@@ -306,3 +307,77 @@ class TestStockLogTransactionType:
 
     def test_unknown_type_is_kept_as_string(self):
         assert self._log("future-type").transaction_type == "future-type"
+
+
+class TestServerTime:
+    BASE = "http://grocy.de:9192/api"
+
+    @pytest.fixture
+    def client(self):
+        return GrocyApiClient(api_key="key", base_url="http://grocy.de")
+
+    def _server_zone(self, name="Europe/Amsterdam", offset=7200):
+        responses.get(
+            f"{self.BASE}/system/time", json={"timezone": name, "offset": offset}
+        )
+
+    @staticmethod
+    def _body(call_index=-1):
+        return json.loads(responses.calls[call_index].request.body)
+
+    @responses.activate
+    def test_no_time_lets_grocy_use_its_own_clock(self, client):
+        responses.post(f"{self.BASE}/chores/1/execute", json={})
+        responses.post(f"{self.BASE}/tasks/1/complete", json={})
+        responses.post(f"{self.BASE}/batteries/1/charge", json={})
+
+        client.execute_chore(1)
+        client.complete_task(1)
+        client.charge_battery(1)
+
+        assert [self._body(i) for i in range(3)] == [{"skipped": False}, {}, {}]
+
+    @responses.activate
+    def test_naive_time_is_sent_unchanged(self, client):
+        responses.post(f"{self.BASE}/chores/1/execute", json={})
+
+        client.execute_chore(1, tracked_time=datetime(2026, 10, 4, 22, 30))
+
+        assert self._body()["tracked_time"] == "2026-10-04 22:30:00"
+        assert len(responses.calls) == 1
+
+    @responses.activate
+    def test_aware_time_is_converted_to_the_server_zone(self, client):
+        self._server_zone()
+        responses.post(f"{self.BASE}/chores/1/execute", json={})
+        responses.post(f"{self.BASE}/tasks/1/complete", json={})
+        utc_time = datetime(2026, 10, 4, 22, 30, tzinfo=UTC)
+
+        client.execute_chore(1, tracked_time=utc_time)
+        client.complete_task(1, done_time=utc_time)
+
+        assert self._body(1)["tracked_time"] == "2026-10-05 00:30:00"
+        assert self._body(2)["done_time"] == "2026-10-05 00:30:00"
+        assert [call.request.path_url for call in responses.calls].count(
+            "/api/system/time"
+        ) == 1
+
+    @responses.activate
+    def test_aware_best_before_date_uses_the_server_date(self, client):
+        self._server_zone()
+        responses.post(f"{self.BASE}/stock/products/1/add", json=[])
+
+        client.add_product(
+            1, 1, 2.5, best_before_date=datetime(2026, 10, 4, 23, 0, tzinfo=UTC)
+        )
+
+        assert self._body()["best_before_date"] == "2026-10-05"
+
+    @responses.activate
+    def test_unknown_zone_name_falls_back_to_the_offset(self, client):
+        self._server_zone(name="Not/AZone", offset=3600)
+        responses.post(f"{self.BASE}/batteries/1/charge", json={})
+
+        client.charge_battery(1, tracked_time=datetime(2026, 10, 4, 23, 30, tzinfo=UTC))
+
+        assert self._body()["tracked_time"] == "2026-10-05 00:30:00"
