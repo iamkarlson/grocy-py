@@ -70,6 +70,7 @@ class MealPlanResponse(BaseModel):
     row_created_timestamp: datetime
     userfields: dict | None = None
     section_id: int | None = None
+    done: bool = False
 
 
 class RecipeDetailsResponse(BaseModel):

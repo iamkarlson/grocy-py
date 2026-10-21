@@ -63,6 +63,8 @@ class TestMealPlan:
             item for item in meal_plan if item.type == MealPlanItemType.PRODUCT
         )
         assert product_entry.product_id == 3
+        assert product_entry.product_amount == 1
+        assert product_entry.done is False
 
     @pytest.mark.vcr
     def test_get_meal_plan_filters_valid(self, grocy):
@@ -121,3 +123,22 @@ class TestMealPlanItemType:
         assert item.type == "dessert"
         assert not isinstance(item.type, MealPlanItemType)
         assert "Meal plan item 7 has unknown type 'dessert'" in caplog.text
+
+    def test_done_entry_is_marked_done(self):
+        from grocy.data_models.meal_items import MealPlanItem
+        from grocy.grocy_api_client import MealPlanResponse
+
+        response = MealPlanResponse(
+            id=7,
+            day="2026-10-03 00:00:00",
+            type="product",
+            product_id=3,
+            product_amount=2.5,
+            done=1,
+            row_created_timestamp="2026-10-01 12:00:00",
+        )
+
+        item = MealPlanItem.from_response(response)
+
+        assert item.done is True
+        assert item.product_amount == 2.5
