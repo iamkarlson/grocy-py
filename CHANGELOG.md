@@ -1,5 +1,11 @@
 # Changelog
 
+## [1.5.1](https://github.com/iamkarlson/grocy-py/tree/1.5.1) (2026-10-28)
+
+**Fixed**
+
+- `stock.current()`, `stock.due_products()`, `stock.expired_products()`, `stock.overdue_products()` and `stock.all_products()` now fill `Product.picture_file_name`. Grocy sends the file name in these answers, but grocy-py dropped it. Only `stock.product()` and `stock.product_by_barcode()` had it (for [iamkarlson/grocy#85](https://github.com/iamkarlson/grocy/pull/85)).
+
 ## [1.5.0](https://github.com/iamkarlson/grocy-py/tree/1.5.0) (2026-10-21)
 
 This release sends times in the Grocy server time zone, makes more error paths clear, and adds 2 meal plan fields. The new fields and the new default for times make this a minor bump. Nothing was removed or renamed.
