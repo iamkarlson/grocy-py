@@ -14,6 +14,9 @@ class TestStock:
         assert len(stock) == 24
         for prod in stock:
             assert isinstance(prod, Product)
+        pictures = {prod.id: prod.picture_file_name for prod in stock}
+        assert pictures[1] == "cookies.jpg"
+        assert pictures[2] is None
 
     @pytest.mark.vcr
     def test_get_due_products_valid(self, grocy):

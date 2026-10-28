@@ -14,6 +14,7 @@ class TestProduct:
         product = products[0]
         assert product.id == 1
         assert product.name == "Cookies"
+        assert product.picture_file_name == "cookies.jpg"
 
     @pytest.mark.vcr
     def test_product_get_details_valid(self, grocy):

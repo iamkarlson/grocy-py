@@ -54,11 +54,13 @@ class Product(BaseModel):
         product_group_id = None
         shopping_location_id = None
         location_id = None
+        picture_file_name = None
         if resp.product:
             name = resp.product.name
             product_group_id = resp.product.product_group_id
             shopping_location_id = resp.product.shopping_location_id
             location_id = resp.product.location_id
+            picture_file_name = resp.product.picture_file_name
         return cls(
             id=resp.product_id,
             name=name,
@@ -73,6 +75,7 @@ class Product(BaseModel):
             best_before_date=resp.best_before_date,
             product_barcodes=barcodes_list,
             barcodes=[],
+            picture_file_name=picture_file_name,
         )
 
     @classmethod
@@ -139,6 +142,7 @@ class Product(BaseModel):
             product_group_id=data.product_group_id,
             location_id=data.location_id,
             shopping_location_id=data.shopping_location_id,
+            picture_file_name=data.picture_file_name,
         )
 
     @classmethod
