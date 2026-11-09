@@ -1,5 +1,16 @@
 # Changelog
 
+## [1.5.2](https://github.com/iamkarlson/grocy-py/tree/1.5.2) (2026-11-09)
+
+**Fixed**
+
+- grocy-py installs with pydantic 2.14. The dependency is now `pydantic>=2.12.2,<3`. Before, it was `<2.14.0`, and Home Assistant 2026.11 ships pydantic 2.14.1, so the Grocy integration did not load ([#32](https://github.com/iamkarlson/grocy-py/issues/32), [#33](https://github.com/iamkarlson/grocy-py/pull/33), [#34](https://github.com/iamkarlson/grocy-py/issues/34)).
+
+**Changed**
+
+- Renovate widens the ranges of runtime dependencies and does not narrow them.
+- The locked dependencies are upgraded, ruff 0.17.4.
+
 ## [1.5.1](https://github.com/iamkarlson/grocy-py/tree/1.5.1) (2026-10-28)
 
 **Fixed**
