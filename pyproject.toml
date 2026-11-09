@@ -13,7 +13,11 @@ dependencies = [
     # 2.33 is the floor for CVE-2026-25645 (insecure temp file reuse in
     # extract_zipped_paths).
     "requests>=2.33,<3",
-    "pydantic>=2.12.2,<2.14.0",
+    # Upper bound raised from <2.14.0 to <3 so the library installs alongside
+    # Home Assistant 2026.11, which ships pydantic 2.14.1. The old bound came
+    # from an automated Renovate bump (247522e), not from a known breakage.
+    # Verified against the full test suite on pydantic 2.14.1.
+    "pydantic>=2.12.2,<3",
     "tzdata>=2024.1",
     "tzlocal~=5.2"
 ]
@@ -32,7 +36,7 @@ dev = [
     "pytest-mock",
     # 2.7.0 is the floor for GHSA-mf9v-mfxr-j63j / GHSA-qccp-gfcp-xxvc.
     "urllib3>=2.7.0",
-    "ruff>=0.17.1",
+    "ruff>=0.17.4",
 ]
 docs = [
     "mkdocs-material",
