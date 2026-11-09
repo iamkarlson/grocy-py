@@ -1,5 +1,16 @@
 # Changelog
 
+## [1.6.0](https://github.com/iamkarlson/grocy-py/tree/1.6.0) (2026-11-10)
+
+**Added**
+
+- `Product.quantity_unit_stock`, filled by `stock.product()`, `stock.product_by_barcode()` and `shopping_list.items(get_details=True)`. Grocy keeps stock and shopping list amounts in this unit, so use it to show an amount with its unit (for [iamkarlson/grocy#70](https://github.com/iamkarlson/grocy/pull/70)).
+- `QuantityUnit.from_data()`.
+
+**Fixed**
+
+- A task due date, task category, task user, product location, product group or meal plan section sort number with the text `"null"` is now `None`. Before, a task with `due_date` `"null"` failed validation, and all Grocy sensors in Home Assistant became unavailable ([custom-components/grocy#326](https://github.com/custom-components/grocy/issues/326)).
+
 ## [1.5.2](https://github.com/iamkarlson/grocy-py/tree/1.5.2) (2026-11-09)
 
 **Fixed**
