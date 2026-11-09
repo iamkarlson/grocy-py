@@ -20,6 +20,18 @@ class QuantityUnit(BaseModel):
     name_plural: str | None = None
     description: str | None = None
 
+    @classmethod
+    def from_data(cls, data) -> QuantityUnit | None:
+        """Create from a quantity unit API response, or None if there is none."""
+        if data is None:
+            return None
+        return cls(
+            id=data.id,
+            name=data.name,
+            name_plural=data.name_plural,
+            description=data.description,
+        )
+
 
 class Product(BaseModel):
     """A product tracked in Grocy inventory.
@@ -44,6 +56,8 @@ class Product(BaseModel):
     amount_missing: float | None = None
     is_partly_in_stock: bool | None = None
     default_quantity_unit_purchase: QuantityUnit | None = None
+    # Grocy keeps stock and shopping list amounts in this unit.
+    quantity_unit_stock: QuantityUnit | None = None
     picture_file_name: str | None = None
 
     @classmethod
@@ -110,14 +124,6 @@ class Product(BaseModel):
             shopping_location_id = resp.product.shopping_location_id
             location_id = resp.product.location_id
             picture_file_name = resp.product.picture_file_name
-        qu = None
-        if resp.default_quantity_unit_purchase:
-            qu = QuantityUnit(
-                id=resp.default_quantity_unit_purchase.id,
-                name=resp.default_quantity_unit_purchase.name,
-                name_plural=resp.default_quantity_unit_purchase.name_plural,
-                description=resp.default_quantity_unit_purchase.description,
-            )
         return cls(
             id=product_id,
             name=name,
@@ -129,7 +135,10 @@ class Product(BaseModel):
             best_before_date=resp.next_best_before_date,
             product_barcodes=product_barcodes,
             barcodes=barcodes,
-            default_quantity_unit_purchase=qu,
+            default_quantity_unit_purchase=QuantityUnit.from_data(
+                resp.default_quantity_unit_purchase
+            ),
+            quantity_unit_stock=QuantityUnit.from_data(resp.quantity_unit_stock),
             picture_file_name=picture_file_name,
         )
 
