@@ -33,12 +33,14 @@ def _segment(value) -> str:
 
 
 def _field_not_empty_validator(field_name: str):
-    """Reusable Pydantic field pre-validator to convert empty str to None."""
+    """Reusable Pydantic field pre-validator to convert an empty value to None."""
     return field_validator(field_name, mode="before")(_none_if_empty_str)
 
 
 def _none_if_empty_str(value: Any):
-    if isinstance(value, str) and value == "":
+    # Grocy can send the text "null" for an empty column, for example a task
+    # due date that was cleared through the API (custom-components/grocy#326).
+    if isinstance(value, str) and value.strip().lower() in ("", "null"):
         return None
     return value
 
