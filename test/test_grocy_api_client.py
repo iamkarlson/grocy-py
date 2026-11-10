@@ -13,6 +13,7 @@ from grocy.grocy_api_client import (
     CurrentVolatileStockResponse,
     GrocyApiClient,
     StockLogResponse,
+    TaskResponse,
     TransactionType,
 )
 
@@ -381,3 +382,21 @@ class TestServerTime:
         client.charge_battery(1, tracked_time=datetime(2026, 10, 4, 23, 30, tzinfo=UTC))
 
         assert self._body()["tracked_time"] == "2026-10-05 00:30:00"
+
+
+_TASK = {"id": 1, "name": "Task", "done": 0}
+
+
+class TestEmptyValues:
+    @pytest.mark.parametrize("empty", ["", "null", "NULL", " null "])
+    def test_empty_text_becomes_none(self, empty):
+        task = TaskResponse(**_TASK, due_date=empty, category_id=empty)
+
+        assert task.due_date is None
+        assert task.category_id is None
+
+    def test_a_real_value_is_kept(self):
+        task = TaskResponse(**_TASK, due_date="2026-11-10", category_id="3")
+
+        assert task.due_date == datetime(2026, 11, 10)
+        assert task.category_id == 3

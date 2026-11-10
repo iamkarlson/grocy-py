@@ -29,6 +29,8 @@ class TestProduct:
         assert product.default_quantity_unit_purchase.name == "Tin"
         assert product.default_quantity_unit_purchase.description is None
         assert product.default_quantity_unit_purchase.name_plural == "Tins"
+        assert product.quantity_unit_stock.id == 5
+        assert product.quantity_unit_stock.name == "Tin"
         assert product.picture_file_name == "gulashsoup.jpg"
 
         assert len(product.product_barcodes) == 2
