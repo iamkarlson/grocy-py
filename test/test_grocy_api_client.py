@@ -383,6 +383,45 @@ class TestServerTime:
 
         assert self._body()["tracked_time"] == "2026-10-05 00:30:00"
 
+    @responses.activate
+    def test_reschedule_chore_with_a_naive_time(self, client):
+        responses.put(f"{self.BASE}/objects/chores/1", status=204)
+
+        client.reschedule_chore(1, datetime(2026, 11, 20, 10, 0), 2)
+
+        assert self._body() == {
+            "rescheduled_date": "2026-11-20 10:00:00",
+            "rescheduled_next_execution_assigned_to_user_id": 2,
+        }
+
+    @responses.activate
+    def test_reschedule_chore_converts_an_aware_time(self, client):
+        self._server_zone()
+        responses.put(f"{self.BASE}/objects/chores/1", status=204)
+
+        client.reschedule_chore(1, datetime(2026, 11, 20, 9, 0, tzinfo=UTC))
+
+        assert self._body()["rescheduled_date"] == "2026-11-20 10:00:00"
+
+    @responses.activate
+    def test_reschedule_chore_to_a_date(self, client):
+        responses.put(f"{self.BASE}/objects/chores/1", status=204)
+
+        client.reschedule_chore(1, date(2026, 11, 21))
+
+        assert self._body()["rescheduled_date"] == "2026-11-21"
+
+    @responses.activate
+    def test_reschedule_chore_with_none_removes_the_rescheduling(self, client):
+        responses.put(f"{self.BASE}/objects/chores/1", status=204)
+
+        client.reschedule_chore(1, None)
+
+        assert self._body() == {
+            "rescheduled_date": None,
+            "rescheduled_next_execution_assigned_to_user_id": None,
+        }
+
 
 _TASK = {"id": 1, "name": "Task", "done": 0}
 

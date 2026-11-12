@@ -981,6 +981,29 @@ class GrocyApiClient:
 
         return self._do_post_request(f"chores/{chore_id}/execute", data)
 
+    def reschedule_chore(
+        self,
+        chore_id: int,
+        rescheduled_date: date | datetime | None,
+        assigned_to_user_id: int | None = None,
+    ):
+        """Set or remove the rescheduled next execution of a chore.
+
+        Grocy has no endpoint for this. Its own page writes the two fields on
+        the chore object, so this does the same.
+        """
+        if rescheduled_date is None:
+            value = None
+        elif isinstance(rescheduled_date, datetime):
+            value = self._server_time_str(rescheduled_date)
+        else:
+            value = grocy_date_str(rescheduled_date)
+        data = {
+            "rescheduled_date": value,
+            "rescheduled_next_execution_assigned_to_user_id": assigned_to_user_id,
+        }
+        return self.update_generic("chores", chore_id, data)
+
     def undo_chore_execution(self, execution_id: int):
         """Undo a chore execution."""
         return self._do_post_request(f"chores/executions/{execution_id}/undo", {})
