@@ -33,8 +33,6 @@ interactions:
       - Wed, 07 Jan 2026 23:00:18 GMT
       Server:
       - nginx
-      Transfer-Encoding:
-      - chunked
       X-Powered-By:
       - PHP/8.3.19
     status:
@@ -72,8 +70,6 @@ interactions:
       - Wed, 07 Jan 2026 23:00:18 GMT
       Server:
       - nginx
-      Transfer-Encoding:
-      - chunked
       X-Powered-By:
       - PHP/8.3.19
     status:
@@ -111,8 +107,6 @@ interactions:
       - Wed, 07 Jan 2026 23:00:18 GMT
       Server:
       - nginx
-      Transfer-Encoding:
-      - chunked
       X-Powered-By:
       - PHP/8.3.19
     status:
@@ -150,10 +144,128 @@ interactions:
       - Wed, 07 Jan 2026 23:00:18 GMT
       Server:
       - nginx
+      X-Powered-By:
+      - PHP/8.3.19
+    status:
+      code: 200
+      message: OK
+- request:
+    body: null
+    headers:
+      Accept-Encoding:
+      - gzip, deflate
+      Connection:
+      - keep-alive
+      User-Agent:
+      - python-requests/2.34.2
+      accept:
+      - application/json
+    method: GET
+    uri: http://localhost:9192/api/stock/products/3
+  response:
+    body:
+      string: '{"product":{"id":3,"name":"Gummy bears","description":null,"product_group_id":1,"active":1,"location_id":4,"shopping_location_id":null,"qu_id_purchase":3,"qu_id_stock":3,"min_stock_amount":8,"default_best_before_days":0,"default_best_before_days_after_open":0,"default_best_before_days_after_freezing":0,"default_best_before_days_after_thawing":0,"picture_file_name":"gummybears.jpg","enable_tare_weight_handling":0,"tare_weight":0,"not_check_stock_fulfillment_for_recipes":0,"parent_product_id":null,"calories":123,"cumulate_min_stock_amount_of_sub_products":0,"due_type":1,"quick_consume_amount":1,"hide_on_stock_overview":0,"default_stock_label_type":0,"should_not_be_frozen":0,"treat_opened_as_out_of_stock":1,"no_own_stock":0,"default_consume_location_id":null,"move_on_open":0,"row_created_timestamp":"2026-08-13
+        14:05:34","qu_id_consume":3,"auto_reprint_stock_label":0,"quick_open_amount":1,"qu_id_price":3,"disable_open":0,"default_purchase_price_type":1},"product_barcodes":[],"last_purchased":"2026-08-03","last_used":null,"stock_amount":5,"stock_value":16.57,"stock_amount_opened":1,"stock_amount_aggregated":5,"stock_amount_opened_aggregated":1,"quantity_unit_stock":{"id":3,"name":"Pack","description":null,"row_created_timestamp":"2026-08-13
+        14:05:13","name_plural":"Packs","plural_forms":null,"active":1},"default_quantity_unit_purchase":{"id":3,"name":"Pack","description":null,"row_created_timestamp":"2026-08-13
+        14:05:13","name_plural":"Packs","plural_forms":null,"active":1},"default_quantity_unit_consume":{"id":3,"name":"Pack","description":null,"row_created_timestamp":"2026-08-13
+        14:05:13","name_plural":"Packs","plural_forms":null,"active":1},"quantity_unit_price":{"id":3,"name":"Pack","description":null,"row_created_timestamp":"2026-08-13
+        14:05:13","name_plural":"Packs","plural_forms":null,"active":1},"last_price":5.355,"avg_price":3.27625,"oldest_price":3.47,"current_price":3.47,"last_shopping_location_id":1,"default_shopping_location_id":null,"next_due_date":"2027-02-09","location":{"id":4,"name":"Candy
+        cupboard","description":null,"row_created_timestamp":"2026-08-13 14:05:34","is_freezer":0,"active":1},"average_shelf_life_days":205,"spoil_rate_percent":0,"is_aggregated_amount":0,"has_childs":false,"default_consume_location":null,"qu_conversion_factor_purchase_to_stock":1,"qu_conversion_factor_price_to_stock":1}'
+    headers:
+      Access-Control-Allow-Origin:
+      - '*'
+      Connection:
+      - keep-alive
+      Content-Type:
+      - application/json
+      Date:
+      - Thu, 12 Nov 2026 01:36:12 GMT
+      Server:
+      - nginx
       Transfer-Encoding:
       - chunked
       X-Powered-By:
-      - PHP/8.3.19
+      - PHP/8.5.6
+    status:
+      code: 200
+      message: OK
+- request:
+    body: null
+    headers:
+      Accept-Encoding:
+      - gzip, deflate
+      Connection:
+      - keep-alive
+      User-Agent:
+      - python-requests/2.34.2
+      accept:
+      - application/json
+    method: GET
+    uri: http://localhost:9192/api/stock/products/9
+  response:
+    body:
+      string: '{"product":{"id":9,"name":"Yogurt","description":null,"product_group_id":6,"active":1,"location_id":2,"shopping_location_id":null,"qu_id_purchase":6,"qu_id_stock":6,"min_stock_amount":0,"default_best_before_days":0,"default_best_before_days_after_open":0,"default_best_before_days_after_freezing":0,"default_best_before_days_after_thawing":0,"picture_file_name":null,"enable_tare_weight_handling":0,"tare_weight":0,"not_check_stock_fulfillment_for_recipes":0,"parent_product_id":null,"calories":123,"cumulate_min_stock_amount_of_sub_products":0,"due_type":1,"quick_consume_amount":1,"hide_on_stock_overview":0,"default_stock_label_type":0,"should_not_be_frozen":0,"treat_opened_as_out_of_stock":1,"no_own_stock":0,"default_consume_location_id":null,"move_on_open":0,"row_created_timestamp":"2026-08-13
+        14:05:34","qu_id_consume":6,"auto_reprint_stock_label":0,"quick_open_amount":1,"qu_id_price":6,"disable_open":0,"default_purchase_price_type":1},"product_barcodes":[],"last_purchased":"2026-08-03","last_used":null,"stock_amount":5,"stock_value":16.6,"stock_amount_opened":0,"stock_amount_aggregated":5,"stock_amount_opened_aggregated":0,"quantity_unit_stock":{"id":6,"name":"Can","description":null,"row_created_timestamp":"2026-08-13
+        14:05:34","name_plural":"Cans","plural_forms":null,"active":1},"default_quantity_unit_purchase":{"id":6,"name":"Can","description":null,"row_created_timestamp":"2026-08-13
+        14:05:34","name_plural":"Cans","plural_forms":null,"active":1},"default_quantity_unit_consume":{"id":6,"name":"Can","description":null,"row_created_timestamp":"2026-08-13
+        14:05:34","name_plural":"Cans","plural_forms":null,"active":1},"quantity_unit_price":{"id":6,"name":"Can","description":null,"row_created_timestamp":"2026-08-13
+        14:05:34","name_plural":"Cans","plural_forms":null,"active":1},"last_price":6.0075,"avg_price":3.3205,"oldest_price":4.265,"current_price":4.265,"last_shopping_location_id":1,"default_shopping_location_id":null,"next_due_date":"2026-08-27","location":{"id":2,"name":"Fridge","description":null,"row_created_timestamp":"2026-08-13
+        14:05:13","is_freezer":0,"active":1},"average_shelf_life_days":44,"spoil_rate_percent":0,"is_aggregated_amount":0,"has_childs":false,"default_consume_location":null,"qu_conversion_factor_purchase_to_stock":1,"qu_conversion_factor_price_to_stock":1}'
+    headers:
+      Access-Control-Allow-Origin:
+      - '*'
+      Connection:
+      - keep-alive
+      Content-Type:
+      - application/json
+      Date:
+      - Thu, 12 Nov 2026 01:36:12 GMT
+      Server:
+      - nginx
+      Transfer-Encoding:
+      - chunked
+      X-Powered-By:
+      - PHP/8.5.6
+    status:
+      code: 200
+      message: OK
+- request:
+    body: null
+    headers:
+      Accept-Encoding:
+      - gzip, deflate
+      Connection:
+      - keep-alive
+      User-Agent:
+      - python-requests/2.34.2
+      accept:
+      - application/json
+    method: GET
+    uri: http://localhost:9192/api/stock/products/25
+  response:
+    body:
+      string: '{"product":{"id":25,"name":"Dark Chocolate","description":null,"product_group_id":1,"active":1,"location_id":4,"shopping_location_id":null,"qu_id_purchase":3,"qu_id_stock":3,"min_stock_amount":0,"default_best_before_days":0,"default_best_before_days_after_open":0,"default_best_before_days_after_freezing":0,"default_best_before_days_after_thawing":0,"picture_file_name":null,"enable_tare_weight_handling":0,"tare_weight":0,"not_check_stock_fulfillment_for_recipes":0,"parent_product_id":2,"calories":123,"cumulate_min_stock_amount_of_sub_products":0,"due_type":1,"quick_consume_amount":1,"hide_on_stock_overview":0,"default_stock_label_type":0,"should_not_be_frozen":0,"treat_opened_as_out_of_stock":1,"no_own_stock":0,"default_consume_location_id":null,"move_on_open":0,"row_created_timestamp":"2026-08-13
+        14:05:35","qu_id_consume":3,"auto_reprint_stock_label":0,"quick_open_amount":1,"qu_id_price":3,"disable_open":0,"default_purchase_price_type":1},"product_barcodes":[],"last_purchased":"2026-08-03","last_used":null,"stock_amount":2,"stock_value":3.58,"stock_amount_opened":0,"stock_amount_aggregated":2,"stock_amount_opened_aggregated":0,"quantity_unit_stock":{"id":3,"name":"Pack","description":null,"row_created_timestamp":"2026-08-13
+        14:05:13","name_plural":"Packs","plural_forms":null,"active":1},"default_quantity_unit_purchase":{"id":3,"name":"Pack","description":null,"row_created_timestamp":"2026-08-13
+        14:05:13","name_plural":"Packs","plural_forms":null,"active":1},"default_quantity_unit_consume":{"id":3,"name":"Pack","description":null,"row_created_timestamp":"2026-08-13
+        14:05:13","name_plural":"Packs","plural_forms":null,"active":1},"quantity_unit_price":{"id":3,"name":"Pack","description":null,"row_created_timestamp":"2026-08-13
+        14:05:13","name_plural":"Packs","plural_forms":null,"active":1},"last_price":1.7925,"avg_price":1.7925,"oldest_price":1.7925,"current_price":1.7925,"last_shopping_location_id":2,"default_shopping_location_id":null,"next_due_date":"2027-02-09","location":{"id":4,"name":"Candy
+        cupboard","description":null,"row_created_timestamp":"2026-08-13 14:05:34","is_freezer":0,"active":1},"average_shelf_life_days":190,"spoil_rate_percent":0,"is_aggregated_amount":0,"has_childs":false,"default_consume_location":null,"qu_conversion_factor_purchase_to_stock":1,"qu_conversion_factor_price_to_stock":1}'
+    headers:
+      Access-Control-Allow-Origin:
+      - '*'
+      Connection:
+      - keep-alive
+      Content-Type:
+      - application/json
+      Date:
+      - Thu, 12 Nov 2026 01:36:12 GMT
+      Server:
+      - nginx
+      Transfer-Encoding:
+      - chunked
+      X-Powered-By:
+      - PHP/8.5.6
     status:
       code: 200
       message: OK
