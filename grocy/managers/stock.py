@@ -4,10 +4,11 @@ from datetime import date, datetime
 from typing import TYPE_CHECKING
 
 from ..data_models.generic import EntityType
-from ..data_models.product import Group, Product
+from ..data_models.product import Group, Product, QuantityUnit
 from ..grocy_api_client import (
     CurrentVolatileStockResponse,
     ProductData,
+    QuantityUnitData,
     TransactionType,
 )
 
@@ -24,10 +25,27 @@ class StockManager:
     def __init__(self, api_client: GrocyApiClient):
         self._api = api_client
 
-    def current(self) -> list[Product]:
-        """Get all products currently in stock."""
+    def current(self, include_units: bool = False) -> list[Product]:
+        """Get all products currently in stock.
+
+        Args:
+            include_units: Also fill ``quantity_unit_stock`` of each product.
+                This costs one more request, for all quantity units together.
+        """
         raw_stock = self._api.get_stock()
-        return [Product.from_stock_response(resp) for resp in raw_stock]
+        products = [Product.from_stock_response(resp) for resp in raw_stock]
+        if include_units and raw_stock:
+            units = self.quantity_units()
+            for product, resp in zip(products, raw_stock, strict=True):
+                if resp.product:
+                    product.quantity_unit_stock = units.get(resp.product.qu_id_stock)
+        return products
+
+    def quantity_units(self) -> dict[int, QuantityUnit]:
+        """Get all quantity units, by ID."""
+        raw = self._api.get_generic_objects_for_type(EntityType.QUANTITY_UNITS) or []
+        units = (QuantityUnit.from_data(QuantityUnitData(**data)) for data in raw)
+        return {unit.id: unit for unit in units}
 
     def volatile(
         self, due_soon_days: int | None = None

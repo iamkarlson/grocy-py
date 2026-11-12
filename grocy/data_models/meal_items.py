@@ -7,6 +7,7 @@ from enum import Enum
 from pydantic import BaseModel
 
 from ..utils import enum_or_str
+from .product import Product
 
 
 class RecipeItem(BaseModel):
@@ -86,6 +87,7 @@ class MealPlanItem(BaseModel):
     # Grocy stores the type as free text, so values outside the enum are kept as-is.
     type: MealPlanItemType | str
     product_id: int | None = None
+    product: Product | None = None
     # In the stock quantity unit of the product.
     product_amount: float | None = None
     done: bool = False
@@ -110,7 +112,11 @@ class MealPlanItem(BaseModel):
         )
 
     def get_details(self, api_client):
-        """Fetch and populate linked recipe and section details from the API."""
+        """Fetch and populate linked recipe, product and section details."""
+        if self.product_id:
+            product = api_client.get_product(self.product_id)
+            if product:
+                self.product = Product.from_details_response(product)
         if self.recipe_id:
             recipe = api_client.get_recipe(self.recipe_id)
             if recipe:

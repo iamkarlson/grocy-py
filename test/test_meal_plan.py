@@ -64,6 +64,9 @@ class TestMealPlan:
         )
         assert product_entry.product_id == 3
         assert product_entry.product_amount == 1
+        assert product_entry.product.id == 3
+        assert product_entry.product.name
+        assert product_entry.product.quantity_unit_stock is not None
         assert product_entry.done is False
 
     @pytest.mark.vcr

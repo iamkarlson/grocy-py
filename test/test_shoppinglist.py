@@ -27,6 +27,7 @@ class TestShoppingList:
         assert item.note is None
         assert item.amount == 1.0
         assert item.product_id == 20
+        assert item.shopping_list_id == 1
         # The amount of a shopping list item is in the stock unit.
         assert item.product.quantity_unit_stock is not None
 

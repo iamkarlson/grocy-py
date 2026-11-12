@@ -190,6 +190,7 @@ class ShoppingListProduct(BaseModel):
     """An item on a shopping list, optionally linked to a product."""
 
     id: int
+    shopping_list_id: int | None = None
     product_id: int | None = None
     amount: float | None = None
     note: str | None = None
@@ -201,6 +202,7 @@ class ShoppingListProduct(BaseModel):
         """Create from a shopping list API response."""
         return cls(
             id=item.id,
+            shopping_list_id=item.shopping_list_id,
             product_id=item.product_id,
             note=item.note,
             amount=item.amount,

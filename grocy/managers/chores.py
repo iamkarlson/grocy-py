@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from datetime import datetime
+from datetime import date, datetime
 from typing import TYPE_CHECKING
 
 from ..data_models.chore import Chore
@@ -62,6 +62,26 @@ class ChoreManager:
             skipped: Mark as skipped rather than done.
         """
         return self._api.execute_chore(chore_id, done_by, tracked_time, skipped)
+
+    def reschedule(
+        self,
+        chore_id: int,
+        rescheduled_date: date | datetime | None,
+        assigned_to_user_id: int | None = None,
+    ):
+        """Move the next execution of a chore to another time.
+
+        Args:
+            chore_id: The Grocy chore ID.
+            rescheduled_date: The new time of the next execution. A naive
+                datetime is Grocy server local time; an aware datetime is
+                converted to the server time zone. ``None`` removes the
+                rescheduling, so Grocy calculates the next execution again.
+            assigned_to_user_id: User ID for the rescheduled execution.
+        """
+        return self._api.reschedule_chore(
+            chore_id, rescheduled_date, assigned_to_user_id
+        )
 
     def undo(self, execution_id: int):
         """Undo a chore execution.

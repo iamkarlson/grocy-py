@@ -1,5 +1,15 @@
 # Changelog
 
+## [1.7.0](https://github.com/iamkarlson/grocy-py/tree/1.7.0) (2026-11-12)
+
+**Added**
+
+- `chores.reschedule(chore_id, rescheduled_date, assigned_to_user_id=None)` moves the next execution of a chore. A naive `datetime` is server local time, an aware one is converted to the server time zone, and `None` removes the rescheduling. Grocy has no endpoint for this, so it writes the same chore fields as the Grocy page ([custom-components/grocy#288](https://github.com/custom-components/grocy/issues/288)).
+- `stock.current(include_units=True)` fills `Product.quantity_unit_stock` for each product, with one more request for all quantity units ([custom-components/grocy#291](https://github.com/custom-components/grocy/issues/291)).
+- `stock.quantity_units()` returns all quantity units by ID.
+- `ShoppingListProduct.shopping_list_id`. Grocy sent it, but grocy-py dropped it ([custom-components/grocy#276](https://github.com/custom-components/grocy/issues/276)).
+- `MealPlanItem.product`. `meal_plan.items(get_details=True)` loads it for product entries, so the name and unit of the product are available ([custom-components/grocy#258](https://github.com/custom-components/grocy/issues/258)).
+
 ## [1.6.0](https://github.com/iamkarlson/grocy-py/tree/1.6.0) (2026-11-10)
 
 **Added**
