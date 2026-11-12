@@ -17,6 +17,18 @@ class TestStock:
         pictures = {prod.id: prod.picture_file_name for prod in stock}
         assert pictures[1] == "cookies.jpg"
         assert pictures[2] is None
+        # Without include_units, no extra request and no unit.
+        assert all(prod.quantity_unit_stock is None for prod in stock)
+
+    @pytest.mark.vcr
+    def test_get_stock_with_units(self, grocy):
+        stock = grocy.stock.current(include_units=True)
+
+        assert stock
+        assert all(prod.quantity_unit_stock is not None for prod in stock)
+        units = grocy.stock.quantity_units()
+        for prod in stock:
+            assert units[prod.quantity_unit_stock.id] == prod.quantity_unit_stock
 
     @pytest.mark.vcr
     def test_get_due_products_valid(self, grocy):
