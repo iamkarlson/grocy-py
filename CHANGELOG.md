@@ -1,5 +1,11 @@
 # Changelog
 
+## [1.8.1](https://github.com/iamkarlson/grocy-py/tree/1.8.1) (2026-11-17)
+
+**Fixed**
+
+- `Product.best_before_date` from `stock.product()`, `stock.product_by_barcode()` and other product details is now set. Grocy 3.0 and later send it as `next_due_date`, and `next_best_before_date` is always null, so the value was always `None`.
+
 ## [1.8.0](https://github.com/iamkarlson/grocy-py/tree/1.8.0) (2026-11-17)
 
 **Changed**
