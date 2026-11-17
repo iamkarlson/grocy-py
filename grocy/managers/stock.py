@@ -155,7 +155,7 @@ class StockManager:
         self,
         product_id: int,
         amount: float,
-        price: float,
+        price: float | None = None,
         best_before_date: date | datetime | None = None,
         transaction_type: TransactionType = TransactionType.PURCHASE,
     ):
@@ -164,7 +164,7 @@ class StockManager:
         Args:
             product_id: The Grocy product ID.
             amount: Quantity to add.
-            price: Unit price.
+            price: Unit price. None stores no price.
             best_before_date: Expiry date, as a ``date`` or ``datetime``. Defaults
                 to the product's configured default.
             transaction_type: Type of stock transaction.
@@ -269,16 +269,16 @@ class StockManager:
         self,
         barcode: str,
         amount: float,
-        price: float,
+        price: float | None = None,
         best_before_date: date | datetime | None = None,
         get_details: bool = True,
     ) -> Product | None:
         """Add stock for a product identified by barcode.
 
         Args:
-            barcode: Product barcode.
+            barcode: Product barcode, or a Grocy label code such as ``grcy:p:12``.
             amount: Quantity to add.
-            price: Unit price.
+            price: Unit price. None stores no price.
             best_before_date: Expiry date, as a ``date`` or ``datetime``.
             get_details: Fetch full product details after adding.
         """

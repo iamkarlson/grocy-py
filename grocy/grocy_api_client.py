@@ -671,16 +671,18 @@ class GrocyApiClient:
         self,
         product_id,
         amount: float,
-        price: float,
+        price: float | None = None,
         best_before_date: date | datetime | None = None,
         transaction_type: TransactionType = TransactionType.PURCHASE,
     ):
-        """Add stock for a product."""
+        """Add stock for a product. Without a price, Grocy stores no price."""
         data = {
             "amount": amount,
             "transaction_type": transaction_type.value,
-            "price": price,
         }
+
+        if price is not None:
+            data["price"] = price
 
         if best_before_date is not None:
             data["best_before_date"] = self._server_date_str(best_before_date)
@@ -757,15 +759,20 @@ class GrocyApiClient:
         self,
         barcode: str,
         amount: float,
-        price: float,
+        price: float | None = None,
         best_before_date: date | datetime | None = None,
     ) -> StockLogResponse:
-        """Add stock for a product identified by barcode."""
+        """Add stock for a product identified by barcode.
+
+        Without a price, Grocy stores no price.
+        """
         data = {
             "amount": amount,
             "transaction_type": TransactionType.PURCHASE.value,
-            "price": price,
         }
+
+        if price is not None:
+            data["price"] = price
 
         if best_before_date is not None:
             data["best_before_date"] = self._server_date_str(best_before_date)

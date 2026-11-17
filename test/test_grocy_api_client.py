@@ -134,6 +134,71 @@ class TestBestBeforeDate:
         assert "best_before_date" not in do_post.call_args[0][1]
 
 
+class TestBarcodeStock:
+    """Stock changes by barcode, and an add without a price."""
+
+    @pytest.fixture
+    def grocy(self):
+        return Grocy("http://grocy.de", "")
+
+    @pytest.fixture
+    def do_post(self, grocy, mocker):
+        return mocker.patch.object(grocy._api_client, "_do_post_request")
+
+    @pytest.mark.parametrize(
+        ("add", "url"),
+        [
+            (lambda g, **kw: g.stock.add(1, 2.0, **kw), "stock/products/1/add"),
+            (
+                lambda g, **kw: g.stock.add_by_barcode(
+                    "123", 2.0, get_details=False, **kw
+                ),
+                "stock/products/by-barcode/123/add",
+            ),
+        ],
+    )
+    def test_add_without_price_sends_no_price(self, grocy, do_post, add, url):
+        do_post.return_value = None
+        add(grocy)
+
+        assert do_post.call_args[0][0] == url
+        assert "price" not in do_post.call_args[0][1]
+
+        add(grocy, price=1.99)
+
+        assert do_post.call_args[0][1]["price"] == 1.99
+
+    def test_inventory_by_barcode_returns_the_product(self, grocy, do_post, mocker):
+        do_post.return_value = [
+            {
+                "id": 7,
+                "product_id": 4,
+                "amount": 3,
+                "best_before_date": "2026-12-01",
+                "purchased_date": "2026-11-17",
+                "spoiled": 0,
+                "stock_id": "abc",
+                "transaction_id": "def",
+                "transaction_type": "inventory-correction",
+                "undone": 0,
+                "row_created_timestamp": "2026-11-17 10:00:00",
+            }
+        ]
+        get_details = mocker.patch(
+            "grocy.data_models.product.Product.get_details", autospec=True
+        )
+
+        product = grocy.stock.inventory_by_barcode("grcy:p:4", 3, location_id=2)
+
+        assert (
+            do_post.call_args[0][0]
+            == "stock/products/by-barcode/grcy%3Ap%3A4/inventory"
+        )
+        assert do_post.call_args[0][1] == {"new_amount": 3, "location_id": 2}
+        assert product.id == 4
+        get_details.assert_called_once()
+
+
 class TestRequests:
     BASE = "http://grocy.de:9192/api"
 
