@@ -1,5 +1,11 @@
 # Changelog
 
+## [1.8.0](https://github.com/iamkarlson/grocy-py/tree/1.8.0) (2026-11-17)
+
+**Changed**
+
+- The `price` of `stock.add()`, `stock.add_by_barcode()`, `add_product()` and `add_product_by_barcode()` is optional. Without a price, grocy-py sends no price and Grocy stores none. Before, the price was required, and a price of 0 changed the price history of the product (for [custom-components/grocy#324](https://github.com/custom-components/grocy/issues/324)).
+
 ## [1.7.0](https://github.com/iamkarlson/grocy-py/tree/1.7.0) (2026-11-12)
 
 **Added**
