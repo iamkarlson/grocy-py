@@ -1,3 +1,5 @@
+from datetime import date
+
 import pytest
 
 from grocy.data_models.product import Product, ProductBarcode
@@ -32,6 +34,7 @@ class TestProduct:
         assert product.quantity_unit_stock.id == 5
         assert product.quantity_unit_stock.name == "Tin"
         assert product.picture_file_name == "gulashsoup.jpg"
+        assert product.best_before_date.date() == date(2028, 6, 25)
 
         assert len(product.product_barcodes) == 2
         barcode = product.product_barcodes[0]
@@ -74,6 +77,7 @@ class TestProduct:
         assert product.name == "Crisps"
         assert product.available_amount == 25
         assert product.product_group_id == 1
+        assert product.best_before_date.date() == date(2019, 5, 4)
 
         assert len(product.product_barcodes) == 1
         barcode = product.product_barcodes[0]

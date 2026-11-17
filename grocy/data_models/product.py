@@ -132,7 +132,7 @@ class Product(BaseModel):
             shopping_location_id=shopping_location_id,
             available_amount=resp.stock_amount,
             amount_opened=resp.stock_amount_opened,
-            best_before_date=resp.next_best_before_date,
+            best_before_date=resp.next_due_date or resp.next_best_before_date,
             product_barcodes=product_barcodes,
             barcodes=barcodes,
             default_quantity_unit_purchase=QuantityUnit.from_data(

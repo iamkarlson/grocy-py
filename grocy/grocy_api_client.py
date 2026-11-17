@@ -229,6 +229,8 @@ class ProductDetailsResponse(BaseModel):
     last_used: datetime | None = None
     stock_amount: float
     stock_amount_opened: float
+    # Grocy 3.0 and later send next_due_date; next_best_before_date stays null.
+    next_due_date: datetime | None = None
     next_best_before_date: datetime | None = None
     last_price: float | None = None
     product: ProductData
